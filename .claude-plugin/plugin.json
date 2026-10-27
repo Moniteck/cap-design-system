@@ -1,7 +1,16 @@
 {
   "name": "cap-design",
+  "version": "1.0.0",
   "description": "Identidad visual de Grupo CAP: guía de diseño y tokens para que cualquier agente genere interfaz con la misma marca",
-  "author": { "name": "Moniteck / Grupo CAP" },
+  "author": {
+    "name": "Moniteck / Grupo CAP"
+  },
   "repository": "https://github.com/moniteck/cap-design-system",
-  "keywords": ["design", "tokens", "tailwind", "laravel", "vue"]
+  "keywords": [
+    "design",
+    "tokens",
+    "tailwind",
+    "laravel",
+    "vue"
+  ]
 }
