@@ -1,0 +1,14 @@
+{
+  "name": "moniteck",
+  "owner": { "name": "Moniteck / Grupo CAP" },
+  "description": "Plugins internos de Moniteck para los sistemas de Grupo CAP",
+  "plugins": [
+    {
+      "name": "cap-design",
+      "source": "./",
+      "description": "Identidad visual de Grupo CAP: guía de diseño y tokens para que cualquier agente genere interfaz con la misma marca",
+      "category": "design",
+      "tags": ["design", "tokens", "tailwind", "laravel", "vue"]
+    }
+  ]
+}

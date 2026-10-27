@@ -1,0 +1,46 @@
+/* Generado desde tokens.json (node scripts/build-tokens-css.mjs). No editar a mano. */
+:root {
+  --cap-font-text: "Inter", system-ui, sans-serif;
+  --cap-font-display: "Poppins", "Inter", system-ui, sans-serif;
+  --cap-brand: #B12530;
+  --cap-red: #B12530;
+  --cap-red-hover: #951F28;
+  --cap-red-soft: #D9414D;
+  --cap-gray: #B2B2B2;
+  --cap-chrome: #212121;
+  --cap-rail: #171717;
+  --cap-raised: #2B2B2B;
+  --cap-line: #3A3A3A;
+  --cap-page: #F3F2F1;
+  --cap-card: #ffffff;
+  --cap-card-2: #F3F2F1;
+  --cap-divider: #E2E0DE;
+  --cap-status-ok: #2E7D32;
+  --cap-status-error: #B12530;
+  --cap-status-warning: #EF6C00;
+  --cap-status-info: #1565C0;
+  --cap-status-neutral: #757575;
+}
+
+/* Modo oscuro: clase `dark` en <html> o <body>. El marco (chrome, rail) es oscuro en los dos temas. */
+.dark {
+  --cap-brand: #D9414D;
+  --cap-chrome: #2B2B2B;
+  --cap-page: #151515;
+  --cap-card: #212121;
+  --cap-card-2: #2B2B2B;
+  --cap-divider: #3A3A3A;
+  --cap-status-ok: #81C784;
+  --cap-status-error: #D9414D;
+  --cap-status-warning: #FFA726;
+  --cap-status-info: #64B5F6;
+  --cap-status-neutral: #9E9E9E;
+}
+
+body {
+  font-family: var(--cap-font-text);
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--cap-font-display);
+}
