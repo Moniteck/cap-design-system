@@ -2,7 +2,9 @@
 // Recalcular al cambiar de tema (las gráficas en canvas no leen variables CSS).
 import tokens from './tokens.json';
 
-export function chartColors(isDark = document.documentElement.classList.contains('dark')) {
+const darkModeActive = () => document.documentElement.classList.contains('dark') || document.body.classList.contains('dark');
+
+export function chartColors(isDark = darkModeActive()) {
     const { brand, chrome, status } = tokens;
 
     return {
