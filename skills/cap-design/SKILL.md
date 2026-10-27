@@ -19,8 +19,9 @@ blancas, Inter para texto, Poppins para títulos y el rojo de marca solo como ac
 3. El proyecto debe tener instalada la carpeta `design/` (normalmente `resources/design/`), con las
    clases `cap-*`, las variables `--cap-*`, `statuses.js`, `chart-colors.js` y `config('design.*')`.
    Si no la tiene, detente y propón al usuario instalarla con el comando del README de
-   `${CLAUDE_PLUGIN_ROOT}` (clonar el repo por SSH y copiar `design/` a `resources/design/`); no
-   generes interfaz con hex a mano. Si decide no instalarla, copia solo `tokens.css` al proyecto,
+   `${CLAUDE_PLUGIN_ROOT}` (`git clone --depth 1 git@github.com:Moniteck/cap-design-system.git
+   /tmp/cap-design-system && bash /tmp/cap-design-system/install.sh`, que configura Tailwind, CSS,
+   íconos, config PHP, fuentes y AGENTS.md); no generes interfaz con hex a mano. Si decide no instalarla, copia solo `tokens.css` al proyecto,
    usa `var(--cap-*)` y anótalo como deuda.
 4. Antes de crear un componente nuevo, busca uno equivalente en el proyecto.
 
