@@ -23,7 +23,7 @@ Qué hace el instalador:
 3. Importa `tokens.css` y los íconos Material Design al inicio de `resources/css/app.css`, e instala `@mdi/font`.
 4. Crea `config/design.php` para usar los tokens en PHP (`config('design.brand.red')`).
 5. Pone en el `<head>` de `app.blade.php` el script del modo oscuro (sin parpadeo) y las fuentes Inter y Poppins.
-6. Agrega al `AGENTS.md` y `CLAUDE.md` del proyecto la línea que manda al agente a seguir la guía (crea `AGENTS.md` si no hay ninguno).
+6. Agrega al `AGENTS.md` y `CLAUDE.md` del proyecto la línea que manda al agente a seguir la guía (crea `AGENTS.md` si no hay ninguno; si `CLAUDE.md` solo incluye `@AGENTS.md`, no la repite).
 
 Otros stacks (React, HTML, etc.): copia `design/` y usa `tokens.css`, `tokens.json` y la guía; el
 preset y los helpers son para Tailwind y Vue.
@@ -38,6 +38,7 @@ preset y los helpers son para Tailwind y Vue.
 | Preset de Tailwind con las clases `cap-*` | `design/tailwind.preset.js` |
 | Helpers para Vue: clases de badges de estado y colores de gráficas | `design/statuses.js`, `design/chart-colors.js` |
 | Plantilla de `config/design.php` para Laravel | `design/design.php` |
+| Logos oficiales de terceros a color (Microsoft, Google) para los botones de acceso | `design/logos/` |
 | Instrucciones para agentes (Codex, Cursor, Copilot, Gemini, Claude) | `design/AGENTS.md` |
 | Skill de Claude Code | `skills/cap-design/SKILL.md` |
 | Instalador | `install.sh` |

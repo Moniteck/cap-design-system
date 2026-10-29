@@ -8,7 +8,8 @@ interfaz (página, componente, tabla, formulario, modal, toast, correo, PDF, gr�
 2. Toma colores, fuentes y movimiento de `tokens.json`. Nunca escribas un hex a mano: clases
    `cap-*` del preset de Tailwind, variables `--cap-*` de `tokens.css` en CSS propio,
    `statusBadgeClass()` de `statuses.js` para badges, `chartColors()` de `chart-colors.js` en
-   gráficas y `config('design.brand.red')` en PHP.
+   gráficas y `config('design.brand.red')` en PHP. Única excepción: los logos de terceros de
+   `logos/`, con sus colores oficiales.
 3. Botón primario negro (uno por pantalla), secundario con contorno neutro, destructivo rojo. El
    rojo nunca es fondo de cabeceras ni barras. El azul solo como estado `info`.
 4. Inter para texto, Poppins para títulos y cabeceras. Tamaños solo de la escala de la guía; nada

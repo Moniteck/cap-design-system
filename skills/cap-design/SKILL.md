@@ -41,6 +41,9 @@ blancas, Inter para texto, Poppins para títulos y el rojo de marca solo como ac
 - Movimiento solo con `duration-cap-*`, `ease-cap*` y `animate-cap-*`; la salida un escalón más
   corta que la entrada; sin animaciones por sección ni al hacer scroll.
 - Confirmaciones destructivas con verbo y objeto, «Cancelar» a la izquierda y foco inicial en él.
+- Pantalla de acceso: panel de marca negro a la izquierda y tarjeta del formulario a la derecha
+  (sección «Pantalla de acceso»); los logos de terceros de `design/logos/` van a color, única
+  excepción a la paleta.
 - Sin degradados, sin grises azulados, sin mayúsculas espaciadas, sin emojis como íconos, nada
   por debajo de `text-xs`, ningún `z-index` fuera de `z-cap-*`.
 

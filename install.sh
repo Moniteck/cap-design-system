@@ -129,10 +129,11 @@ fi
 LINE="Sigue \`resources/design/AGENTS.md\` y \`resources/design/DESIGN_GUIDE.md\` en toda interfaz."
 added=0
 for f in AGENTS.md CLAUDE.md; do
-    if [[ -f "$PROJECT/$f" ]]; then
-        if grep -q "resources/design/AGENTS.md" "$PROJECT/$f"; then skip "$f ya remite a la guía"; else printf "\n%s\n" "$LINE" >> "$PROJECT/$f"; ok "$f: línea hacia la guía"; fi
-        added=1
-    fi
+    [[ -f "$PROJECT/$f" ]] || continue
+    added=1
+    if grep -q "resources/design/AGENTS.md" "$PROJECT/$f"; then skip "$f ya remite a la guía"
+    elif [[ $f == CLAUDE.md ]] && grep -qE '(^|[[:space:]])@(\./)?AGENTS\.md([[:space:]]|$)' "$PROJECT/$f" && grep -q "resources/design/AGENTS.md" "$PROJECT/AGENTS.md" 2>/dev/null; then skip "CLAUDE.md incluye AGENTS.md, que ya remite a la guía"
+    else printf "\n%s\n" "$LINE" >> "$PROJECT/$f"; ok "$f: línea hacia la guía"; fi
 done
 if [[ $added -eq 0 ]]; then
     printf "# Instrucciones para agentes\n\n%s\n" "$LINE" > "$PROJECT/AGENTS.md"

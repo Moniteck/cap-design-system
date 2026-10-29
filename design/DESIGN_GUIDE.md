@@ -85,6 +85,9 @@ con texto blanco; en oscuro, el texto sobre un sólido de estado es `text-gray-9
   como anillo.
 - El rojo **nunca** es fondo de cabeceras, barras de título ni superficies grandes. El azul solo
   existe como `info`. Sin degradados, sin sombras de color, sin otros colores de acento.
+- **Logos de terceros** (proveedores de acceso, bancos) van con sus colores oficiales, desde
+  `logos/` de esta carpeta. Es la única excepción a la paleta: un logo ajeno no se recolorea ni se
+  pone en monocromo, y sus colores no salen del logo.
 
 ## Tipografía
 
@@ -105,6 +108,7 @@ Escala cerrada; no se usan tamaños intermedios ni `text-[…px]`:
 | Texto denso | `text-cap-dense` (13/18) | tablas en densidad compacta |
 | Etiqueta | `text-xs font-medium` (12/16) | labels, cabecera de tabla, badges, metadatos, migas |
 | Cifra destacada | `font-display text-3xl font-semibold tabular-nums` (30/36) | tarjetas KPI |
+| Titular de portada | `font-display text-4xl font-semibold leading-tight` (36/45) | solo el panel de marca de la pantalla de acceso |
 
 Nada por debajo de `text-xs`. Sin mayúsculas forzadas con espaciado amplio; sentence case. Sin
 monoespaciada salvo códigos. Las cifras en tablas van en Inter con `tabular-nums` y alineadas a la
@@ -136,7 +140,8 @@ derecha; Poppins solo para la cifra grande de una tarjeta, donde no hay alineaci
   lectura, ancho completo para tablas y tableros.
 - **Espaciado** en múltiplos de 4 px: 4 ícono–texto, 8 chips y celdas compactas, 12 celdas y entre
   campos de una fila, 16 relleno de tarjeta en celular y entre campos, 20 relleno de tarjeta y
-  modal, 24 entre tarjetas y secciones, 32 entre bloques de formulario. Nunca 6, 10, 14 ni 18.
+  modal, 24 entre tarjetas y secciones, 32 entre bloques de formulario y como relleno de la tarjeta de la
+  pantalla de acceso (la única tarjeta sola en pantalla). Nunca 6, 10, 14 ni 18.
 - **Radios**: `rounded-md` (6) chips y badges; `rounded-lg` (8) inputs, botones e ítems de menú;
   `rounded-cap-card` (10) tarjetas; `rounded-xl` (12) modales, cajones y popovers. `rounded-full`
   solo en avatares y el punto del badge.
@@ -152,6 +157,32 @@ derecha; Poppins solo para la cifra grande de una tarjeta, donde no hay alineaci
   `z-cap-modal` 70, `z-cap-toast` 80. Ningún otro `z-index`.
 - **Área de interacción** mínima 40 × 40 px en celular y 32 × 32 px en escritorio, con 8 px entre
   objetivos. Un ícono de 20 px siempre vive dentro de un botón de 36 px o más.
+
+## Pantalla de acceso
+
+Iniciar sesión, recuperar contraseña y crear contraseña nueva comparten una misma pantalla: la
+portada del sistema. Es la única sin marco de navegación y la única con un titular grande. Las
+clases están en el recetario: «Panel de marca de la pantalla de acceso», «Botón de proveedor»,
+«Divisor con texto» y «Campo con ícono y ver contraseña».
+
+- **Escritorio (`lg` en adelante)**: dos columnas iguales. A la izquierda el panel de marca sobre
+  el negro del marco: logo y nombre del sistema arriba; en medio un chip de contexto («Portal
+  corporativo de Grupo CAP»), el titular de portada con el remate en rojo suave, una línea de
+  apoyo y hasta tres tarjetas de módulo; abajo «© año Grupo CAP · Uso interno». A la derecha,
+  sobre `bg-cap-page`, la tarjeta del formulario (`max-w-md`, relleno 32) centrada y el toggle de
+  tema arriba a la derecha.
+- **Celular (por debajo de `lg`)**: el panel se reduce a una cabecera oscura con logo, nombre,
+  toggle de tema, chip y titular en `text-2xl`; la tarjeta va debajo con relleno 20 y 16 px de
+  margen, y su título baja a `text-lg`. Línea de apoyo, tarjetas de módulo y copyright se ocultan.
+- **Tarjeta**: título `font-display text-2xl font-semibold` y subtítulo gris; botones de proveedor
+  (uno por proveedor configurado, máximo dos por fila; con uno solo, ancho completo); divisor «o
+  con tu correo»; campos con ícono a la izquierda y ver contraseña; «Recordarme» y «¿Olvidaste tu
+  contraseña?» en una misma fila; un solo primario negro de ancho completo; bajo la tarjeta, una
+  línea de ayuda en `text-xs`. Errores y estados («Te enviamos el enlace») como aviso en línea
+  arriba del formulario, nunca como toast.
+- Sin animación de entrada, ilustraciones, fotografías, degradados ni manchas de color: el panel
+  de marca es el mismo negro del marco. En oscuro el panel no cambia y la tarjeta pasa a
+  `cap-card`, igual que el resto del sistema.
 
 ## Componentes
 
@@ -178,7 +209,10 @@ etiqueta. Ayuda y error debajo en `text-xs`, el error en `status-error` y el inp
 160 px (texto a la derecha, prefijo «L» dentro del campo), código/RTN 200 px, porcentaje 112 px;
 texto libre a columna completa. Obligatorio: asterisco `text-cap-brand` tras la etiqueta y
 `aria-required`; si casi todos lo son, marcar los opcionales con «(opcional)». Solo lectura: sin
-borde, fondo `cap-card-2`, texto normal. Al enviar con errores: scroll y foco en el primer campo
+borde, fondo `cap-card-2`, texto normal. Contraseñas: botón de ícono dentro del campo para verla
+(`mdi-eye-outline` / `mdi-eye-off-outline`, `aria-label` «Mostrar contraseña» / «Ocultar
+contraseña»). Un ícono `-outline` a la izquierda del campo (`pl-10`) solo en pantallas de pocos
+campos, como la de acceso. Al enviar con errores: scroll y foco en el primer campo
 con error; resumen arriba solo si hay más de tres. El primario se deshabilita y muestra
 `mdi-loading animate-spin` mientras envía; nunca doble envío. Botones al pie, a la derecha:
 «Cancelar» secundario y el primario con el verbo («Guardar cambios», no «Enviar»).
@@ -249,6 +283,12 @@ Clases exactas para lo más común. Copiar tal cual; cambiar solo texto, íconos
 <button class="inline-flex h-10 items-center gap-2 rounded-lg border border-gray-300 bg-cap-card px-4 text-sm font-medium text-gray-800 transition-colors duration-cap-fast ease-cap hover:border-gray-400 hover:bg-cap-card-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-cap-chrome focus-visible:ring-offset-2 focus-visible:ring-offset-cap-card dark:border-gray-600 dark:text-gray-100 dark:focus-visible:ring-gray-100">Cancelar</button>
 ```
 
+**Botón de ícono** (36 × 36 px, con `aria-label` y `title`)
+```html
+<button type="button" aria-label="Cerrar" title="Cerrar" class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-gray-500 transition-colors duration-cap-fast ease-cap hover:bg-cap-card-2 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-cap-chrome focus-visible:ring-offset-2 focus-visible:ring-offset-cap-card dark:text-gray-400 dark:hover:text-gray-100 dark:focus-visible:ring-gray-100"><i class="mdi mdi-close text-xl leading-none" aria-hidden="true"></i></button>
+```
+Sobre el marco negro: `text-cap-brand-gray hover:bg-cap-raised hover:text-white focus-visible:ring-white focus-visible:ring-offset-cap-chrome`.
+
 **Botón destructivo**
 ```html
 <button class="inline-flex h-10 items-center gap-2 rounded-lg bg-cap-brand px-4 text-sm font-medium text-white transition-colors duration-cap-fast ease-cap hover:bg-cap-brand-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-cap-chrome focus-visible:ring-offset-2 focus-visible:ring-offset-cap-card disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-gray-100">Anular factura</button>
@@ -294,6 +334,42 @@ Clases exactas para lo más común. Copiar tal cual; cambiar solo texto, íconos
 Con error, el input añade `border-cap-status-error focus:border-cap-status-error
 focus:ring-cap-status-error`. Si el proyecto usa `@tailwindcss/forms`, estas clases anulan su
 anillo azul.
+
+**Botón de proveedor** (acceso con un tercero: el secundario con su logo oficial a color)
+```html
+<a href="/auth/microsoft/redirect" class="[botón secundario] w-full justify-center"><img src="logos/microsoft.svg" alt="" class="h-5 w-5">Microsoft</a>
+```
+En Vue: `import microsoft from '@/../design/logos/microsoft.svg?inline'` (el `?inline` lo embebe en
+el JS y ahorra una petición) y `<img :src="microsoft" alt="" class="h-5 w-5">`.
+
+**Divisor con texto**
+```html
+<div class="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400" aria-hidden="true"><span class="h-px flex-1 bg-cap-divider"></span>o con tu correo<span class="h-px flex-1 bg-cap-divider"></span></div>
+```
+
+**Campo con ícono y ver contraseña** (el input es el del campo de formulario con `pl-10` y, si hay botón, `pr-10`)
+```html
+<div class="relative">
+  <i class="mdi mdi-lock-outline pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xl leading-none text-gray-500 dark:text-gray-400" aria-hidden="true"></i>
+  <input id="password" type="password" class="[campo de formulario] pl-10 pr-10">
+  <button type="button" aria-label="Mostrar contraseña" title="Mostrar contraseña" class="[botón de ícono] absolute right-0.5 top-1/2 -translate-y-1/2"><i class="mdi mdi-eye-outline text-xl leading-none" aria-hidden="true"></i></button>
+</div>
+```
+Al mostrarla, el input pasa a `type="text"`, el ícono a `mdi-eye-off-outline` y el `aria-label` a «Ocultar contraseña».
+
+**Panel de marca de la pantalla de acceso** (columna izquierda desde `lg`; el texto es del proyecto)
+```html
+<aside class="flex flex-col justify-between bg-cap-chrome px-16 py-14 text-white">
+  <div class="flex items-center gap-3"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white font-display text-xs font-semibold text-cap-chrome" aria-hidden="true">CAP</span><span class="font-display text-base font-semibold">Nombre del sistema</span></div>
+  <div>
+    <p class="inline-flex items-center gap-2 rounded-md border border-cap-line bg-cap-raised px-2.5 py-1 text-xs font-medium text-cap-brand-gray"><span class="h-1.5 w-1.5 rounded-full bg-cap-brand-soft" aria-hidden="true"></span>Portal corporativo de Grupo CAP</p>
+    <h1 class="mt-3 font-display text-4xl font-semibold leading-tight">Titular de portada, <span class="text-cap-brand-soft">con el remate en rojo suave.</span></h1>
+    <p class="mt-4 max-w-md text-sm leading-relaxed text-cap-brand-gray">Una línea de apoyo.</p>
+    <div class="mt-8 flex gap-3 rounded-cap-card border border-cap-line bg-cap-raised p-4"><i class="mdi mdi-chart-box-outline text-xl leading-none text-cap-brand-soft" aria-hidden="true"></i><div><p class="text-sm font-semibold">Módulo</p><p class="mt-0.5 text-xs text-cap-brand-gray">Qué hace, en una línea.</p></div></div>
+  </div>
+  <p class="text-xs text-cap-brand-gray">© 2026 Grupo CAP · Uso interno</p>
+</aside>
+```
 
 **Modal**
 ```html
@@ -459,6 +535,7 @@ cambian solos. Verificar las dos variantes antes de dar por terminada una pantal
 - Cabeceras, barras o superficies rojas; rojo como enlace genérico; rojo suave como fondo con
   texto blanco.
 - Degradados, sombras de color, bordes de neón, emojis como íconos, otro set de íconos.
+- Logos de terceros recoloreados o en monocromo.
 - Etiquetas en mayúsculas con espaciado, monoespaciada para texto, tamaños menores a `text-xs`.
 - `duration-*`, `animate-pulse` o `animate-bounce` de Tailwind; animaciones por sección, efectos
   al hacer scroll, rebotes, parallax, spinners sueltos donde cabe un esqueleto.
