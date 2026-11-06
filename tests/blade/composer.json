@@ -1,0 +1,11 @@
+{
+  "name": "cap/design-system-blade-tests",
+  "description": "Renders the Blade components for the test suite; never shipped.",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "illuminate/view": "^12.0",
+    "illuminate/filesystem": "^12.0",
+    "illuminate/events": "^12.0"
+  }
+}

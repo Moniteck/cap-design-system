@@ -1,0 +1,118 @@
+/* Header de escritorio: flota sobre el contenido mientras la ventana hace scroll. */
+
+.cap-shell-header {
+  position: sticky;
+  top: 12px;
+  z-index: var(--cap-z-header);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 64px;
+  padding: 0 12px 0 20px;
+  border-radius: var(--cap-radius-shell);
+}
+
+.cap-shell-header__crumbs {
+  color: var(--cap-on-chrome-soft);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.cap-shell-header__title {
+  font: 600 17px var(--cap-font-display);
+  white-space: nowrap;
+}
+
+.cap-shell-header__search {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  max-width: 320px;
+  height: 38px;
+  margin-left: 24px;
+  padding: 0 14px;
+  border: 1px solid var(--cap-glass-hover);
+  border-radius: 999px;
+  background: var(--cap-glass-fill);
+  color: var(--cap-on-chrome);
+}
+
+.cap-shell-header__search:focus-within {
+  outline: 2px solid var(--cap-on-accent);
+  outline-offset: 2px;
+}
+
+/* El contorno lo da el label: sin esto, el foco del vidrio dibuja un segundo anillo en el input. */
+.cap-shell-header .cap-shell-header__search-input:focus-visible {
+  outline: 0;
+}
+
+.cap-shell-header__search .mdi {
+  font-size: 18px;
+}
+
+.cap-shell-header__search-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--cap-on-accent);
+  font: 400 13px var(--cap-font-text);
+}
+
+/* --cap-on-chrome y no el secundario: sobre el relleno del buscador este cae de 4.5:1. */
+.cap-shell-header__search-input::placeholder {
+  color: var(--cap-on-chrome);
+  opacity: 1;
+}
+
+.cap-shell-header__actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.cap-shell-header__icon-button,
+.cap-shell-topbar__icon-button {
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid var(--cap-glass-chip);
+  border-radius: 50%;
+  background: var(--cap-glass-hover);
+  color: var(--cap-on-accent);
+  font-size: 19px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--cap-duration-fast) var(--cap-ease-standard);
+}
+
+.cap-shell-header__icon-button:hover,
+.cap-shell-topbar__icon-button:hover,
+.cap-shell-header__icon-button[aria-expanded="true"],
+.cap-shell-topbar__icon-button[aria-expanded="true"] {
+  background: var(--cap-glass-active-border);
+}
+
+.cap-shell-header__badge-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cap-red);
+}
+
+.cap-shell-header .cap-shell-avatar {
+  width: 38px;
+  height: 38px;
+}

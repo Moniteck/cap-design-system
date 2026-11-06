@@ -1,0 +1,178 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&display=swap">
+<style>
+  .gx { --page:#F1EDE9; --card:#FFFDFB; --div:#E6DFD8; --red:#B12530; --wine:#6E1219; --redmid:#DB7F87; --rose:#F2D3D6; --tint:#FBEDEE; --muted:#D2CAC3;
+        font-family:Inter,sans-serif; color:#1E1B1A; }
+  .gx * { box-sizing:border-box; }
+  .gx .frame { position:relative; display:flex; gap:12px; padding:12px; height:700px; border-radius:16px; overflow:hidden; background:var(--page); }
+  .gx .frame::before { content:""; position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(520px 380px at 8% 18%, rgba(177,37,48,.20), transparent 70%),
+                radial-gradient(600px 420px at 92% 88%, rgba(110,18,25,.16), transparent 70%),
+                radial-gradient(500px 300px at 60% 10%, rgba(168,156,145,.25), transparent 70%); }
+
+  .gx .glass { background:rgba(30,27,26,.62); backdrop-filter:blur(22px) saturate(170%); -webkit-backdrop-filter:blur(22px) saturate(170%);
+    border:1px solid rgba(255,255,255,.14); color:#fff;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(0,0,0,.25), 0 12px 32px rgba(30,27,26,.18); }
+  .gx.clear .glass { background:rgba(30,27,26,.42); }
+
+  .gx .side { position:relative; z-index:2; width:236px; flex-shrink:0; border-radius:24px; padding:16px 12px; display:flex; flex-direction:column; gap:3px; transition:width .22s cubic-bezier(.2,0,0,1); }
+  .gx .side.collapsed { width:66px; padding:16px 11px; }
+  .gx .side.collapsed .txt, .gx .side.collapsed .grp, .gx .side.collapsed .kbd, .gx .side.collapsed .count, .gx .side.collapsed .who, .gx .side.collapsed .sub { display:none; }
+  .gx .brand { display:flex; align-items:center; gap:10px; padding:2px 4px 14px; }
+  .gx .logo { width:34px; height:34px; border-radius:50%; background:var(--red); display:grid; place-items:center; font:600 15px Poppins; flex-shrink:0; box-shadow: inset 0 1px 0 rgba(255,255,255,.35); }
+  .gx .brand b { font:600 15px Poppins; display:block; }
+  .gx .brand small { font-size:11px; color:var(--muted); }
+  .gx .toggle { position:absolute; right:-13px; top:22px; width:26px; height:26px; border-radius:50%; background:#fff; color:#1E1B1A; display:grid; place-items:center; cursor:pointer; font-size:17px; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+  .gx .search { display:flex; align-items:center; gap:8px; height:38px; border-radius:12px; padding:0 10px; font-size:13px; color:var(--muted); background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.08); margin-bottom:8px; }
+  .gx .kbd { margin-left:auto; font-size:11px; padding:1px 6px; border-radius:6px; background:rgba(255,255,255,.12); }
+  .gx .grp { font-size:11px; color:var(--muted); margin:10px 8px 4px; }
+  .gx .item { position:relative; display:flex; align-items:center; gap:10px; height:38px; border-radius:12px; padding:0 11px; font-size:13.5px; color:#E9E4E0; cursor:default; transition:background .12s; }
+  .gx .item i { font-size:20px; line-height:1; }
+  .gx .item:hover { background:rgba(255,255,255,.10); }
+  .gx .item.active { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.22); box-shadow: inset 0 1px 0 rgba(255,255,255,.25); color:#fff; }
+  .gx .item.active::before { content:""; position:absolute; left:-12px; top:9px; bottom:9px; width:3px; border-radius:0 3px 3px 0; background:var(--red); }
+  .gx .side.collapsed .item.active::before { left:-11px; }
+  .gx .count { margin-left:auto; font-size:11px; padding:1px 7px; border-radius:999px; background:rgba(255,255,255,.14); }
+  .gx .count.red { background:var(--red); }
+  .gx .dot { position:absolute; left:28px; top:7px; width:8px; height:8px; border-radius:50%; background:var(--red); border:1.5px solid #2a2523; display:none; }
+  .gx .side.collapsed .dot { display:block; }
+  .gx .tip { display:none; position:absolute; left:56px; padding:5px 10px; border-radius:8px; font-size:12px; white-space:nowrap; z-index:5; color:#1E1B1A; background:rgba(255,253,251,.85); backdrop-filter:blur(12px); box-shadow:0 4px 14px rgba(0,0,0,.15); }
+  .gx .side.collapsed .item:hover .tip { display:block; }
+  .gx .sub { margin:0 0 4px 21px; padding-left:14px; border-left:1px solid rgba(255,255,255,.15); }
+  .gx .sub div { font-size:12.5px; color:#CFC7C1; padding:6px 0; display:flex; align-items:center; gap:8px; }
+  .gx .sub span { width:7px; height:7px; border-radius:2px; }
+  .gx .spacer { flex:1; }
+  .gx .switch { margin-left:auto; width:34px; height:20px; border-radius:999px; background:rgba(255,255,255,.18); position:relative; }
+  .gx .switch::after { content:""; position:absolute; left:2px; top:2px; width:16px; height:16px; border-radius:50%; background:#fff; }
+  .gx .user { display:flex; align-items:center; gap:10px; padding:10px 4px 2px; border-top:1px solid rgba(255,255,255,.12); margin-top:6px; }
+  .gx .av { width:34px; height:34px; border-radius:50%; background:#A89C91; color:#fff; display:grid; place-items:center; font-size:12px; font-weight:600; flex-shrink:0; position:relative; }
+  .gx .av::after { content:""; position:absolute; right:-1px; bottom:-1px; width:10px; height:10px; border-radius:50%; background:#3FA35B; border:2px solid #2a2523; }
+  .gx .who b { font-size:13px; display:block; }
+  .gx .who small { font-size:11px; color:var(--muted); }
+
+  .gx .main { position:relative; z-index:1; flex:1; min-width:0; }
+  .gx .head { position:absolute; z-index:3; top:0; left:0; right:0; height:64px; border-radius:24px; display:flex; align-items:center; gap:10px; padding:0 12px 0 20px; }
+  .gx .crumbs { font-size:11px; color:var(--muted); }
+  .gx .ptitle { font:600 17px Poppins; }
+  .gx .hsearch { margin-left:24px; flex:1; max-width:320px; display:flex; align-items:center; gap:8px; height:38px; border-radius:999px; padding:0 14px; font-size:13px; color:var(--muted); background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.10); }
+  .gx .hb { width:38px; height:38px; border-radius:50%; display:grid; place-items:center; font-size:19px; background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.12); position:relative; }
+  .gx .hb .d { position:absolute; right:8px; top:8px; width:8px; height:8px; border-radius:50%; background:var(--red); }
+  .gx .scroll { position:absolute; inset:0; overflow-y:auto; padding:80px 4px 12px; display:flex; flex-direction:column; gap:12px; scrollbar-width:none; }
+  .gx .scroll::-webkit-scrollbar { display:none; }
+  .gx .titlebar { display:flex; align-items:flex-end; justify-content:space-between; padding:6px 6px 2px; }
+  .gx .titlebar b { font:600 22px Poppins; }
+  .gx .titlebar p { margin:2px 0 0; font-size:13px; color:#7A6F67; }
+  .gx .btn { height:40px; border-radius:999px; padding:0 16px; font-size:13px; font-weight:500; display:inline-flex; align-items:center; gap:6px; }
+  .gx .btn.primary { background:#1E1B1A; color:#fff; }
+  .gx .btn.sec { background:var(--card); border:1px solid #CFC6BE; }
+  .gx .row { display:flex; gap:12px; }
+  .gx .card { flex:1; min-width:0; background:var(--card); border:1px solid var(--div); border-radius:22px; padding:18px; }
+  .gx .k .t { display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:500; }
+  .gx .k .t span { width:30px; height:30px; border-radius:50%; border:1px solid var(--div); display:grid; place-items:center; font-size:16px; }
+  .gx .k .n { font:600 28px Poppins; margin-top:6px; font-variant-numeric:tabular-nums; }
+  .gx .k .d { font-size:12px; color:#7A6F67; display:flex; gap:6px; align-items:center; }
+  .gx .k .d em { font-style:normal; font-size:11px; padding:0 6px; border-radius:6px; background:#E7F4EC; color:#1E6B3A; }
+  .gx .k.feat { background:var(--wine); border-color:var(--wine); color:#fff; }
+  .gx .k.feat .t span { background:#fff; color:#1E1B1A; border-color:#fff; }
+  .gx .k.feat .d { color:rgba(255,255,255,.75); }
+  .gx .k.feat .d em { background:rgba(255,255,255,.18); color:#fff; }
+  .gx .k.tint { background:var(--tint); border-color:#F3DADD; }
+  .gx .ct { font:600 15px Poppins; display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .gx .ct small { font:500 12px Inter; color:#7A6F67; }
+  .gx .bars { display:flex; align-items:flex-end; gap:14px; height:160px; }
+  .gx .bars div { flex:1; border-radius:999px; position:relative; }
+  .gx .bars label { display:flex; gap:14px; font-size:11px; color:#7A6F67; margin-top:8px; }
+  .gx .days { display:flex; gap:14px; margin-top:8px; }
+  .gx .days span { flex:1; text-align:center; font-size:11px; color:#7A6F67; }
+  .gx .list div { display:flex; justify-content:space-between; align-items:center; font-size:13px; padding:10px 0; border-bottom:1px solid var(--div); }
+  .gx .list div:last-child { border:0; }
+  .gx .list small { display:block; font-size:11.5px; color:#7A6F67; }
+  .gx .st { font-size:11px; padding:1px 8px; border-radius:999px; }
+  .gx .ok { background:#E7F4EC; color:#1E6B3A; }
+  .gx .pe { background:#FCF1DC; color:#7A4E00; }
+  .gx .er { background:var(--tint); color:var(--red); }
+  .gx .ring { width:150px; height:150px; border-radius:50%; margin:6px auto; background:conic-gradient(var(--wine) 0 41%, var(--red) 41% 70%, var(--rose) 70% 100%); display:grid; place-items:center; }
+  .gx .ring div { width:108px; height:108px; border-radius:50%; background:var(--card); display:grid; place-items:center; text-align:center; font:600 26px Poppins; }
+  .gx .ring small { display:block; font:500 11px Inter; color:#7A6F67; }
+  .gx .legend { display:flex; justify-content:center; gap:14px; font-size:12px; color:#5c534d; margin-top:8px; }
+  .gx .legend i { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; }
+  .gx .note { font-size:13px; color:#555; margin:8px 2px; }
+</style>
+
+<h2>Versión con vidrio (liquid glass)</h2>
+<p class="subtitle">Paleta recomendada: fondo piedra cálido, marco casi negro con toque café y escala de rojos del vino al rosado. El sidebar y el header son de vidrio ahumado: dejan ver un poco lo que pasa detrás. <b>Haz scroll dentro del tablero</b> para ver cómo las tarjetas pasan bajo el header. Colapsa el sidebar con <b>‹</b>.</p>
+
+<div class="options">
+  <div class="option" data-choice="humo" onclick="toggleSelect(this); document.getElementById('gx').classList.remove('clear')"><div class="letter">1</div><div class="content"><h3>Vidrio ahumado</h3><p>Más opaco: se lee siempre bien y se nota el vidrio sin distraer.</p></div></div>
+  <div class="option" data-choice="claro" onclick="toggleSelect(this); document.getElementById('gx').classList.add('clear')"><div class="letter">2</div><div class="content"><h3>Vidrio más transparente</h3><p>Se ve más lo de atrás, más parecido al iPhone. Haz clic para aplicarlo arriba.</p></div></div>
+</div>
+
+<div class="gx" id="gx">
+  <div class="frame">
+    <aside class="side glass" id="gside">
+      <div class="toggle" onclick="document.getElementById('gside').classList.toggle('collapsed')"><i class="mdi mdi-chevron-left"></i></div>
+      <div class="brand"><div class="logo">C</div><div class="txt"><b>Facturación</b><small>Grupo CAP</small></div></div>
+      <div class="search"><i class="mdi mdi-magnify" style="font-size:18px"></i><span class="txt">Buscar</span><span class="kbd">⌘K</span></div>
+      <div class="grp">Principal</div>
+      <div class="item active"><i class="mdi mdi-view-dashboard"></i><span class="txt">Tablero</span><span class="tip">Tablero</span></div>
+      <div class="item"><i class="mdi mdi-file-document-outline"></i><span class="txt">Facturas</span><span class="count">12</span><span class="dot"></span><span class="tip">Facturas</span></div>
+      <div class="item"><i class="mdi mdi-cash-multiple"></i><span class="txt">Cobranza</span><span class="count red">3</span><span class="dot"></span><span class="tip">Cobranza</span></div>
+      <div class="item"><i class="mdi mdi-domain"></i><span class="txt">Empresas</span><i class="mdi mdi-chevron-up txt" style="margin-left:auto;font-size:16px"></i><span class="tip">Empresas</span></div>
+      <div class="sub"><div><span style="background:var(--wine)"></span>CAP Acero</div><div><span style="background:var(--red)"></span>CAP Minería</div><div><span style="background:var(--redmid)"></span>Cintac</div></div>
+      <div class="grp">General</div>
+      <div class="item"><i class="mdi mdi-chart-box-outline"></i><span class="txt">Reportes</span><span class="tip">Reportes</span></div>
+      <div class="item"><i class="mdi mdi-cog-outline"></i><span class="txt">Configuración</span><span class="tip">Configuración</span></div>
+      <div class="spacer"></div>
+      <div class="item"><i class="mdi mdi-weather-night"></i><span class="txt">Modo oscuro</span><span class="switch txt"></span><span class="tip">Modo oscuro</span></div>
+      <div class="user"><div class="av">AM</div><div class="who"><b>Ana Muñoz</b><small>amunoz@cap.cl</small></div><i class="mdi mdi-unfold-more-horizontal who" style="margin-left:auto;color:var(--muted)"></i></div>
+    </aside>
+
+    <div class="main">
+      <header class="head glass">
+        <div><div class="crumbs">Facturación › Tablero</div><div class="ptitle">Tablero</div></div>
+        <div class="hsearch"><i class="mdi mdi-magnify" style="font-size:18px"></i>Buscar factura, cliente o RUT</div>
+        <div style="flex:1"></div>
+        <div class="hb"><i class="mdi mdi-email-outline"></i></div>
+        <div class="hb"><i class="mdi mdi-bell-outline"></i><span class="d"></span></div>
+        <div class="av" style="width:38px;height:38px">AM</div>
+      </header>
+
+      <div class="scroll">
+        <div class="titlebar"><div><b>Resumen de octubre</b><p>Facturación emitida y cobranza del mes.</p></div>
+          <div style="display:flex;gap:8px"><span class="btn sec">Exportar</span><span class="btn primary"><i class="mdi mdi-plus"></i>Nueva factura</span></div></div>
+        <div class="row">
+          <div class="card k feat"><div class="t">Facturado<span><i class="mdi mdi-arrow-top-right"></i></span></div><div class="n">$ 248,3 M</div><div class="d"><em>+8 %</em>vs. septiembre</div></div>
+          <div class="card k"><div class="t">Cobrado<span><i class="mdi mdi-arrow-top-right"></i></span></div><div class="n">$ 196,1 M</div><div class="d"><em>+5 %</em>vs. septiembre</div></div>
+          <div class="card k"><div class="t">Por cobrar<span><i class="mdi mdi-arrow-top-right"></i></span></div><div class="n">$ 52,2 M</div><div class="d">34 facturas</div></div>
+          <div class="card k tint"><div class="t">Vencidas<span><i class="mdi mdi-arrow-top-right"></i></span></div><div class="n">7</div><div class="d">Requieren gestión</div></div>
+        </div>
+        <div class="row">
+          <div class="card" style="flex:1.6"><div class="ct">Emisión semanal<small>Esta semana</small></div>
+            <div class="bars"><div style="height:50%;background:var(--rose)"></div><div style="height:75%;background:var(--redmid)"></div><div style="height:60%;background:var(--rose)"></div><div style="height:95%;background:var(--wine)"></div><div style="height:70%;background:var(--red)"></div><div style="height:42%;background:var(--rose)"></div><div style="height:28%;background:var(--rose)"></div></div>
+            <div class="days"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div></div>
+          <div class="card"><div class="ct">Estado de cobranza</div>
+            <div class="ring"><div>41 %<small>cobrado</small></div></div>
+            <div class="legend"><span><i style="background:var(--wine)"></i>Cobrado</span><span><i style="background:var(--red)"></i>En curso</span><span><i style="background:var(--rose)"></i>Pendiente</span></div></div>
+        </div>
+        <div class="row">
+          <div class="card"><div class="ct">Últimas facturas<small>Ver todas</small></div>
+            <div class="list">
+              <div><span>F-10234 · Minera Sur<small>Emitida 28/10/2026</small></span><span class="st ok">Pagada</span></div>
+              <div><span>F-10233 · Aceros Norte<small>Emitida 27/10/2026</small></span><span class="st pe">Pendiente</span></div>
+              <div><span>F-10232 · Puerto Talca<small>Emitida 25/10/2026</small></span><span class="st er">Vencida</span></div>
+              <div><span>F-10231 · Cintac<small>Emitida 24/10/2026</small></span><span class="st ok">Pagada</span></div>
+              <div><span>F-10230 · Minera Sur<small>Emitida 22/10/2026</small></span><span class="st ok">Pagada</span></div>
+            </div></div>
+          <div class="card" style="flex:.8"><div class="ct">Clientes con más deuda</div>
+            <div class="list">
+              <div><span>Aceros Norte<small>9 facturas</small></span><b>$ 18,4 M</b></div>
+              <div><span>Puerto Talca<small>6 facturas</small></span><b>$ 11,0 M</b></div>
+              <div><span>Minera Sur<small>4 facturas</small></span><b>$ 7,9 M</b></div>
+              <div><span>Cintac<small>3 facturas</small></span><b>$ 4,2 M</b></div>
+            </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="note">Nota: los manchones de color suaves en el fondo están para que el vidrio tenga algo que difuminar. Sobre un fondo totalmente liso el efecto casi no se nota.</p>

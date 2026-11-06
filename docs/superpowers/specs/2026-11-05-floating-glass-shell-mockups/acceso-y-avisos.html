@@ -1,0 +1,208 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&display=swap">
+<style>
+  .ax { --page:#F1EDE9; --card:#FFFDFB; --div:#E6DFD8; --red:#B12530; --wine:#6E1219; --redmid:#DB7F87; --rose:#F2D3D6; --tint:#FBEDEE; --muted:#D2CAC3; --ink:#1E1B1A; --soft:#7A6F67; --line:#8C8985;
+        font-family:Inter,sans-serif; color:var(--ink); }
+  .ax * { box-sizing:border-box; }
+  .ax h3.sec { font:600 18px Poppins; margin:34px 0 4px; }
+  .ax p.sd { font-size:14px; color:#555; margin:0 0 12px; max-width:860px; }
+  .ax .glass { background:rgba(30,27,26,.80); backdrop-filter:blur(22px) saturate(170%); -webkit-backdrop-filter:blur(22px) saturate(170%);
+    border:1px solid rgba(255,255,255,.14); color:#fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 12px 32px rgba(30,27,26,.22); }
+  .ax .blobs { position:relative; }
+  .ax .blobs::before { content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit;
+    background: radial-gradient(420px 320px at 12% 15%, rgba(177,37,48,.20), transparent 70%),
+                radial-gradient(480px 360px at 90% 90%, rgba(110,18,25,.16), transparent 70%); }
+  .ax .btn { height:44px; border-radius:999px; padding:0 18px; font-size:14px; font-weight:500; display:inline-flex; align-items:center; justify-content:center; gap:8px; border:0; font-family:Inter; }
+  .ax .btn.primary { background:var(--ink); color:#fff; }
+  .ax .btn.sec { background:var(--card); border:1px solid #CFC6BE; color:var(--ink); }
+  .ax .btn.danger { background:var(--red); color:#fff; }
+  .ax .btn.prov { background:var(--card); border:1px solid var(--div); color:var(--ink); width:100%; }
+  .ax .focus { outline:2px solid var(--ink); outline-offset:2px; }
+
+  /* LOGIN */
+  .ax .login { display:flex; gap:12px; padding:12px; height:620px; border-radius:16px; background:var(--page); }
+  .ax .lpanel { flex:1; border-radius:28px; padding:36px; display:flex; flex-direction:column; color:#fff; background:#1E1B1A; overflow:hidden; position:relative; }
+  .ax .lpanel::before { content:""; position:absolute; inset:0;
+    background: radial-gradient(380px 300px at 85% 20%, rgba(177,37,48,.55), transparent 70%),
+                radial-gradient(420px 360px at 10% 95%, rgba(110,18,25,.65), transparent 70%),
+                radial-gradient(300px 240px at 40% 55%, rgba(168,156,145,.18), transparent 70%); }
+  .ax .lpanel > * { position:relative; }
+  .ax .lbrand { display:flex; align-items:center; gap:10px; font:600 17px Poppins; }
+  .ax .logo { width:38px; height:38px; border-radius:50%; background:var(--red); display:grid; place-items:center; font:600 16px Poppins; color:#fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.35); }
+  .ax .chip { display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 12px; border-radius:999px; font-size:12px; background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.16); width:max-content; }
+  .ax .headline { font:600 34px/1.2 Poppins; margin:14px 0 10px; }
+  .ax .headline span { color:#F2B5BA; }
+  .ax .lsub { font-size:14px; color:var(--muted); max-width:380px; }
+  .ax .mods { display:flex; flex-direction:column; gap:8px; margin-top:22px; max-width:380px; }
+  .ax .mod { display:flex; gap:12px; align-items:center; padding:12px 14px; border-radius:18px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); backdrop-filter:blur(14px); box-shadow: inset 0 1px 0 rgba(255,255,255,.15); }
+  .ax .mod i { font-size:20px; color:#F2B5BA; }
+  .ax .mod b { font-size:13px; display:block; }
+  .ax .mod small { font-size:12px; color:var(--muted); }
+  .ax .copy { margin-top:auto; font-size:12px; color:var(--muted); }
+  .ax .lform { flex:1; display:flex; align-items:center; justify-content:center; position:relative; }
+  .ax .theme { position:absolute; top:6px; right:6px; width:40px; height:40px; border-radius:50%; background:var(--card); border:1px solid var(--div); display:grid; place-items:center; font-size:19px; }
+  .ax .fcard { width:400px; }
+  .ax .fcard h4 { font:600 26px Poppins; margin:0; }
+  .ax .fcard .fs { font-size:14px; color:var(--soft); margin:6px 0 22px; }
+  .ax .field { position:relative; height:54px; border-radius:16px; border:1px solid var(--line); background:var(--card); padding:8px 44px 0 44px; margin-bottom:12px; }
+  .ax .field label { position:absolute; left:44px; top:8px; font-size:11.5px; color:var(--soft); }
+  .ax .field .v { font-size:14px; padding-top:13px; display:block; }
+  .ax .field .li { position:absolute; left:14px; top:16px; font-size:20px; color:var(--soft); }
+  .ax .field .ri { position:absolute; right:14px; top:16px; font-size:20px; color:var(--soft); }
+  .ax .field.on { border:2px solid var(--ink); box-shadow:0 0 0 4px rgba(30,27,26,.08); }
+  .ax .frow { display:flex; justify-content:space-between; align-items:center; font-size:13px; margin:4px 0 18px; }
+  .ax .frow a { color:var(--red); font-weight:600; text-decoration:none; }
+  .ax .tg { display:inline-flex; align-items:center; gap:10px; color:var(--soft); }
+  .ax .tg span { width:40px; height:24px; border-radius:999px; background:var(--ink); position:relative; }
+  .ax .tg span::after { content:""; position:absolute; right:3px; top:3px; width:18px; height:18px; border-radius:50%; background:#fff; }
+  .ax .or { display:flex; align-items:center; gap:10px; font-size:12px; color:var(--soft); margin:18px 0; }
+  .ax .or::before, .ax .or::after { content:""; flex:1; height:1px; background:var(--div); }
+  .ax .help { text-align:center; font-size:12px; color:var(--soft); margin-top:18px; }
+
+  /* SCREEN BEHIND (modal + notifs) */
+  .ax .scene { position:relative; height:470px; border-radius:16px; background:var(--page); overflow:hidden; padding:12px; display:flex; gap:12px; }
+  .ax .fakeside { width:66px; border-radius:24px; }
+  .ax .fakemain { flex:1; display:flex; flex-direction:column; gap:12px; }
+  .ax .fakehead { height:64px; border-radius:24px; display:flex; align-items:center; padding:0 12px 0 20px; gap:10px; }
+  .ax .fakehead b { flex:1; font:600 17px Poppins; }
+  .ax .hb { width:38px; height:38px; border-radius:50%; display:grid; place-items:center; font-size:19px; background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.12); position:relative; }
+  .ax .hb.on { background:rgba(255,255,255,.22); }
+  .ax .hb .d { position:absolute; right:8px; top:8px; width:8px; height:8px; border-radius:50%; background:var(--red); }
+  .ax .fcards { display:flex; gap:12px; }
+  .ax .fc { flex:1; height:110px; border-radius:22px; background:var(--card); border:1px solid var(--div); }
+  .ax .fc.w { background:var(--wine); border-color:var(--wine); }
+  .ax .fbig { flex:1; border-radius:22px; background:var(--card); border:1px solid var(--div); }
+  .ax .dim { position:absolute; inset:0; background:rgba(30,27,26,.35); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+  .ax .modal { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:440px; border-radius:24px; background:var(--card); border:1px solid var(--div); box-shadow:0 24px 60px rgba(30,27,26,.30); padding:24px; }
+  .ax .mic { width:48px; height:48px; border-radius:50%; background:var(--tint); color:var(--red); display:grid; place-items:center; font-size:24px; margin-bottom:14px; }
+  .ax .modal h4 { font:600 18px Poppins; margin:0 0 6px; }
+  .ax .modal p { font-size:14px; color:var(--soft); margin:0 0 14px; line-height:1.5; }
+  .ax .check { display:flex; align-items:center; gap:10px; font-size:13px; padding:12px; border-radius:14px; background:var(--page); margin-bottom:18px; }
+  .ax .check span { width:18px; height:18px; border-radius:5px; border:1.5px solid var(--line); }
+  .ax .mbtns { display:flex; gap:8px; justify-content:flex-end; }
+  .ax .mx { position:absolute; right:16px; top:16px; width:36px; height:36px; border-radius:50%; display:grid; place-items:center; font-size:20px; color:var(--soft); }
+
+  .ax .pop { position:absolute; right:70px; top:86px; width:360px; border-radius:24px; padding:8px; }
+  .ax .pop .ph { display:flex; align-items:center; justify-content:space-between; padding:10px 12px 6px; }
+  .ax .pop .ph b { font:600 15px Poppins; }
+  .ax .pop .ph a { font-size:12px; color:var(--muted); }
+  .ax .tabs2 { display:flex; gap:6px; padding:4px 10px 8px; }
+  .ax .tabs2 span { font-size:12px; height:28px; padding:0 12px; border-radius:999px; display:flex; align-items:center; color:var(--muted); }
+  .ax .tabs2 span.on { background:rgba(255,255,255,.16); color:#fff; }
+  .ax .tabs2 em { font-style:normal; margin-left:6px; font-size:10.5px; padding:0 6px; border-radius:999px; background:var(--red); color:#fff; }
+  .ax .ng { font-size:11px; color:var(--muted); padding:8px 12px 4px; }
+  .ax .n { display:flex; gap:10px; padding:10px 12px; border-radius:16px; position:relative; }
+  .ax .n.unread { background:rgba(255,255,255,.07); }
+  .ax .n .ic { width:36px; height:36px; border-radius:12px; display:grid; place-items:center; font-size:18px; flex-shrink:0; }
+  .ax .n b { font-size:13px; font-weight:600; display:block; }
+  .ax .n small { font-size:12px; color:var(--muted); display:block; margin-top:1px; }
+  .ax .n .t { font-size:11px; color:var(--muted); margin-left:auto; white-space:nowrap; }
+  .ax .n.unread::after { content:""; position:absolute; right:12px; bottom:14px; width:8px; height:8px; border-radius:50%; background:var(--red); }
+  .ax .pf { text-align:center; font-size:13px; padding:10px; border-top:1px solid rgba(255,255,255,.12); margin-top:4px; color:#fff; }
+
+  /* TOASTS */
+  .ax .toasts { display:flex; gap:28px; flex-wrap:wrap; align-items:flex-start; }
+  .ax .tstack { display:flex; flex-direction:column; gap:10px; width:380px; }
+  .ax .toast { display:flex; gap:12px; align-items:flex-start; padding:12px 12px 12px 14px; border-radius:20px; }
+  .ax .toast .ti { width:32px; height:32px; border-radius:50%; display:grid; place-items:center; font-size:18px; flex-shrink:0; }
+  .ax .toast b { font-size:13.5px; font-weight:600; display:block; }
+  .ax .toast small { font-size:12px; color:var(--muted); display:block; margin-top:2px; }
+  .ax .toast .act { font-size:12.5px; font-weight:600; color:#fff; text-decoration:underline; margin-top:6px; display:inline-block; }
+  .ax .toast .x { margin-left:auto; font-size:18px; color:var(--muted); }
+  .ax .prog { height:3px; border-radius:3px; background:rgba(255,255,255,.15); margin-top:8px; overflow:hidden; }
+  .ax .prog div { height:100%; width:60%; background:rgba(255,255,255,.6); }
+  .ax .inline { width:440px; display:flex; gap:12px; padding:14px; border-radius:18px; font-size:13px; }
+  .ax .inline i { font-size:20px; }
+  .ax .inline b { display:block; font-size:13.5px; margin-bottom:2px; }
+</style>
+
+<h2>Acceso, confirmaciones y avisos</h2>
+<p class="subtitle">Todo con la misma paleta y el mismo vidrio. La regla: <b>el vidrio es para lo que flota sobre la app</b> (marco, notificaciones, toasts). <b>Lo que hay que leer con calma o decidir</b> (formularios, modales) va en tarjeta sólida.</p>
+
+<div class="ax">
+
+  <h3 class="sec">1 · Pantalla de acceso</h3>
+  <p class="sd">Sigue la estructura de hoy (panel de marca a la izquierda y formulario a la derecha) con el estilo de Nucleus. El panel deja de ser negro plano: lleva los manchones vino y rojo y tarjetas de vidrio con los módulos. El formulario tiene campos altos con la etiqueta adentro, interruptor de «Recordarme», botón principal en píldora y Microsoft/Google debajo. Si quieren, el panel puede llevar una foto real de CAP (planta, faena) en vez de los manchones.</p>
+  <div class="login">
+    <div class="lpanel">
+      <div class="lbrand"><div class="logo">C</div>Facturación</div>
+      <div style="margin-top:auto">
+        <div class="chip"><i class="mdi mdi-shield-check-outline"></i>Portal corporativo de Grupo CAP</div>
+        <div class="headline">Toda la facturación del grupo, <span>en un solo lugar.</span></div>
+        <div class="lsub">Emite, cobra y revisa el estado de cada empresa del grupo.</div>
+        <div class="mods">
+          <div class="mod"><i class="mdi mdi-file-document-outline"></i><div><b>Facturas</b><small>Emisión y anulación con trazabilidad.</small></div></div>
+          <div class="mod"><i class="mdi mdi-cash-multiple"></i><div><b>Cobranza</b><small>Vencimientos y gestión por cliente.</small></div></div>
+        </div>
+      </div>
+      <div class="copy" style="margin-top:28px">© 2026 Grupo CAP · Uso interno</div>
+    </div>
+    <div class="lform">
+      <div class="theme"><i class="mdi mdi-weather-night"></i></div>
+      <div class="fcard">
+        <h4>Bienvenido de vuelta</h4>
+        <div class="fs">Ingresa con tu cuenta corporativa.</div>
+        <div class="field"><i class="mdi mdi-email-outline li"></i><label>Correo</label><span class="v">amunoz@cap.cl</span></div>
+        <div class="field on"><i class="mdi mdi-lock-outline li"></i><label>Contraseña</label><span class="v">••••••••••</span><i class="mdi mdi-eye-outline ri"></i></div>
+        <div class="frow"><span class="tg"><span></span>Recordarme</span><a>¿Olvidaste tu contraseña?</a></div>
+        <button class="btn primary" style="width:100%">Ingresar</button>
+        <div class="or">o</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn prov"><svg width="18" height="18" viewBox="0 0 21 21"><rect width="10" height="10" fill="#F25022"/><rect x="11" width="10" height="10" fill="#7FBA00"/><rect y="11" width="10" height="10" fill="#00A4EF"/><rect x="11" y="11" width="10" height="10" fill="#FFB900"/></svg>Microsoft</button>
+          <button class="btn prov"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Google</button>
+        </div>
+        <div class="help">¿Problemas para entrar? Escribe a mesadeayuda@cap.cl</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">2 · Confirmación destructiva</h3>
+  <p class="sd">Tarjeta sólida en el centro. El fondo se oscurece y se difumina (efecto vidrio en toda la pantalla). Arriba va un ícono en círculo rosado, título con verbo y objeto, consecuencia en una frase y una casilla obligatoria cuando no se puede deshacer. «Cancelar» va a la izquierda y tiene el foco inicial. El botón rojo repite el verbo. Las reglas de comportamiento son las de hoy; cambia solo el aspecto.</p>
+  <div class="scene">
+    <div class="fakeside glass"></div>
+    <div class="fakemain"><div class="fakehead glass"><b>Facturas</b><span class="hb"><i class="mdi mdi-bell-outline"></i></span></div><div class="fcards"><div class="fc w"></div><div class="fc"></div><div class="fc"></div></div><div class="fbig"></div></div>
+    <div class="dim"></div>
+    <div class="modal" role="dialog">
+      <span class="mx"><i class="mdi mdi-close"></i></span>
+      <div class="mic"><i class="mdi mdi-file-cancel-outline"></i></div>
+      <h4>¿Anular la factura F-10233?</h4>
+      <p>Se generará una nota de crédito y la cuenta por cobrar de Aceros Norte quedará cancelada. No se puede deshacer.</p>
+      <div class="check"><span></span>Entiendo que esta anulación es definitiva</div>
+      <div class="mbtns"><button class="btn sec focus">Cancelar</button><button class="btn danger" style="opacity:.5">Anular factura</button></div>
+    </div>
+  </div>
+
+  <h3 class="sec">3 · Panel de notificaciones</h3>
+  <p class="sd">Se abre desde la campana como panel de vidrio, igual que el marco. Tiene filtros Todas/No leídas, notificaciones agrupadas por Hoy y Ayer, ícono de color según el tipo, punto rojo en las no leídas y «Marcar todo como leído».</p>
+  <div class="scene blobs">
+    <div class="fakeside glass"></div>
+    <div class="fakemain"><div class="fakehead glass"><b>Tablero</b><span class="hb"><i class="mdi mdi-email-outline"></i></span><span class="hb on"><i class="mdi mdi-bell"></i><span class="d"></span></span><span class="hb">AM</span></div><div class="fcards"><div class="fc w"></div><div class="fc"></div><div class="fc"></div></div><div class="fbig"></div></div>
+    <div class="pop glass">
+      <div class="ph"><b>Notificaciones</b><a>Marcar todo como leído</a></div>
+      <div class="tabs2"><span class="on">Todas</span><span>No leídas<em>3</em></span></div>
+      <div class="ng">Hoy</div>
+      <div class="n unread"><div class="ic" style="background:var(--red)"><i class="mdi mdi-alert-outline"></i></div><div><b>F-10232 venció</b><small>Puerto Talca · $ 3,7 M</small></div><span class="t">hace 5 min</span></div>
+      <div class="n unread"><div class="ic" style="background:rgba(255,255,255,.14)"><i class="mdi mdi-cash-check"></i></div><div><b>Pago recibido</b><small>Minera Sur pagó F-10234</small></div><span class="t">hace 1 h</span></div>
+      <div class="n unread"><div class="ic" style="background:rgba(255,255,255,.14)"><i class="mdi mdi-account-plus-outline"></i></div><div><b>Nuevo cliente</b><small>Cintac Perú fue agregado</small></div><span class="t">10:12</span></div>
+      <div class="ng">Ayer</div>
+      <div class="n"><div class="ic" style="background:rgba(255,255,255,.14)"><i class="mdi mdi-file-export-outline"></i></div><div><b>Reporte listo</b><small>Cobranza de octubre.xlsx</small></div><span class="t">18:40</span></div>
+      <div class="pf">Ver todas</div>
+    </div>
+  </div>
+
+  <h3 class="sec">4 · Toasts y avisos en línea</h3>
+  <p class="sd">Los <b>toasts</b> son píldoras de vidrio oscuro abajo a la derecha (arriba en el celular), con un ícono de color según el estado. Los de éxito traen una barra que muestra cuánto falta para que se cierren. Pueden llevar una acción, como «Deshacer». Los <b>avisos en línea</b>, los que van dentro de una tarjeta y condicionan la pantalla, son sólidos con el tinte del estado.</p>
+  <div class="toasts blobs" style="padding:20px;border-radius:16px;background:var(--page)">
+    <div class="tstack">
+      <div class="toast glass" role="status"><div class="ti" style="background:#3FA35B"><i class="mdi mdi-check"></i></div><div style="flex:1"><b>Factura emitida</b><small>F-10235 · Minera Sur · $ 6,2 M</small><div class="prog"><div></div></div></div><i class="mdi mdi-close x"></i></div>
+      <div class="toast glass" role="status"><div class="ti" style="background:rgba(255,255,255,.16)"><i class="mdi mdi-archive-outline"></i></div><div style="flex:1"><b>Cliente archivado</b><small>Puerto Talca ya no aparece en listados.</small><span class="act">Deshacer</span></div><i class="mdi mdi-close x"></i></div>
+      <div class="toast glass" role="alert"><div class="ti" style="background:var(--red)"><i class="mdi mdi-alert-circle-outline"></i></div><div style="flex:1"><b>No se pudo enviar al SII</b><small>El servicio no respondió. Reintentaremos en 5 min.</small></div><i class="mdi mdi-close x"></i></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="inline" style="background:#FCF1DC;color:#7A4E00"><i class="mdi mdi-lock-clock"></i><div><b>Este período ya está cerrado</b>Las facturas de septiembre solo se pueden consultar.</div></div>
+      <div class="inline" style="background:var(--tint);color:var(--red);border:1px solid #F3DADD"><i class="mdi mdi-alert-circle-outline"></i><div><b>Correo o contraseña incorrectos</b><span style="color:#7A2A30">Revisa los datos e inténtalo de nuevo.</span></div></div>
+      <div class="inline" style="background:#E7F4EC;color:#1E6B3A"><i class="mdi mdi-email-check-outline"></i><div><b>Te enviamos el enlace</b>Revisa tu correo para crear una contraseña nueva.</div></div>
+    </div>
+  </div>
+
+</div>
