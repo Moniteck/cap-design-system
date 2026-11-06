@@ -1,0 +1,19 @@
+{
+  "name": "cap-design-system",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:setup": "composer install --working-dir=tests/blade",
+    "tokens": "node scripts/build-tokens-css.mjs",
+    "contrast": "node scripts/contrast.mjs"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.10",
+    "@vue/test-utils": "^2.5.1",
+    "happy-dom": "^21.0.4",
+    "tailwindcss": "^3",
+    "vitest": "^4.1.12",
+    "vue": "^3.5.45"
+  }
+}

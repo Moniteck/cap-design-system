@@ -1,0 +1,148 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&display=swap">
+<style>
+  .mx { --page:#F1EDE9; --card:#FFFDFB; --div:#E6DFD8; --red:#B12530; --wine:#6E1219; --redmid:#DB7F87; --rose:#F2D3D6; --tint:#FBEDEE; --muted:#D2CAC3; --ink:#1E1B1A; --soft:#7A6F67;
+        font-family:Inter,sans-serif; color:var(--ink); display:flex; gap:28px; justify-content:center; flex-wrap:wrap; margin-top:16px; }
+  .mx * { box-sizing:border-box; }
+  .mx figure { margin:0; text-align:center; }
+  .mx figcaption { font-size:13px; color:#555; margin-top:10px; }
+  .mx .phone { position:relative; width:320px; height:660px; border-radius:44px; overflow:hidden; background:var(--page); border:8px solid #1a1a1a; text-align:left; }
+  .mx .phone::before { content:""; position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(260px 220px at 10% 12%, rgba(177,37,48,.18), transparent 70%),
+                radial-gradient(300px 260px at 95% 80%, rgba(110,18,25,.14), transparent 70%); }
+  .mx .glass { background:rgba(30,27,26,.62); backdrop-filter:blur(22px) saturate(170%); -webkit-backdrop-filter:blur(22px) saturate(170%);
+    border:1px solid rgba(255,255,255,.14); color:#fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 10px 28px rgba(30,27,26,.22); }
+  .mx .scroll { position:absolute; inset:0; overflow-y:auto; padding:44px 14px 110px; display:flex; flex-direction:column; gap:10px; scrollbar-width:none; }
+  .mx .scroll::-webkit-scrollbar { display:none; }
+  .mx .status { position:absolute; z-index:4; top:0; left:0; right:0; height:36px; display:flex; justify-content:space-between; align-items:center; padding:0 22px; font-size:13px; font-weight:600; }
+  .mx .top { position:absolute; z-index:3; top:38px; left:10px; right:10px; height:52px; border-radius:20px; display:flex; align-items:center; gap:8px; padding:0 8px 0 8px; }
+  .mx .top b { flex:1; font:600 15px Poppins; }
+  .mx .ib { width:36px; height:36px; border-radius:50%; display:grid; place-items:center; font-size:19px; background:rgba(255,255,255,.10); position:relative; }
+  .mx .ib .d { position:absolute; right:7px; top:7px; width:7px; height:7px; border-radius:50%; background:var(--red); }
+  .mx .ib.solid { background:var(--red); }
+  .mx .logo { width:36px; height:36px; border-radius:50%; background:var(--red); display:grid; place-items:center; font:600 14px Poppins; }
+  .mx .hello { padding:58px 4px 2px; }
+  .mx .hello small { font-size:13px; color:var(--soft); }
+  .mx .hello h3 { margin:0; font:600 22px Poppins; }
+  .mx .card { background:var(--card); border:1px solid var(--div); border-radius:20px; padding:14px; }
+  .mx .feat { background:var(--wine); border-color:var(--wine); color:#fff; }
+  .mx .tint { background:var(--tint); border-color:#F3DADD; }
+  .mx .lbl { font-size:12px; font-weight:500; display:flex; justify-content:space-between; align-items:center; }
+  .mx .num { font:600 24px Poppins; margin-top:4px; font-variant-numeric:tabular-nums; }
+  .mx .sub { font-size:11.5px; color:var(--soft); }
+  .mx .feat .sub { color:rgba(255,255,255,.75); }
+  .mx .bar { height:6px; border-radius:999px; background:rgba(255,255,255,.2); margin-top:10px; }
+  .mx .bar div { height:100%; width:79%; border-radius:999px; background:#fff; }
+  .mx .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .mx .chip-ic { width:36px; height:36px; border-radius:12px; display:grid; place-items:center; font-size:19px; }
+  .mx .arrow { width:28px; height:28px; border-radius:50%; background:#fff; color:var(--ink); display:grid; place-items:center; font-size:15px; }
+  .mx .mini { display:flex; align-items:flex-end; gap:4px; height:34px; margin-top:8px; }
+  .mx .mini div { flex:1; border-radius:999px; }
+  .mx .row { display:flex; align-items:center; gap:10px; }
+  .mx .chips { display:flex; gap:6px; overflow:hidden; padding:58px 2px 4px; }
+  .mx .chips span { flex-shrink:0; height:32px; padding:0 13px; border-radius:999px; font-size:12.5px; display:flex; align-items:center; background:var(--card); border:1px solid var(--div); }
+  .mx .chips span.on { background:var(--ink); color:#fff; border-color:var(--ink); }
+  .mx .stat3 { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .mx .stat3 div { border-radius:16px; padding:10px; font-size:11px; }
+  .mx .stat3 b { display:block; font:600 20px Poppins; margin-top:2px; }
+  .mx .inv { display:flex; align-items:center; gap:10px; }
+  .mx .inv .ic { width:38px; height:38px; border-radius:12px; background:var(--tint); color:var(--red); display:grid; place-items:center; font-size:19px; flex-shrink:0; }
+  .mx .inv .t { flex:1; min-width:0; }
+  .mx .inv .t b { font-size:13.5px; font-weight:600; display:block; }
+  .mx .inv .r { text-align:right; font-size:13px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .mx .st { display:inline-block; margin-top:4px; font-size:10.5px; font-weight:500; padding:1px 7px; border-radius:999px; }
+  .mx .ok { background:#E7F4EC; color:#1E6B3A; }
+  .mx .pe { background:#FCF1DC; color:#7A4E00; }
+  .mx .er { background:var(--tint); color:var(--red); }
+  .mx .tabs { position:absolute; z-index:3; left:10px; right:10px; bottom:14px; height:64px; border-radius:24px; display:flex; justify-content:space-around; align-items:center; padding:0 6px; }
+  .mx .tab { display:flex; flex-direction:column; align-items:center; gap:2px; font-size:10.5px; color:var(--muted); width:56px; padding:6px 0; border-radius:16px; }
+  .mx .tab i { font-size:21px; line-height:1; }
+  .mx .tab.on { color:#fff; background:rgba(255,255,255,.16); box-shadow: inset 0 1px 0 rgba(255,255,255,.22); }
+  .mx .tab.on i { color:#fff; }
+  .mx .fab { position:absolute; z-index:3; right:18px; bottom:92px; width:52px; height:52px; border-radius:50%; background:var(--red); color:#fff; display:grid; place-items:center; font-size:26px; box-shadow:0 8px 20px rgba(177,37,48,.35), inset 0 1px 0 rgba(255,255,255,.3); }
+  .mx .sheet-dim { position:absolute; inset:0; z-index:4; background:rgba(21,21,21,.35); }
+  .mx .sheet { position:absolute; z-index:5; left:8px; right:8px; bottom:8px; border-radius:28px; padding:10px 12px 14px; }
+  .mx .grab { width:38px; height:4px; border-radius:4px; background:rgba(255,255,255,.35); margin:2px auto 12px; }
+  .mx .sheet .item { display:flex; align-items:center; gap:12px; height:44px; padding:0 12px; border-radius:14px; font-size:14px; color:#E9E4E0; }
+  .mx .sheet .item i { font-size:21px; }
+  .mx .sheet .item.on { background:rgba(255,255,255,.16); color:#fff; }
+  .mx .sheet .grp { font-size:11px; color:var(--muted); margin:8px 12px 4px; }
+  .mx .cnt { margin-left:auto; font-size:11px; padding:1px 8px; border-radius:999px; background:rgba(255,255,255,.14); }
+  .mx .user { display:flex; align-items:center; gap:10px; padding:12px 12px 2px; border-top:1px solid rgba(255,255,255,.12); margin-top:8px; }
+  .mx .av { width:36px; height:36px; border-radius:50%; background:#A89C91; display:grid; place-items:center; font-size:12px; font-weight:600; color:#fff; }
+  .mx .switch { margin-left:auto; width:34px; height:20px; border-radius:999px; background:rgba(255,255,255,.18); position:relative; }
+  .mx .switch::after { content:""; position:absolute; left:2px; top:2px; width:16px; height:16px; border-radius:50%; background:#fff; }
+</style>
+
+<h2>Vista móvil</h2>
+<p class="subtitle">Misma paleta y mismo vidrio. En el celular el sidebar se reemplaza por una <b>barra de pestañas flotante abajo</b> con los 4 módulos principales y un botón «Más» que abre el menú completo como hoja desde abajo. Arriba, una barra de vidrio compacta. Haz scroll dentro de cada teléfono.</p>
+
+<div class="mx">
+
+  <figure>
+    <div class="phone">
+      <div class="status"><span>9:41</span><span><i class="mdi mdi-signal"></i> <i class="mdi mdi-wifi"></i> <i class="mdi mdi-battery"></i></span></div>
+      <div class="top glass"><div class="logo">C</div><b>Facturación</b><div class="ib"><i class="mdi mdi-magnify"></i></div><div class="ib"><i class="mdi mdi-bell-outline"></i><span class="d"></span></div></div>
+      <div class="scroll">
+        <div class="hello"><small>Buenos días,</small><h3>Ana</h3></div>
+        <div class="card feat"><div class="lbl">Facturado en octubre<span class="arrow"><i class="mdi mdi-arrow-top-right"></i></span></div><div class="num">$ 248,3 M</div><div class="sub">79 % de la meta del mes</div><div class="bar"><div></div></div></div>
+        <div class="grid">
+          <div class="card"><div class="row" style="justify-content:space-between"><span class="lbl">Cobrado</span><span class="chip-ic" style="background:var(--rose);color:var(--wine)"><i class="mdi mdi-cash-check"></i></span></div><div class="num" style="font-size:20px">$ 196 M</div><div class="sub">+5 % vs. sep.</div></div>
+          <div class="card tint"><div class="row" style="justify-content:space-between"><span class="lbl">Vencidas</span><span class="chip-ic" style="background:var(--red);color:#fff"><i class="mdi mdi-alert-outline"></i></span></div><div class="num" style="font-size:20px">7</div><div class="sub">Requieren gestión</div></div>
+          <div class="card"><span class="lbl">Emisión semanal</span><div class="mini"><div style="height:50%;background:var(--rose)"></div><div style="height:75%;background:var(--redmid)"></div><div style="height:60%;background:var(--rose)"></div><div style="height:100%;background:var(--wine)"></div><div style="height:70%;background:var(--red)"></div><div style="height:40%;background:var(--rose)"></div></div></div>
+          <div class="card"><span class="lbl">Por cobrar</span><div class="num" style="font-size:20px">$ 52 M</div><div class="sub">34 facturas</div></div>
+        </div>
+        <div class="card"><div class="inv"><div class="ic"><i class="mdi mdi-calendar-clock"></i></div><div class="t"><span class="sub">Próximo vencimiento</span><b>Aceros Norte · F-10233</b><span class="sub">Vence hoy, 18:00</span></div><i class="mdi mdi-chevron-right" style="font-size:20px;color:var(--soft)"></i></div></div>
+      </div>
+      <div class="tabs glass">
+        <div class="tab on"><i class="mdi mdi-view-dashboard"></i>Inicio</div><div class="tab"><i class="mdi mdi-file-document-outline"></i>Facturas</div><div class="tab"><i class="mdi mdi-cash-multiple"></i>Cobranza</div><div class="tab"><i class="mdi mdi-chart-box-outline"></i>Reportes</div><div class="tab"><i class="mdi mdi-dots-horizontal"></i>Más</div>
+      </div>
+    </div>
+    <figcaption><b>Inicio</b> · saludo, tarjeta destacada y tarjetas en grilla de 2</figcaption>
+  </figure>
+
+  <figure>
+    <div class="phone">
+      <div class="status"><span>9:41</span><span><i class="mdi mdi-signal"></i> <i class="mdi mdi-wifi"></i> <i class="mdi mdi-battery"></i></span></div>
+      <div class="top glass"><div class="ib"><i class="mdi mdi-arrow-left"></i></div><b>Facturas</b><div class="ib"><i class="mdi mdi-magnify"></i></div><div class="ib"><i class="mdi mdi-filter-variant"></i></div></div>
+      <div class="scroll">
+        <div class="chips"><span class="on">Todas</span><span>Pendientes</span><span>Vencidas</span><span>Pagadas</span></div>
+        <div class="stat3"><div style="background:var(--rose)">Pendientes<b>27</b></div><div style="background:var(--tint);border:1px solid #F3DADD">Vencidas<b style="color:var(--red)">7</b></div><div style="background:#E7F4EC">Pagadas<b>96</b></div></div>
+        <div class="card"><div class="inv"><div class="ic"><i class="mdi mdi-file-document-outline"></i></div><div class="t"><b>Minera Sur</b><span class="sub">F-10234 · 28/10/2026</span></div><div class="r">$ 12,4 M<br><span class="st ok">Pagada</span></div></div></div>
+        <div class="card"><div class="inv"><div class="ic"><i class="mdi mdi-file-document-outline"></i></div><div class="t"><b>Aceros Norte</b><span class="sub">F-10233 · 27/10/2026</span></div><div class="r">$ 8,1 M<br><span class="st pe">Pendiente</span></div></div></div>
+        <div class="card"><div class="inv"><div class="ic"><i class="mdi mdi-file-document-outline"></i></div><div class="t"><b>Puerto Talca</b><span class="sub">F-10232 · 25/10/2026</span></div><div class="r">$ 3,7 M<br><span class="st er">Vencida</span></div></div></div>
+        <div class="card"><div class="inv"><div class="ic"><i class="mdi mdi-file-document-outline"></i></div><div class="t"><b>Cintac</b><span class="sub">F-10231 · 24/10/2026</span></div><div class="r">$ 5,0 M<br><span class="st ok">Pagada</span></div></div></div>
+        <div class="card"><div class="inv"><div class="ic"><i class="mdi mdi-file-document-outline"></i></div><div class="t"><b>Minera Sur</b><span class="sub">F-10230 · 22/10/2026</span></div><div class="r">$ 9,6 M<br><span class="st ok">Pagada</span></div></div></div>
+      </div>
+      <div class="fab"><i class="mdi mdi-plus"></i></div>
+      <div class="tabs glass">
+        <div class="tab"><i class="mdi mdi-view-dashboard-outline"></i>Inicio</div><div class="tab on"><i class="mdi mdi-file-document"></i>Facturas</div><div class="tab"><i class="mdi mdi-cash-multiple"></i>Cobranza</div><div class="tab"><i class="mdi mdi-chart-box-outline"></i>Reportes</div><div class="tab"><i class="mdi mdi-dots-horizontal"></i>Más</div>
+      </div>
+    </div>
+    <figcaption><b>Listado</b> · filtros en chips, contadores y tablas convertidas en tarjetas</figcaption>
+  </figure>
+
+  <figure>
+    <div class="phone">
+      <div class="status"><span>9:41</span><span><i class="mdi mdi-signal"></i> <i class="mdi mdi-wifi"></i> <i class="mdi mdi-battery"></i></span></div>
+      <div class="top glass"><div class="logo">C</div><b>Facturación</b><div class="ib"><i class="mdi mdi-magnify"></i></div><div class="ib"><i class="mdi mdi-bell-outline"></i></div></div>
+      <div class="scroll"><div class="hello"><small>Buenos días,</small><h3>Ana</h3></div><div class="card feat" style="height:120px"></div><div class="grid"><div class="card" style="height:110px"></div><div class="card" style="height:110px"></div></div></div>
+      <div class="sheet-dim"></div>
+      <div class="sheet glass">
+        <div class="grab"></div>
+        <div class="grp">Principal</div>
+        <div class="item"><i class="mdi mdi-view-dashboard-outline"></i>Inicio</div>
+        <div class="item"><i class="mdi mdi-file-document-outline"></i>Facturas<span class="cnt">12</span></div>
+        <div class="item"><i class="mdi mdi-cash-multiple"></i>Cobranza<span class="cnt" style="background:var(--red)">3</span></div>
+        <div class="item on"><i class="mdi mdi-domain"></i>Empresas</div>
+        <div class="grp">General</div>
+        <div class="item"><i class="mdi mdi-chart-box-outline"></i>Reportes</div>
+        <div class="item"><i class="mdi mdi-cog-outline"></i>Configuración</div>
+        <div class="item"><i class="mdi mdi-weather-night"></i>Modo oscuro<span class="switch"></span></div>
+        <div class="user"><div class="av">AM</div><div><b style="font-size:13px">Ana Muñoz</b><br><span style="font-size:11px;color:var(--muted)">amunoz@cap.cl</span></div><i class="mdi mdi-logout" style="margin-left:auto;font-size:20px;color:var(--muted)"></i></div>
+      </div>
+    </div>
+    <figcaption><b>Menú «Más»</b> · el sidebar completo como hoja de vidrio desde abajo</figcaption>
+  </figure>
+
+</div>

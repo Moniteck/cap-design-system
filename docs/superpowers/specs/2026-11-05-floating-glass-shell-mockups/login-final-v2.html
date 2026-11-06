@@ -1,0 +1,162 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&display=swap">
+<style>
+  .lv { --page:#F1EDE9; --card:#FFFDFB; --div:#E6DFD8; --red:#B12530; --wine:#6E1219; --tint:#FBEDEE; --muted:#D2CAC3; --ink:#1E1B1A; --soft:#6E645D;
+        --photo:url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1600&q=70');
+        font-family:Inter,sans-serif; color:var(--ink); }
+  .lv * { box-sizing:border-box; }
+  .lv h3.sec { font:600 18px Poppins; margin:34px 0 4px; }
+  .lv p.sd { font-size:14px; color:#555; margin:0 0 12px; max-width:820px; }
+  .lv .glass { background:rgba(30,27,26,.62); backdrop-filter:blur(20px) saturate(160%); -webkit-backdrop-filter:blur(20px) saturate(160%);
+    border:1px solid rgba(255,255,255,.16); color:#fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.22); }
+  .lv .wglass { background:rgba(255,253,251,.58); backdrop-filter:blur(26px) saturate(180%); -webkit-backdrop-filter:blur(26px) saturate(180%);
+    border:1px solid rgba(255,255,255,.75);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(30,27,26,.04), 0 20px 50px rgba(110,18,25,.12); }
+  .lv .logo { width:36px; height:36px; border-radius:50%; background:var(--red); display:grid; place-items:center; font:600 15px Poppins; color:#fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.35); flex-shrink:0; }
+
+  .lv .stage { position:relative; display:flex; gap:12px; padding:12px; height:660px; border-radius:16px; background:var(--page); overflow:hidden; }
+  .lv .stage::before { content:""; position:absolute; inset:0;
+    background: radial-gradient(360px 300px at 62% 18%, rgba(177,37,48,.30), transparent 70%),
+                radial-gradient(420px 340px at 95% 92%, rgba(110,18,25,.26), transparent 70%),
+                radial-gradient(300px 260px at 82% 50%, rgba(168,156,145,.35), transparent 70%); }
+  .lv .photo { position:relative; flex:1.1; border-radius:28px; overflow:hidden; background:#3a1a14 var(--photo) center/cover; }
+  .lv .photo::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(30,27,26,.15) 30%, rgba(30,27,26,.70) 100%); }
+  .lv .brandtag { position:absolute; z-index:1; top:20px; left:20px; display:flex; align-items:center; gap:10px; padding:6px 16px 6px 6px; border-radius:999px; font:600 14px Poppins; }
+  .lv .cap { position:absolute; z-index:1; left:20px; right:20px; bottom:20px; border-radius:22px; padding:20px 22px; }
+  .lv .cap q { font:600 22px/1.3 Poppins; quotes:none; display:block; }
+  .lv .cap small { display:block; margin-top:10px; font-size:12.5px; color:var(--muted); }
+  .lv .panel { position:relative; flex:1; border-radius:28px; display:flex; align-items:center; justify-content:center; }
+  .lv .theme { position:absolute; top:16px; right:16px; width:40px; height:40px; border-radius:50%; display:grid; place-items:center; font-size:19px; background:rgba(255,255,255,.6); border:1px solid rgba(255,255,255,.8); }
+
+  .lv .form { width:380px; }
+  .lv h4 { font:600 26px Poppins; margin:0; letter-spacing:-.01em; }
+  .lv .fs { font-size:14px; color:var(--soft); margin:6px 0 22px; line-height:1.45; }
+  .lv label { display:block; font-size:12.5px; font-weight:500; margin:0 0 5px; }
+  .lv .in { height:46px; border-radius:14px; border:1px solid #CFC6BE; background:#fff; padding:0 14px; display:flex; align-items:center; font-size:14px; margin-bottom:14px; }
+  .lv .in.ph { color:#8C8580; }
+  .lv .in.on { border:1.5px solid var(--ink); box-shadow:0 0 0 4px rgba(30,27,26,.08); }
+  .lv .in.err { border:1.5px solid var(--red); }
+  .lv .in i { margin-left:auto; font-size:19px; color:var(--soft); }
+  .lv .lr { display:flex; justify-content:space-between; align-items:center; margin:2px 0 18px; font-size:13px; color:var(--soft); }
+  .lv .chk { display:flex; align-items:center; gap:8px; }
+  .lv .chk span { width:18px; height:18px; border-radius:5px; border:1.5px solid #8C8985; background:#fff; }
+  .lv a { color:var(--red); font-weight:600; font-size:13px; }
+  .lv .btn { height:46px; width:100%; border-radius:999px; font:500 14px Inter; display:flex; align-items:center; justify-content:center; gap:10px; border:0; }
+  .lv .primary { background:var(--ink); color:#fff; }
+  .lv .prov { background:rgba(255,255,255,.85); border:1px solid #DDD5CE; color:var(--ink); }
+  .lv .provs { display:flex; gap:10px; }
+  .lv .or { display:flex; align-items:center; gap:10px; font-size:12px; color:var(--soft); margin:18px 0; }
+  .lv .or::before, .lv .or::after { content:""; flex:1; height:1px; background:rgba(30,27,26,.12); }
+  .lv .help { text-align:center; font-size:12.5px; color:var(--soft); margin-top:20px; }
+  .lv .alert { display:flex; gap:10px; padding:12px 14px; border-radius:16px; font-size:13px; margin-bottom:16px; }
+  .lv .alert i { font-size:19px; }
+  .lv .alert b { display:block; font-size:13.5px; }
+  .lv .spin { width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,.35); border-top-color:#fff; animation:lvspin .8s linear infinite; }
+  @keyframes lvspin { to { transform:rotate(360deg); } }
+
+  .lv .states { position:relative; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; padding:16px; border-radius:16px; background:var(--page); overflow:hidden; }
+  .lv .states::before { content:""; position:absolute; inset:0;
+    background: radial-gradient(400px 300px at 20% 20%, rgba(177,37,48,.22), transparent 70%), radial-gradient(400px 300px at 85% 85%, rgba(110,18,25,.20), transparent 70%); }
+  .lv .scard { position:relative; border-radius:24px; padding:26px; }
+  .lv .scard .tag { font:600 13px Poppins; color:var(--soft); margin-bottom:14px; }
+  .lv .scard h4 { font-size:21px; }
+
+  .lv .phones { display:flex; gap:28px; justify-content:center; flex-wrap:wrap; }
+  .lv .phone { position:relative; width:320px; height:680px; border-radius:44px; overflow:hidden; background:var(--page); border:8px solid #1a1a1a; }
+  .lv .phone .ph { position:absolute; top:0; left:0; right:0; height:300px; background:#3a1a14 var(--photo) center/cover; }
+  .lv .phone .ph::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(30,27,26,.05) 30%, rgba(30,27,26,.45) 100%); }
+  .lv .phone .ph .brandtag { top:44px; left:14px; }
+  .lv .phone .th { position:absolute; z-index:1; top:44px; right:14px; width:38px; height:38px; border-radius:50%; display:grid; place-items:center; font-size:18px; }
+  .lv .phone .pcard { position:absolute; left:10px; right:10px; top:150px; bottom:10px; border-radius:30px; padding:22px 18px; }
+  .lv .phone h4 { font-size:21px; }
+  .lv .phone .fs { margin-bottom:16px; }
+  .lv .phone .in { height:44px; margin-bottom:10px; }
+  .lv .phone .or { margin:14px 0; }
+  .lv figcaption { text-align:center; font-size:13px; color:#555; margin-top:10px; }
+</style>
+
+<h2>Login: formulario visible y tarjeta de vidrio blanco</h2>
+<p class="subtitle">El formulario aparece abierto. Microsoft y Google quedan abajo, uno al lado del otro. El formulario va dentro de una tarjeta de <b>vidrio blanco</b> del mismo tamaño y forma que la foto. Detrás tiene manchones vino suaves que se ven difuminados a través del vidrio.</p>
+
+<div class="lv">
+
+  <h3 class="sec">Escritorio</h3>
+  <div class="stage">
+    <div class="photo">
+      <div class="brandtag glass"><div class="logo">C</div>Facturación</div>
+      <div class="cap glass"><q>Emite, cobra y revisa cada empresa del grupo desde un mismo lugar.</q><small>Grupo CAP · Uso interno</small></div>
+    </div>
+    <div class="panel wglass">
+      <div class="theme"><i class="mdi mdi-weather-night"></i></div>
+      <div class="form">
+        <h4>Ingresa a Facturación</h4>
+        <div class="fs">Usa tu cuenta corporativa de Grupo CAP.</div>
+        <label>Correo</label><div class="in">amunoz@cap.cl</div>
+        <label>Contraseña</label><div class="in on">••••••••••<i class="mdi mdi-eye-outline"></i></div>
+        <div class="lr"><span class="chk"><span></span>Mantener la sesión</span><a>¿Olvidaste tu contraseña?</a></div>
+        <button class="btn primary">Ingresar</button>
+        <div class="or">o continúa con</div>
+        <div class="provs">
+          <button class="btn prov"><svg width="18" height="18" viewBox="0 0 21 21"><rect width="10" height="10" fill="#F25022"/><rect x="11" width="10" height="10" fill="#7FBA00"/><rect y="11" width="10" height="10" fill="#00A4EF"/><rect x="11" y="11" width="10" height="10" fill="#FFB900"/></svg>Microsoft</button>
+          <button class="btn prov"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Google</button>
+        </div>
+        <div class="help">¿Problemas para entrar? Escribe a mesadeayuda@cap.cl</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">Estados</h3>
+  <p class="sd">Los estados son los mismos de antes, ahora dentro de la tarjeta de vidrio.</p>
+  <div class="states">
+    <div class="scard wglass">
+      <div class="tag">Ingresando</div>
+      <h4>Ingresa a Facturación</h4>
+      <div class="fs">Usa tu cuenta corporativa de Grupo CAP.</div>
+      <label>Correo</label><div class="in">amunoz@cap.cl</div>
+      <label>Contraseña</label><div class="in">••••••••••<i class="mdi mdi-eye-outline"></i></div>
+      <button class="btn primary" style="opacity:.85"><span class="spin"></span>Ingresando…</button>
+    </div>
+    <div class="scard wglass">
+      <div class="tag">Error de credenciales</div>
+      <h4>Ingresa a Facturación</h4>
+      <div class="fs">Usa tu cuenta corporativa de Grupo CAP.</div>
+      <div class="alert" style="background:var(--tint);color:var(--red);border:1px solid #F3DADD"><i class="mdi mdi-alert-circle-outline"></i><div><b>Correo o contraseña incorrectos</b><span style="color:#7A2A30">Te quedan 2 intentos.</span></div></div>
+      <label>Correo</label><div class="in">amunoz@cap.cl</div>
+      <label>Contraseña</label><div class="in err">••••••••<i class="mdi mdi-eye-outline"></i></div>
+      <button class="btn primary">Ingresar</button>
+    </div>
+    <div class="scard wglass">
+      <div class="tag">Recuperar contraseña</div>
+      <h4>Recupera tu acceso</h4>
+      <div class="fs">Te enviaremos un enlace para crear una contraseña nueva.</div>
+      <div class="alert" style="background:#E7F4EC;color:#1E6B3A"><i class="mdi mdi-email-check-outline"></i><div><b>Te enviamos el enlace</b>Revisa amunoz@cap.cl. Vence en 30 minutos.</div></div>
+      <label>Correo</label><div class="in">amunoz@cap.cl</div>
+      <button class="btn primary">Enviar de nuevo</button>
+      <div class="help" style="margin-top:14px"><a><i class="mdi mdi-arrow-left"></i> Volver a ingresar</a></div>
+    </div>
+  </div>
+
+  <h3 class="sec">Celular</h3>
+  <p class="sd">La foto queda de fondo arriba y la tarjeta de vidrio blanco sube sobre ella, así que el vidrio deja ver la foto difuminada en su borde superior.</p>
+  <div class="phones">
+    <figure style="margin:0">
+      <div class="phone">
+        <div class="ph"><div class="th glass"><i class="mdi mdi-weather-night"></i></div><div class="brandtag glass"><div class="logo">C</div>Facturación</div></div>
+        <div class="pcard wglass">
+          <h4>Ingresa a Facturación</h4>
+          <div class="fs">Usa tu cuenta corporativa de Grupo CAP.</div>
+          <label>Correo</label><div class="in ph">nombre@cap.cl</div>
+          <label>Contraseña</label><div class="in ph">••••••••<i class="mdi mdi-eye-outline"></i></div>
+          <div class="lr"><span class="chk"><span></span>Mantener</span><a>¿La olvidaste?</a></div>
+          <button class="btn primary">Ingresar</button>
+          <div class="or">o continúa con</div>
+          <div class="provs">
+            <button class="btn prov"><svg width="18" height="18" viewBox="0 0 21 21"><rect width="10" height="10" fill="#F25022"/><rect x="11" width="10" height="10" fill="#7FBA00"/><rect y="11" width="10" height="10" fill="#00A4EF"/><rect x="11" y="11" width="10" height="10" fill="#FFB900"/></svg>Microsoft</button>
+            <button class="btn prov"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Google</button>
+          </div>
+        </div>
+      </div>
+    </figure>
+  </div>
+
+</div>

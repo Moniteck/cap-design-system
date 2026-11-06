@@ -6,14 +6,15 @@ allowed-tools: Read
 
 # Diseño Grupo CAP
 
-Toda interfaz de un sistema de Grupo CAP se ve igual: marco negro, lienzo gris cálido, tarjetas
-blancas, Inter para texto, Poppins para títulos y el rojo de marca solo como acento.
+Toda interfaz de un sistema de Grupo CAP se ve igual: marco de vidrio ahumado flotando sobre un
+lienzo piedra, tarjetas blanco hueso, Inter para texto, Poppins para títulos y la escala de rojos
+de la marca con el rojo CAP como acento.
 
 ## Antes de escribir una línea de UI
 
 1. Lee la guía completa: `${CLAUDE_PLUGIN_ROOT}/design/DESIGN_GUIDE.md`. El «Recetario» trae las
-   clases exactas de botones, tabla, badge, campo, modal, vacío, esqueleto, aviso y navegación:
-   cópialas tal cual.
+   clases exactas de botones, tabla, badge, campo, modal, vacío, esqueleto, aviso y tarjetas de
+   cifra y de lista: cópialas tal cual. El marco no está en el recetario: es un componente.
 2. Toma colores, fuentes y movimiento de `${CLAUDE_PLUGIN_ROOT}/design/tokens.json`. Nunca un hex
    a mano.
 3. El proyecto debe tener instalada la carpeta `design/` (normalmente `resources/design/`), con las
@@ -27,13 +28,18 @@ blancas, Inter para texto, Poppins para títulos y el rojo de marca solo como ac
 
 ## Resumen operativo
 
-- Primario negro (invertido a blanco en oscuro), secundario con contorno neutro, destructivo rojo.
-  Uno primario por pantalla.
+- Botones en píldora: primario negro (invertido en oscuro), secundario con contorno neutro,
+  destructivo rojo. Uno primario por pantalla.
+- **El marco, el acceso, la confirmación y los toasts se hacen siempre con el componente del stack**
+  (`<x-cap.*>` en Blade, `design/vue/Cap*.vue` en Vue) o, si no hay (React, Astro), siguiendo
+  `${CLAUDE_PLUGIN_ROOT}/design/shell/SHELL_SPEC.md`; nunca armarlos a mano con Tailwind. Vidrio
+  solo para lo que flota; tarjetas, modales, avisos en línea e inputs sólidos.
 - Alias de rol (`bg-cap-card`, `bg-cap-page`, `bg-cap-card-2`, `border-cap-divider`,
   `bg-cap-head`, `border-cap-input-line`) cambian solos de tema; las clases físicas y los
   `text-gray-*` llevan su `dark:`.
-- El rojo nunca es fondo de cabeceras ni barras; el rojo suave nunca lleva texto blanco encima; el
-  azul solo como estado `info`.
+- El rojo CAP nunca es fondo de cabeceras ni barras; la única superficie grande en color es la
+  tarjeta destacada en vino, una por fila de cifras; el rojo suave nunca lleva texto blanco
+  encima; el azul solo como estado `info`.
 - Tablas con cabecera `bg-cap-head` en Poppins `text-xs`, enlace en rojo, cifras a la derecha con
   `tabular-nums`, exportar con contorno neutro.
 - Badges con `statusBadgeClass()`; gráficas con `chartColors()`.
@@ -41,10 +47,10 @@ blancas, Inter para texto, Poppins para títulos y el rojo de marca solo como ac
 - Movimiento solo con `duration-cap-*`, `ease-cap*` y `animate-cap-*`; la salida un escalón más
   corta que la entrada; sin animaciones por sección ni al hacer scroll.
 - Confirmaciones destructivas con verbo y objeto, «Cancelar» a la izquierda y foco inicial en él.
-- Pantalla de acceso: panel de marca negro a la izquierda y tarjeta del formulario a la derecha
-  (sección «Pantalla de acceso»); los logos de terceros de `design/logos/` van a color, única
-  excepción a la paleta.
-- Sin degradados, sin grises azulados, sin mayúsculas espaciadas, sin emojis como íconos, nada
+- Pantalla de acceso: foto de faena a la izquierda y tarjeta de vidrio blanco con el formulario
+  abierto a la derecha (sección «Pantalla de acceso»); los logos de terceros de `design/logos/` van
+  a color, única excepción a la paleta.
+- Sin degradados salvo los manchones del lienzo detrás del marco, sin grises azulados, sin mayúsculas espaciadas, sin emojis como íconos, nada
   por debajo de `text-xs`, ningún `z-index` fuera de `z-cap-*`.
 
 ## Antes de dar por terminada una pantalla
@@ -55,7 +61,9 @@ blancas, Inter para texto, Poppins para títulos y el rojo de marca solo como ac
 3. Existen los cinco estados; hay un solo botón primario; las cabeceras de tabla van en
    `bg-cap-head`.
 4. Foco visible con `focus-visible:ring-*` en todo lo interactivo; modales con `role="dialog"`.
-5. Revisada en claro y en oscuro.
+5. Revisada en claro y en oscuro, y a <1024px (vista móvil).
+6. Pantalla limpia: sin `rgba(` a mano ni `backdrop-filter` propio; el marco, el acceso, la confirmación y los
+   toasts son el componente del stack, no clases sueltas.
 
 ## Al revisar una pantalla existente
 

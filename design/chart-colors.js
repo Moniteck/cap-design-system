@@ -5,15 +5,15 @@ import tokens from './tokens.json';
 const darkModeActive = () => document.documentElement.classList.contains('dark') || document.body.classList.contains('dark');
 
 export function chartColors(isDark = darkModeActive()) {
-    const { brand, chrome, status } = tokens;
+    const { brand, chrome, dark, status } = tokens;
 
     return {
         // series[0] es la principal; máximo cuatro series por gráfica.
         series: isDark
-            ? [brand.redSoft, chrome.paper, brand.gray, chrome.line]
-            : [brand.red, chrome.surface, brand.gray, chrome.paperLine],
+            ? [brand.redSoft, brand.redScale['200'], brand.taupe, dark.divider]
+            : [brand.wine, brand.red, brand.redScale['400'], brand.taupe],
         status: status[isDark ? 'dark' : 'light'],
-        text: isDark ? brand.gray : '#616161',
-        grid: isDark ? chrome.line : chrome.paperLine,
+        text: isDark ? dark.textSoft : chrome.textSoft,
+        grid: isDark ? dark.divider : chrome.paperLine,
     };
 }

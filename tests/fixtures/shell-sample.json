@@ -1,0 +1,46 @@
+{
+  "systemName": "Facturación",
+  "title": "Tablero",
+  "user": { "name": "Ana Muñoz", "email": "amunoz@cap.cl" },
+  "breadcrumbs": [{ "label": "Facturación" }, { "label": "Tablero" }],
+  "menu": [
+    {
+      "label": "Principal",
+      "items": [
+        { "label": "Tablero", "icon": "view-dashboard-outline", "href": "#", "active": true },
+        { "label": "Facturas", "icon": "file-document-outline", "href": "#", "count": 12 },
+        { "label": "Cobranza", "icon": "cash-multiple", "href": "#", "count": 3, "urgent": true },
+        {
+          "label": "Empresas",
+          "icon": "domain",
+          "href": "#",
+          "children": [
+            { "label": "CAP Acero", "href": "#", "swatch": "wine" },
+            { "label": "CAP Minería", "href": "#", "swatch": "red" },
+            { "label": "Cintac", "href": "#", "swatch": "red-400" }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "General",
+      "items": [
+        { "label": "Reportes", "icon": "chart-box-outline", "href": "#" },
+        { "label": "Configuración", "icon": "cog-outline", "href": "#" }
+      ]
+    }
+  ],
+  "tabs": [
+    { "label": "Inicio", "icon": "view-dashboard-outline", "href": "#", "active": true },
+    { "label": "Facturas", "icon": "file-document-outline", "href": "#" },
+    { "label": "Cobranza", "icon": "cash-multiple", "href": "#" },
+    { "label": "Reportes", "icon": "chart-box-outline", "href": "#" },
+    { "label": "Configuración", "icon": "cog-outline", "href": "#" }
+  ],
+  "notifications": [
+    { "id": "n1", "title": "F-10232 venció", "detail": "Puerto Talca · $ 3,7 M", "time": "hace 5 min", "group": "Hoy", "unread": true, "alert": true, "icon": "alert-outline" },
+    { "id": "n2", "title": "Pago recibido", "detail": "Minera Sur pagó F-10234", "time": "hace 1 h", "group": "Hoy", "unread": true, "icon": "cash-check" },
+    { "id": "n3", "title": "Nuevo cliente", "detail": "Cintac Perú fue agregado", "time": "10:12", "group": "Hoy", "unread": true, "icon": "account-plus-outline" },
+    { "id": "n4", "title": "Reporte listo", "detail": "Cobranza de octubre.xlsx", "time": "18:40", "group": "Ayer", "unread": false, "icon": "file-export-outline" }
+  ]
+}
