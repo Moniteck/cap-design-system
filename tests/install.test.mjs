@@ -127,6 +127,30 @@ describe('laravel', () => {
     expect(output).toContain('CapAppLayout');
   });
 
+  test('copies the database guide and points agents to it', () => {
+    const project = createProject(laravelFiles);
+    runInstaller(project);
+    runInstaller(project);
+
+    expect(read(project, 'database/DATABASE_GUIDE.md')).toBe(readFileSync(join(repoRoot, 'database/DATABASE_GUIDE.md'), 'utf8'));
+    const agents = read(project, 'AGENTS.md');
+    expect(occurrences(agents, 'resources/design/AGENTS.md')).toBe(1);
+    expect(occurrences(agents, 'database/DATABASE_GUIDE.md')).toBe(1);
+    expect(agents.indexOf('database/DATABASE_GUIDE.md')).toBeGreaterThan(agents.indexOf('resources/design/AGENTS.md'));
+  });
+
+  test('adds the database line to a CLAUDE.md that only includes AGENTS.md once', () => {
+    const project = createProject({
+      ...laravelFiles,
+      'AGENTS.md': 'Sigue `resources/design/AGENTS.md` y `resources/design/DESIGN_GUIDE.md` en toda interfaz.\n',
+      'CLAUDE.md': '@AGENTS.md\n',
+    });
+    runInstaller(project);
+
+    expect(occurrences(read(project, 'AGENTS.md'), 'database/DATABASE_GUIDE.md')).toBe(1);
+    expect(read(project, 'CLAUDE.md')).not.toContain('DATABASE_GUIDE.md');
+  });
+
   test('running twice leaves every line exactly once', () => {
     const project = createProject(laravelFiles);
     runInstaller(project);
@@ -197,6 +221,14 @@ describe('react', () => {
     expect(occurrences(css, 'design/shell.css')).toBe(1);
     expect(occurrences(read(project, 'index.html'), themeScript)).toBe(1);
     expect(occurrences(read(project, 'AGENTS.md'), 'src/design/AGENTS.md')).toBe(1);
+  });
+
+  test('does not install the database guide', () => {
+    const project = createProject(reactFiles);
+    runInstaller(project);
+
+    expect(existsSync(join(project, 'database'))).toBe(false);
+    expect(read(project, 'AGENTS.md')).not.toContain('DATABASE_GUIDE.md');
   });
 
   test('works when the project path contains spaces', () => {

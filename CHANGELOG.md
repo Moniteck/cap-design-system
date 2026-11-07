@@ -21,6 +21,7 @@ Cambio mayor: reemplaza reglas de la 1.x (ver «Migrar desde 1.x»).
 - `install.sh` con Tailwind 4: crea `tailwind.config.js` si falta y agrega `@config` a la hoja global. Busca también `resources/views/layouts/app.blade.php`. Deja los imports en orden tokens, shell, íconos. En Laravel quita la fuente por defecto (`--font-sans` e Instrument Sans) y deja el script de tema antes de cualquier CSS.
 - Blade conectado sin editar `components/cap`: `logout-action`, `mark-read-action`, `href` por notificación, `search-href`, `back-href`, `topbar-search` y slot `topbarActions`. Filtro de notificaciones y estado «ingresando» por atributos `data-cap-*`.
 - Vue: `linkProp` para vue-router (`to`), `backHref`, `topbarSearch`, evento `search` y slot `topbar-actions`. Requiere Vue 3.5 o superior.
+- Estándar de base de datos `database/DATABASE_GUIDE.md` para MySQL y PostgreSQL (nombres en inglés, tipos por dominio, auditoría, borrado lógico, llaves, índices, catálogos, migraciones, seguridad, documentación y checklist de revisión) con ejemplo completo. En Laravel el instalador lo copia a `database/DATABASE_GUIDE.md` y agrega su línea a `AGENTS.md`. Skill `cap-database` en el plugin.
 
 **Migrar desde 1.x**
 

@@ -48,6 +48,47 @@ describe('DESIGN_GUIDE.md', () => {
   });
 });
 
+describe('DATABASE_GUIDE.md', () => {
+  const databaseGuide = read('database/DATABASE_GUIDE.md');
+
+  it('covers every section of the standard', () => {
+    for (const heading of [
+      '## 2. Reglas generales de nombres',
+      '## 5. Tipos de dato por dominio',
+      '## 6. Columnas de auditoría y borrado lógico',
+      '## 7. Llaves primarias y foráneas',
+      '## 9. Índices',
+      '## 12. Migraciones y versionado del esquema',
+      '## 15. Checklist de revisión para cada cambio de esquema',
+      '## 16. Anexo: ejemplo completo',
+    ]) {
+      expect(databaseGuide).toContain(heading);
+    }
+  });
+
+  it('fixes the conventions that replace type prefixes', () => {
+    expect(databaseGuide).toContain('`created_at`, `created_by`, `updated_at`, `updated_by`');
+    expect(databaseGuide).toContain('`fk_{table}_{referenced_table}`');
+    expect(databaseGuide).toContain('`ix_{table}_{columns}`');
+    expect(databaseGuide).toContain('DECIMAL(19,4)');
+    expect(databaseGuide).toContain('utf8mb4_0900_ai_ci');
+  });
+
+  it('shows the example in both engines and as a Laravel migration', () => {
+    expect(databaseGuide).toContain('BIGINT GENERATED ALWAYS AS IDENTITY');
+    expect(databaseGuide).toContain('BIGINT UNSIGNED NOT NULL AUTO_INCREMENT');
+    expect(databaseGuide).toContain("constrained('sales_customers', indexName: 'fk_invoices_customers')");
+    expect(databaseGuide).toContain('use SoftDeletes;');
+  });
+
+  it('is pointed to by the cap-database skill', () => {
+    const skill = read('skills/cap-database/SKILL.md');
+    expect(skill).toContain('name: cap-database');
+    expect(skill).toContain('${CLAUDE_PLUGIN_ROOT}/database/DATABASE_GUIDE.md');
+    expect(skill).toContain('sección 15');
+  });
+});
+
 describe('agent instructions', () => {
   it.each(['design/AGENTS.md', 'skills/cap-design/SKILL.md'])('%s requires the stack component for the shell', (path) => {
     const text = read(path);

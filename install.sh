@@ -14,6 +14,7 @@ SRC="${CAP_DESIGN_SRC:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
 PROJECT="$(pwd)"
 STACK=""
 DESIGN_DIR=""
+DATABASE_GUIDE=""
 VERSION=""
 PATCH_FILE=""
 PACKAGE_DEPENDENCIES=""
@@ -66,6 +67,7 @@ configure_stack() {
     case $STACK in
         laravel)
             DESIGN_DIR="resources/design"
+            DATABASE_GUIDE="database/DATABASE_GUIDE.md"
             import_root="@/../design"
             PROTECTED_FOLDERS="$DESIGN_DIR tokens.json
 resources/views/components/cap app-layout.blade.php
@@ -76,7 +78,7 @@ public/cap/logos google.svg"
             LAYOUT_SNIPPET="blade"
             LAYOUT_PENDING_HINT=" (README › Fuentes y modo oscuro)"
             LAYOUT_MISSING_TODO="Laravel no trae un layout raíz por defecto: pega en el <head> de tu layout el bloque de README › Fuentes y modo oscuro (script de tema y fuentes)."
-            USAGE_HINT="Siguiente: npm run build (o npm run dev). En Blade: <x-cap.app-layout>. En Vue: import CapAppLayout from '$import_root/vue/CapAppLayout.vue'; statusBadgeClass() de '$import_root/statuses.js' y chartColors() de '$import_root/chart-colors.js'."
+            USAGE_HINT="Siguiente: npm run build (o npm run dev). En Blade: <x-cap.app-layout>. En Vue: import CapAppLayout from '$import_root/vue/CapAppLayout.vue'; statusBadgeClass() de '$import_root/statuses.js' y chartColors() de '$import_root/chart-colors.js'. Base de datos: $DATABASE_GUIDE."
             ;;
         react)
             DESIGN_DIR="src/design"
@@ -267,8 +269,10 @@ install_mdi_package() {
     fi
 }
 
-install_agent_line() {
-    local line="Sigue \`$DESIGN_DIR/AGENTS.md\` y \`$DESIGN_DIR/DESIGN_GUIDE.md\` en toda interfaz."
+# Agrega una línea a AGENTS.md y CLAUDE.md del proyecto (crea AGENTS.md si no hay ninguno).
+# Uso: append_agent_line <marcador que la identifica> <línea> <qué guía>
+append_agent_line() {
+    local marker="$1" line="$2" guide="$3"
     local found_instructions_file=0 name
     for name in AGENTS.md CLAUDE.md; do
         [[ -f "$PROJECT/$name" ]] || continue
@@ -281,6 +285,22 @@ install_agent_line() {
         printf "# Instrucciones para agentes\n\n%s\n" "$line" > "$PROJECT/AGENTS.md"
         ok "AGENTS.md creado con la línea hacia $guide"
     fi
+}
+
+install_agent_lines() {
+    append_agent_line "$DESIGN_DIR/AGENTS.md" \
+        "Sigue \`$DESIGN_DIR/AGENTS.md\` y \`$DESIGN_DIR/DESIGN_GUIDE.md\` en toda interfaz." \
+        "la guía de diseño"
+    [[ -n $DATABASE_GUIDE ]] || return 0
+    append_agent_line "$DATABASE_GUIDE" \
+        "Sigue \`$DATABASE_GUIDE\` en toda migración, seeder, modelo, vista, procedimiento o consulta SQL." \
+        "la guía de base de datos"
+}
+
+install_database_guide() {
+    mkdir -p "$PROJECT/$(dirname "$DATABASE_GUIDE")"
+    cp "$SRC/database/DATABASE_GUIDE.md" "$PROJECT/$DATABASE_GUIDE"
+    ok "$DATABASE_GUIDE (se sobrescribe en cada corrida: no lo edites)"
 }
 
 install_common() {
@@ -322,8 +342,22 @@ install_layout() {
         head-snippet "$PROJECT/$LAYOUT_FILE" "$LAYOUT_SNIPPET"
 }
 
+remove_laravel_default_font() {
+    local css vite_config
+    if css="$(find_global_css)"; then
+        patch_file "$css: quitada la fuente por defecto de Laravel" "$css no redefine font-sans" "" \
+            remove-theme-font "$PROJECT/$css"
+    fi
+    if vite_config="$(first_existing_file vite.config.js vite.config.ts)"; then
+        patch_file "$vite_config: quitada Instrument Sans" "$vite_config no descarga Instrument Sans" \
+            "$vite_config: quita a mano la fuente Instrument Sans de \`fonts\`." \
+            remove-vite-font "$PROJECT/$vite_config"
+    fi
+}
+
 install_laravel_files() {
     local app_js="resources/js/app.js"
+    remove_laravel_default_font
     if [[ -f "$PROJECT/$app_js" ]]; then
         patch_file "$app_js: import de shell-auto.js" "$app_js ya importa shell-auto.js" "" \
             append-js-import "$PROJECT/$app_js" "../design/shell-auto.js"
@@ -338,26 +372,13 @@ install_laravel() {
     install_laravel_components
     install_laravel_config
     install_laravel_files
+    install_database_guide
 }
 
 install_react() {
     install_common
-remove_laravel_default_font() {
-    local css vite_config
-    if css="$(find_global_css)"; then
-        patch_file "$css: quitada la fuente por defecto de Laravel" "$css no redefine font-sans" "" \
-            remove-theme-font "$PROJECT/$css"
-    fi
-    if vite_config="$(first_existing_file vite.config.js vite.config.ts)"; then
-        patch_file "$vite_config: quitada Instrument Sans" "$vite_config no descarga Instrument Sans" \
-            "$vite_config: quita a mano la fuente Instrument Sans de \`fonts\`." \
-            remove-vite-font "$PROJECT/$vite_config"
-    fi
-}
-
     todo "El comportamiento del marco (shell.js) no se instala solo en React: ver SHELL_SPEC › Portar a React ($DESIGN_DIR/shell/SHELL_SPEC.md)."
     if [[ -f "$PROJECT/app/layout.tsx" || -f "$PROJECT/src/app/layout.tsx" ]]; then
-    remove_laravel_default_font
         todo "Next.js: agrega a mano el script de tema y las fuentes en app/layout.tsx (README › Fuentes y modo oscuro)."
     else
         install_layout
@@ -401,7 +422,7 @@ main() {
     abort_if_foreign_folders
     resolve_source
     "install_$STACK"
-    install_agent_line
+    install_agent_lines
     print_summary
 }
 
