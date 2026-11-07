@@ -73,7 +73,7 @@ const itemAttributes = (notification) =>
         <span class="cap-notifications__time">{{ notification.time }}</span>
       </component>
     </template>
-    <component :is="linkComponent" v-if="viewAllHref" class="cap-notifications__footer" :[linkProp]="viewAllHref">Ver todas</component>
+    <component :is="linkComponent" v-if="viewAllHref" class="cap-notifications__footer" :[linkProp]="viewAllHref" @click="emit('view-all')">Ver todas</component>
     <button v-else class="cap-notifications__footer" type="button" @click="emit('view-all')">Ver todas</button>
   </section>
 </template>

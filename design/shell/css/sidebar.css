@@ -1,4 +1,4 @@
-/* Sidebar: panel de 236px y riel de 66px con data-collapsed="true". */
+/* Sidebar: panel de 236px y riel de 66px con data-collapsed="true"; el riel se asoma con data-peek. */
 
 .cap-shell-sidebar {
   position: sticky;
@@ -12,12 +12,36 @@
   height: calc(100dvh - 24px);
   padding: 16px 12px;
   border-radius: var(--cap-radius-shell);
-  transition: width var(--cap-duration-base) var(--cap-ease-standard);
+  transition:
+    width var(--cap-duration-base) var(--cap-ease-standard),
+    margin-right var(--cap-duration-base) var(--cap-ease-standard);
 }
 
 .cap-shell-sidebar[data-collapsed="true"] {
   width: 66px;
   padding: 16px 11px;
+}
+
+/* El margen negativo deja la columna en 66px: el panel asomado flota y el contenido no se mueve. */
+.cap-shell-sidebar[data-peek="open"] {
+  width: 236px;
+  margin-right: calc(66px - 236px);
+  padding: 16px 12px;
+  box-shadow: var(--cap-shadow-floating);
+  transition-duration: var(--cap-duration-slow);
+}
+
+.cap-shell-sidebar[data-peek="open"] :is(
+  .cap-shell-sidebar__brand-text,
+  .cap-shell-sidebar__label,
+  .cap-shell-sidebar__group-label,
+  .cap-shell-sidebar__count,
+  .cap-shell-sidebar__chevron,
+  .cap-shell-sidebar__switch,
+  .cap-shell-sidebar__user-text,
+  .cap-shell-sidebar__user-menu
+) {
+  animation: cap-fade-in var(--cap-duration-base) var(--cap-ease-enter) 60ms backwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -63,36 +87,12 @@
   cursor: pointer;
 }
 
+.cap-shell-sidebar__collapse .mdi {
+  transition: transform var(--cap-duration-slow) var(--cap-ease-standard);
+}
+
 .cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__collapse .mdi {
   transform: rotate(180deg);
-}
-
-.cap-shell-sidebar__search {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  gap: 8px;
-  height: 38px;
-  margin-bottom: 8px;
-  padding: 0 10px;
-  border: 1px solid var(--cap-glass-fill);
-  border-radius: 12px;
-  background: var(--cap-glass-fill);
-  color: var(--cap-on-chrome);
-  font-size: 13px;
-  cursor: text;
-}
-
-.cap-shell-sidebar__search .mdi {
-  font-size: 18px;
-}
-
-.cap-shell-sidebar__kbd {
-  margin-left: auto;
-  padding: 1px 6px;
-  border-radius: 6px;
-  background: var(--cap-glass-chip);
-  font: 400 12px var(--cap-font-text);
 }
 
 /* El margen negativo deja el filo rojo dentro del área de scroll. */
@@ -104,16 +104,10 @@
   min-height: 0;
   margin-inline: -12px;
   padding-inline: 12px;
+  overflow-x: hidden;
   overflow-y: auto;
   scrollbar-color: var(--cap-glass-chip) transparent;
   scrollbar-width: thin;
-}
-
-/* En el riel no hay scroll, tampoco en pantallas bajas: recortaría los tooltips y los submenús que salen hacia la derecha. */
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__nav {
-  margin-inline: 0;
-  padding-inline: 0;
-  overflow: visible;
 }
 
 .cap-shell-sidebar__group-label {
@@ -140,7 +134,10 @@
   text-align: left;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--cap-duration-fast) var(--cap-ease-standard);
+  transition:
+    background-color var(--cap-duration-fast) var(--cap-ease-standard),
+    border-color var(--cap-duration-fast) var(--cap-ease-standard),
+    color var(--cap-duration-fast) var(--cap-ease-standard);
 }
 
 .cap-shell-sidebar__item::-webkit-details-marker {
@@ -173,7 +170,7 @@
   background: var(--cap-red);
 }
 
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__item[aria-current="page"]::before {
+.cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__item[aria-current="page"]::before {
   left: -11px;
 }
 
@@ -353,84 +350,87 @@
   background: var(--cap-glass-hover);
 }
 
-.cap-shell-sidebar[data-collapsed="true"] :is(
+/* allow-discrete mantiene los textos hasta terminar el fundido; sin soporte, se ocultan al instante. */
+.cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) :is(
   .cap-shell-sidebar__brand-text,
   .cap-shell-sidebar__label,
   .cap-shell-sidebar__group-label,
-  .cap-shell-sidebar__kbd,
   .cap-shell-sidebar__count,
   .cap-shell-sidebar__chevron,
   .cap-shell-sidebar__switch,
   .cap-shell-sidebar__user-text,
-  .cap-shell-sidebar__user-menu,
-  .cap-shell-sidebar__children
+  .cap-shell-sidebar__user-menu
 ) {
   display: none;
+  opacity: 0;
+  transition:
+    opacity var(--cap-duration-fast) var(--cap-ease-exit),
+    display var(--cap-duration-fast) allow-discrete;
 }
 
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__search {
-  justify-content: center;
-  padding: 0;
-}
-
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__dot {
-  display: block;
-}
-
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__item:is(:hover, :focus-visible) .cap-shell-sidebar__tooltip {
-  display: block;
-}
-
-/* En el riel el submenú es un popover, con o sin <details> abierto. */
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__branch {
-  position: relative;
-}
-
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__branch::details-content {
-  content-visibility: visible;
-}
-
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__branch:is(:hover, :focus-within) .cap-shell-sidebar__children {
-  position: absolute;
-  top: 0;
-  left: calc(100% + 16px);
-  display: block;
-  margin: 0;
-  padding: 4px 0;
-  border: 0;
-  border-radius: 12px;
-  background: var(--cap-glass-tooltip-bg);
-  box-shadow: var(--cap-shadow-floating);
-}
-
-/* Puente invisible: sin él, el hover se pierde al cruzar el espacio entre el riel y el popover. */
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__children::before {
-  content: "";
-  position: absolute;
-  inset: 0 100% 0 -16px;
-}
-
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__branch:is(:hover, :focus-within) .cap-shell-sidebar__tooltip {
+.cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__children {
   display: none;
 }
 
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__child {
-  padding: 8px 12px;
-  color: var(--cap-chrome);
-  white-space: nowrap;
+.cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__dot {
+  display: block;
 }
 
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__child:is(:hover, [aria-current="page"]) {
-  background: var(--cap-on-chrome);
-  color: var(--cap-chrome);
-}
+/* Con cursor o teclado el riel se asoma. Tooltips y submenús flotantes quedan para quien también toca la pantalla. */
+@media (any-pointer: coarse) {
+  .cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__nav {
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow: visible;
+  }
 
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__child[aria-current="page"] {
-  box-shadow: inset 3px 0 0 var(--cap-red);
-  font-weight: 600;
-}
+  .cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__item:is(:hover, :focus-visible) .cap-shell-sidebar__tooltip {
+    display: block;
+  }
 
-.cap-shell-sidebar[data-collapsed="true"] .cap-shell-sidebar__child:focus-visible {
-  outline-color: var(--cap-chrome);
-  outline-offset: -2px;
+  .cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__branch {
+    position: relative;
+  }
+
+  .cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__branch::details-content {
+    content-visibility: visible;
+  }
+
+  .cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__branch:is(:hover, :focus-within) .cap-shell-sidebar__children {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 16px);
+    display: block;
+    margin: 0;
+    padding: 4px 0;
+    border: 0;
+    border-radius: 12px;
+    background: var(--cap-glass-tooltip-bg);
+    box-shadow: var(--cap-shadow-floating);
+  }
+
+  .cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__branch:is(:hover, :focus-within) .cap-shell-sidebar__tooltip {
+    display: none;
+  }
+
+  .cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__child {
+    padding: 8px 12px;
+    color: var(--cap-chrome);
+    white-space: nowrap;
+  }
+
+  .cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__child:is(:hover, [aria-current="page"]) {
+    background: var(--cap-on-chrome);
+    color: var(--cap-chrome);
+  }
+
+  .cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__child[aria-current="page"] {
+    box-shadow: inset 3px 0 0 var(--cap-red);
+    font-weight: 600;
+  }
+
+  .cap-shell-sidebar[data-collapsed="true"]:not([data-peek]) .cap-shell-sidebar__child:focus-visible {
+    outline-color: var(--cap-chrome);
+    outline-offset: -2px;
+  }
 }

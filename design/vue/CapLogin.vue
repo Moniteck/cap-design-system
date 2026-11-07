@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
-import CapLoginAlert from './CapLoginAlert.vue';
+import CapAlert from './CapAlert.vue';
 import { toggleTheme } from '../shell/js/theme.js';
 
 const PROVIDERS = {
@@ -51,7 +51,7 @@ function submitCredentials() {
         <h1 class="cap-login__title">Ingresa a {{ systemName }}</h1>
         <p class="cap-login__subtitle">Usa tu cuenta corporativa de Grupo CAP.</p>
 
-        <CapLoginAlert v-if="alert" :alert="alert" />
+        <CapAlert v-if="alert" v-bind="alert" />
 
         <div class="cap-field">
           <label class="cap-field__label" for="login-email">Correo</label>
@@ -97,7 +97,7 @@ function submitCredentials() {
       <form v-else class="cap-login__form" @submit.prevent="emit('recover', email)">
         <h1 class="cap-login__title">Recupera tu acceso</h1>
         <p class="cap-login__subtitle">Te enviaremos un enlace para crear una contraseña nueva.</p>
-        <CapLoginAlert v-if="alert" :alert="alert" />
+        <CapAlert v-if="alert" v-bind="alert" />
         <div class="cap-field">
           <label class="cap-field__label" for="recover-email">Correo</label>
           <div class="cap-field__control"><input id="recover-email" v-model="email" class="cap-field__input" type="email" autocomplete="username"></div>

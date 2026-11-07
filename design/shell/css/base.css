@@ -151,7 +151,13 @@ body {
   font: 500 14px var(--cap-font-text);
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--cap-duration-fast) var(--cap-ease-standard);
+  transition:
+    background-color var(--cap-duration-fast) var(--cap-ease-standard),
+    transform var(--cap-duration-fast) var(--cap-ease-standard);
+}
+
+.cap-button:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
 .cap-button:focus-visible {

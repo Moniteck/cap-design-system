@@ -1,4 +1,4 @@
-import { applyCollapsed, bindSidebarCollapse, resolveCollapsed } from './shell/js/collapse.js';
+import { applyCollapsed, bindSidebarCollapse, bindSidebarPeek, resolveCollapsed } from './shell/js/collapse.js';
 import { bindCommandK } from './shell/js/command-k.js';
 import { bindConfirmDialog } from './shell/js/confirm.js';
 import { bindLoginForm } from './shell/js/login-form.js';
@@ -35,6 +35,7 @@ function bindToasters(root) {
 export function initShell(root = document) {
   const teardowns = [
     ...bindSidebars(root),
+    ...bindEach(root, '[data-cap-sidebar]', bindSidebarPeek),
     ...bindEach(root, '[data-cap-search]', bindCommandK),
     ...bindEach(root, '[data-cap-sheet-trigger]', (trigger) =>
       bindSheet(trigger, findControlledPanel(root, trigger))),

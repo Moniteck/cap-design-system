@@ -85,7 +85,7 @@ test('a focused field with an error shows a high-contrast ring, not only the sof
 });
 
 test('rail popover links get a focus outline that shows on the light surface', () => {
-  expect(all).toMatch(/\[data-collapsed="true"\] \.cap-shell-sidebar__child:focus-visible \{[^}]*outline-color: var\(--cap-chrome\)/);
+  expect(all).toMatch(/\[data-collapsed="true"\]:not\(\[data-peek\]\) \.cap-shell-sidebar__child:focus-visible \{[^}]*outline-color: var\(--cap-chrome\)/);
 });
 
 test('small controls reach 40px touch targets on mobile', () => {
@@ -111,12 +111,12 @@ test('solid fallbacks outrank the tokens whatever the import order', () => {
 
 test('the expanded nav scrolls on short screens and the rail keeps its popovers unclipped', () => {
   expect(all).toMatch(/\.cap-shell-sidebar__nav \{[^}]*overflow-y: auto;/);
-  expect(all).toMatch(/\[data-collapsed="true"\] \.cap-shell-sidebar__nav \{[^}]*overflow: visible;/);
+  expect(all).toMatch(/\[data-collapsed="true"\]:not\(\[data-peek\]\) \.cap-shell-sidebar__nav \{[^}]*overflow: visible;/);
 });
 
 test('rail popover children show hover and the current page', () => {
-  expect(all).toMatch(/\[data-collapsed="true"\] \.cap-shell-sidebar__child:is\(:hover, \[aria-current="page"\]\) \{[^}]*background: var\(--cap-on-chrome\);/);
-  expect(all).toMatch(/\[data-collapsed="true"\] \.cap-shell-sidebar__child\[aria-current="page"\] \{[^}]*box-shadow: inset 3px 0 0 var\(--cap-red\);/);
+  expect(all).toMatch(/\[data-collapsed="true"\]:not\(\[data-peek\]\) \.cap-shell-sidebar__child:is\(:hover, \[aria-current="page"\]\) \{[^}]*background: var\(--cap-on-chrome\);/);
+  expect(all).toMatch(/\[data-collapsed="true"\]:not\(\[data-peek\]\) \.cap-shell-sidebar__child\[aria-current="page"\] \{[^}]*box-shadow: inset 3px 0 0 var\(--cap-red\);/);
 });
 
 test('the header search draws a single focus ring', () => {

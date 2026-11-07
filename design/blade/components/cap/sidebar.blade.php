@@ -1,4 +1,4 @@
-@props(['systemName', 'menu', 'user', 'searchable' => false, 'logoutAction' => null])
+@props(['systemName', 'menu', 'user', 'logoutAction' => null])
 
 <aside class="cap-shell-sidebar cap-glass" data-cap-sidebar data-collapsed="false">
     {{-- Única excepción a «Blade sin <script>»: shell-auto.js llega tarde y el riel parpadearía. Misma clave y defectos que collapse.js. --}}
@@ -23,14 +23,6 @@
             <small class="cap-shell-sidebar__brand-owner">Grupo CAP</small>
         </div>
     </div>
-
-    @if ($searchable)
-        <label class="cap-shell-sidebar__search" for="cap-global-search">
-            <i class="mdi mdi-magnify" aria-hidden="true"></i>
-            <span class="cap-shell-sidebar__label">Buscar</span>
-            <kbd class="cap-shell-sidebar__kbd">⌘K</kbd>
-        </label>
-    @endif
 
     <nav class="cap-shell-sidebar__nav" aria-label="Menú principal">
         @foreach ($menu as $group)

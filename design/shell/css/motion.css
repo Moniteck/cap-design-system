@@ -1,0 +1,114 @@
+/* Movimiento del contenido: entrada de página, escalonado y esqueletos de carga. */
+
+/* CSS puro: cada vista que entra a la zona de contenido sube sola, en cualquier stack.
+   Va con backwards y no con both: retener el transform rompería la cabecera sticky de las tablas. */
+.cap-shell__content > :not(.cap-stagger),
+.cap-stagger > * {
+  animation: cap-rise-in var(--cap-duration-slow) var(--cap-ease-enter) backwards;
+}
+
+.cap-stagger > :nth-child(2) { animation-delay: 30ms; }
+.cap-stagger > :nth-child(3) { animation-delay: 60ms; }
+.cap-stagger > :nth-child(4) { animation-delay: 90ms; }
+.cap-stagger > :nth-child(5) { animation-delay: 120ms; }
+.cap-stagger > :nth-child(n + 6) { animation-delay: 150ms; }
+
+.cap-skeleton {
+  position: relative;
+  display: block;
+  height: 16px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--cap-card-2);
+}
+
+.cap-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--cap-skeleton-sheen), transparent);
+  transform: translateX(-100%);
+  animation: cap-shimmer var(--cap-duration-shimmer) var(--cap-ease-standard) infinite;
+}
+
+@keyframes cap-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.cap-skeleton-table,
+.cap-skeleton-stats__card {
+  border: 1px solid var(--cap-divider);
+  border-radius: var(--cap-radius-card);
+  background: var(--cap-card);
+}
+
+.cap-skeleton-table {
+  overflow: hidden;
+}
+
+.cap-skeleton-table__head {
+  display: block;
+  height: 46px;
+  background: var(--cap-head);
+}
+
+.cap-skeleton-table__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr) minmax(0, 1fr) minmax(0, 0.7fr);
+  gap: 24px;
+  align-items: center;
+  height: 56px;
+  padding: 0 20px;
+  border-top: 1px solid var(--cap-divider);
+}
+
+.cap-skeleton-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cap-skeleton-stats__card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.cap-skeleton--label {
+  width: 60%;
+}
+
+.cap-skeleton--value {
+  width: 40%;
+  height: 32px;
+}
+
+@media (min-width: 1280px) {
+  .cap-skeleton-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+/* En móvil las listas son tarjetas: el esqueleto pierde la cabecera y las columnas de tabla. */
+@media (max-width: 1023.98px) {
+  .cap-skeleton-table__head {
+    display: none;
+  }
+
+  .cap-skeleton-table__row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.4fr);
+    height: 72px;
+  }
+
+  .cap-skeleton-table__row:first-of-type {
+    border-top: 0;
+  }
+
+  .cap-skeleton-table__row > :nth-child(n + 3) {
+    display: none;
+  }
+}

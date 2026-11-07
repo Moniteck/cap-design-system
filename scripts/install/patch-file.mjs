@@ -100,18 +100,40 @@ const snippets = {
   'static-astro': { scriptOpeningTag: '<script is:inline>', stylesheetLink: staticStylesheetLink },
 };
 
+// El script de tema debe correr antes de cualquier CSS: va justo después del charset, o al abrir <head>.
+function headStart(layout) {
+  return layout.match(/^([ \t]*)<meta[^>]*charset[^>]*>[ \t]*\n/im) ?? layout.match(/^([ \t]*)<head\b[^>]*>[ \t]*\n/im);
+}
+
 function headSnippet(layoutFile, snippetName) {
   const snippet = snippets[snippetName];
   if (!snippet) throw new Error(`Unknown snippet "${snippetName}" (use ${Object.keys(snippets).join(', ')})`);
   return editFile(layoutFile, (layout) => {
     if (layout.includes('design.fonts.webfont') || layout.includes(THEME_SNIPPET_MARKER)) return ALREADY_PRESENT;
-    const headClose = layout.match(/^([ \t]*)<\/head>/m);
-    if (!headClose) return INAPPLICABLE;
-    const indent = headClose[1] + '    ';
-    const headLines = [...themeScriptLines(snippet.scriptOpeningTag), snippet.stylesheetLink()];
-    const indentedSnippet = headLines.map((line) => indent + line).join('\n');
     const cleanLayout = snippet.replacesFontLinks ? layout.replace(/^[ \t]*<link[^>]*fonts\.bunny\.net[^>]*>[ \t]*\n/gm, '') : layout;
-    return cleanLayout.replace(/^([ \t]*)<\/head>/m, `${indentedSnippet}\n$1</head>`);
+    const anchor = headStart(cleanLayout);
+    if (!anchor) return INAPPLICABLE;
+    const headLines = [...themeScriptLines(snippet.scriptOpeningTag), snippet.stylesheetLink()];
+    const indentedSnippet = headLines.map((line) => anchor[1] + line).join('\n');
+    const insertAt = anchor.index + anchor[0].length;
+    return `${cleanLayout.slice(0, insertAt)}${indentedSnippet}\n${cleanLayout.slice(insertAt)}`;
+  });
+}
+
+function removeThemeFont(cssFile) {
+  return editFile(cssFile, (css) => {
+    const withoutFont = css.replace(/^[ \t]*--font-sans:[^;]*;[ \t]*\n/m, '');
+    if (withoutFont === css) return ALREADY_PRESENT;
+    return withoutFont.replace(/\n*^@theme\s*\{\s*\}[ \t]*\n?/m, '\n');
+  });
+}
+
+function removeViteFont(viteConfig) {
+  return editFile(viteConfig, (config) => {
+    if (!config.includes('Instrument Sans')) return ALREADY_PRESENT;
+    const withoutFonts = config.replace(/^[ \t]*fonts:\s*\[\s*bunny\('Instrument Sans'[\s\S]*?\)\s*,?\s*\],?[ \t]*\n/m, '');
+    if (withoutFonts === config) return INAPPLICABLE;
+    return withoutFonts.replace(/^import \{ bunny \} from 'laravel-vite-plugin\/fonts';\n/m, '');
   });
 }
 
@@ -138,6 +160,8 @@ const commands = {
   'tailwind-preset': tailwindPreset,
   'tailwind-config-link': linkTailwindConfig,
   'head-snippet': headSnippet,
+  'remove-theme-font': removeThemeFont,
+  'remove-vite-font': removeViteFont,
   'append-js-import': appendJsImport,
   'astro-script': astroScript,
 };

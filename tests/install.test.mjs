@@ -60,6 +60,52 @@ const astroFiles = {
 };
 
 describe('laravel', () => {
+  test('removes the default Laravel font from css and vite config', () => {
+    const project = createProject({
+      ...laravelFiles,
+      'resources/css/app.css': "@import 'tailwindcss';\n\n@theme {\n    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',\n        'Segoe UI Symbol', 'Noto Color Emoji';\n}\n",
+      'vite.config.js': "import { defineConfig } from 'vite';\nimport laravel from 'laravel-vite-plugin';\nimport { bunny } from 'laravel-vite-plugin/fonts';\n\nexport default defineConfig({\n    plugins: [\n        laravel({\n            refresh: true,\n            fonts: [\n                bunny('Instrument Sans', {\n                    weights: [400, 500, 600],\n                }),\n            ],\n        }),\n    ],\n});\n",
+    });
+    const { status } = runInstaller(project);
+
+    expect(status).toBe(0);
+    const css = read(project, 'resources/css/app.css');
+    expect(css).not.toContain('--font-sans');
+    expect(css).not.toContain('@theme');
+    const vite = read(project, 'vite.config.js');
+    expect(vite).not.toContain('Instrument Sans');
+    expect(vite).not.toContain('bunny');
+    expect(vite).toContain('refresh: true,\n        }),');
+  });
+
+  test('keeps other theme values and lists a vite font it cannot remove as pending', () => {
+    const project = createProject({
+      ...laravelFiles,
+      'resources/css/app.css': "@theme {\n    --font-sans: 'Instrument Sans';\n    --color-extra: red;\n}\n",
+      'vite.config.js': "fonts: [bunny('Figtree'), bunny('Instrument Sans')],\n",
+    });
+    const { output } = runInstaller(project);
+
+    expect(read(project, 'resources/css/app.css')).toContain('--color-extra: red;');
+    expect(output).toContain('quita a mano la fuente Instrument Sans');
+  });
+
+  test.each([
+    ['@vite', "    @vite(['resources/js/app.js'])\n"],
+    ['a conditional around @vite', "    @if (true)\n        @vite(['resources/js/app.js'])\n    @endif\n"],
+    ['a stylesheet link', '    <link rel="stylesheet" href="/app.css">\n'],
+  ])('puts the theme script after the charset and before %s', (_name, styleLoader) => {
+    const project = createProject({
+      ...laravelFiles,
+      'resources/views/app.blade.php': `<html>\n<head>\n    <meta charset="utf-8">\n${styleLoader}</head>\n<body></body>\n</html>\n`,
+    });
+    runInstaller(project);
+
+    const layout = read(project, 'resources/views/app.blade.php');
+    expect(layout.indexOf('localStorage.theme')).toBeGreaterThan(layout.indexOf('charset'));
+    expect(layout.indexOf('localStorage.theme')).toBeLessThan(layout.indexOf(styleLoader.trim()));
+  });
+
   test('copies design, components and logos and patches project files', () => {
     const project = createProject(laravelFiles);
     const { status, output } = runInstaller(project);

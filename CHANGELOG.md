@@ -8,13 +8,17 @@ Cambio mayor: reemplaza reglas de la 1.x (ver «Migrar desde 1.x»).
 
 - Marco flotante de vidrio ahumado sobre un lienzo piedra con manchones: sidebar colapsable (panel de 236 px o riel de 66 px, con el estado recordado), header sticky, vista móvil con barra superior, tabbar de hasta 4 destinos más «Más», hoja «Más» y botón flotante. Hace scroll la ventana.
 - `design/shell.css` (CSS plano `.cap-*`, único para todos los stacks), `design/shell.js` y `shell-auto.js` (comportamiento sin framework), `design/shell/SHELL_SPEC.md` (especificación agnóstica con HTML de referencia, y las guías «Portar a React» y «Portar a Astro»).
-- Componentes listos: Vue (`design/vue/Cap*.vue`, `<script setup>`) y Blade (`<x-cap.*>`): layout, sidebar, header, tabbar, hoja «Más», notificaciones, toasts, confirmación, aviso en línea y acceso.
+- Componentes listos: Vue (`design/vue/Cap*.vue`, `<script setup>`) y Blade (`<x-cap.*>`): layout, sidebar, header, tabbar, hoja «Más», notificaciones, toasts, confirmación, aviso en línea, botón y acceso.
+- Sidebar en riel que se asoma con hover o teclado: flota a 236 px sin mover el contenido ni cambiar la preferencia; la flecha lo deja fijo. `bindSidebarPeek` en `shell/js/collapse.js`.
+- Movimiento del contenido en `shell/css/motion.css`: las vistas suben solas al entrar a `.cap-shell__content`, `cap-stagger` escalona los tableros, y hay salida suave en notificaciones y respuesta al presionar botones.
+- Esqueletos con barrido: `CapSkeleton` y `<x-cap.skeleton>` con variantes `table`, `stats` y `line`, y clase `.cap-skeleton`.
 - Pantalla de acceso nueva: foto de faena (la provee cada sistema), tarjeta de vidrio blanco con el formulario abierto y Microsoft y Google lado a lado.
 - Paleta 2.0 cálida (piedra, blanco hueso, marco `#1E1B1A`) y escala de rojos `cap-red-50` a `cap-red-800` (vino, rojo CAP, rojo medio, rosado, tinte); tokens de vidrio, manchones, radios (`rounded-cap-control|card|shell|sheet`) y sombras; `cap-text-soft`.
 - Regla del vidrio: vidrio para lo que flota, sólido para lo que se lee o se decide.
-- Recetas nuevas: tarjeta de cifra (normal, destacada, de alerta), tarjeta de lista móvil, chips de filtro y contadores en mosaico. `chartColors()` usa la escala de rojos y el topo.
+- Recetas nuevas: tarjeta de cifra (normal, destacada, de alerta), tarjeta de lista móvil, chips de filtro, contadores en mosaico, barra de acciones, selector, paginación, menú `⋮`, datos de un registro, historial y página de error. `chartColors()` usa colores de marca en un orden validado para daltonismo.
+- Un solo buscador por pantalla: el sidebar ya no trae «Buscar» y el atajo ⌘K se muestra en el header.
 - `install.sh`: soporta Laravel (Blade y Vue), React y Astro con el mismo comando; copia los componentes y los logos, importa `tokens.css` y `shell.css`, y aborta sin tocar nada si una carpeta de destino no es del paquete.
-- `install.sh` con Tailwind 4: crea `tailwind.config.js` si falta y agrega `@config` a la hoja global. Busca también `resources/views/layouts/app.blade.php`. Deja los imports en orden tokens, shell, íconos.
+- `install.sh` con Tailwind 4: crea `tailwind.config.js` si falta y agrega `@config` a la hoja global. Busca también `resources/views/layouts/app.blade.php`. Deja los imports en orden tokens, shell, íconos. En Laravel quita la fuente por defecto (`--font-sans` e Instrument Sans) y deja el script de tema antes de cualquier CSS.
 - Blade conectado sin editar `components/cap`: `logout-action`, `mark-read-action`, `href` por notificación, `search-href`, `back-href`, `topbar-search` y slot `topbarActions`. Filtro de notificaciones y estado «ingresando» por atributos `data-cap-*`.
 - Vue: `linkProp` para vue-router (`to`), `backHref`, `topbarSearch`, evento `search` y slot `topbar-actions`. Requiere Vue 3.5 o superior.
 

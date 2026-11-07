@@ -6,12 +6,13 @@ const darkModeActive = () => document.documentElement.classList.contains('dark')
 
 export function chartColors(isDark = darkModeActive()) {
     const { brand, chrome, dark, status } = tokens;
+    const blush = brand.redScale['200'];
 
     return {
-        // series[0] es la principal; máximo cuatro series por gráfica.
+        // Orden fijo validado para daltonismo: se toma desde series[0], sin saltarse colores. Máximo cuatro.
         series: isDark
-            ? [brand.redSoft, brand.redScale['200'], brand.taupe, dark.divider]
-            : [brand.wine, brand.red, brand.redScale['400'], brand.taupe],
+            ? [brand.redSoft, blush, brand.red, brand.wine]
+            : [brand.red, chrome.surface, brand.taupe, blush],
         status: status[isDark ? 'dark' : 'light'],
         text: isDark ? dark.textSoft : chrome.textSoft,
         grid: isDark ? dark.divider : chrome.paperLine,

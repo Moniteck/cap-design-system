@@ -273,13 +273,13 @@ install_agent_line() {
     for name in AGENTS.md CLAUDE.md; do
         [[ -f "$PROJECT/$name" ]] || continue
         found_instructions_file=1
-        if grep -q "$DESIGN_DIR/AGENTS.md" "$PROJECT/$name"; then skip "$name ya remite a la guía"
-        elif [[ $name == CLAUDE.md ]] && grep -qE '(^|[[:space:]])@(\./)?AGENTS\.md([[:space:]]|$)' "$PROJECT/$name" && grep -q "$DESIGN_DIR/AGENTS.md" "$PROJECT/AGENTS.md" 2>/dev/null; then skip "CLAUDE.md incluye AGENTS.md, que ya remite a la guía"
-        else printf "\n%s\n" "$line" >> "$PROJECT/$name"; ok "$name: línea hacia la guía"; fi
+        if grep -q "$marker" "$PROJECT/$name"; then skip "$name ya remite a $guide"
+        elif [[ $name == CLAUDE.md ]] && grep -qE '(^|[[:space:]])@(\./)?AGENTS\.md([[:space:]]|$)' "$PROJECT/$name" && grep -q "$marker" "$PROJECT/AGENTS.md" 2>/dev/null; then skip "CLAUDE.md incluye AGENTS.md, que ya remite a $guide"
+        else printf "\n%s\n" "$line" >> "$PROJECT/$name"; ok "$name: línea hacia $guide"; fi
     done
     if [[ $found_instructions_file -eq 0 ]]; then
         printf "# Instrucciones para agentes\n\n%s\n" "$line" > "$PROJECT/AGENTS.md"
-        ok "AGENTS.md creado"
+        ok "AGENTS.md creado con la línea hacia $guide"
     fi
 }
 
@@ -318,7 +318,7 @@ install_layout() {
         return
     fi
     patch_file "$LAYOUT_FILE: script de tema y fuentes" "$LAYOUT_FILE ya carga las fuentes del paquete" \
-        "$LAYOUT_FILE no tiene </head>: agrega el script de tema y las fuentes a mano$LAYOUT_PENDING_HINT." \
+        "$LAYOUT_FILE no tiene <head>: agrega el script de tema y las fuentes a mano$LAYOUT_PENDING_HINT." \
         head-snippet "$PROJECT/$LAYOUT_FILE" "$LAYOUT_SNIPPET"
 }
 
@@ -342,8 +342,22 @@ install_laravel() {
 
 install_react() {
     install_common
+remove_laravel_default_font() {
+    local css vite_config
+    if css="$(find_global_css)"; then
+        patch_file "$css: quitada la fuente por defecto de Laravel" "$css no redefine font-sans" "" \
+            remove-theme-font "$PROJECT/$css"
+    fi
+    if vite_config="$(first_existing_file vite.config.js vite.config.ts)"; then
+        patch_file "$vite_config: quitada Instrument Sans" "$vite_config no descarga Instrument Sans" \
+            "$vite_config: quita a mano la fuente Instrument Sans de \`fonts\`." \
+            remove-vite-font "$PROJECT/$vite_config"
+    fi
+}
+
     todo "El comportamiento del marco (shell.js) no se instala solo en React: ver SHELL_SPEC › Portar a React ($DESIGN_DIR/shell/SHELL_SPEC.md)."
     if [[ -f "$PROJECT/app/layout.tsx" || -f "$PROJECT/src/app/layout.tsx" ]]; then
+    remove_laravel_default_font
         todo "Next.js: agrega a mano el script de tema y las fuentes en app/layout.tsx (README › Fuentes y modo oscuro)."
     else
         install_layout

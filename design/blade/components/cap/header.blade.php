@@ -33,6 +33,7 @@
         <label class="cap-shell-header__search">
             <i class="mdi mdi-magnify" aria-hidden="true"></i>
             {{ $search }}
+            <kbd class="cap-shell-header__kbd">⌘K</kbd>
         </label>
     @endisset
     <div class="cap-shell-header__actions">

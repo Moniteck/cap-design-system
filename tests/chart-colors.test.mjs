@@ -1,12 +1,12 @@
 import { chartColors } from '../design/chart-colors.js';
 import tokens from '../design/tokens.json';
 
-test('light series start with wine then brand red', () => {
-  expect(chartColors(false).series).toEqual(['#6E1219', '#B12530', '#DB7F87', '#A89C91']);
+test('light series start with brand red then ink', () => {
+  expect(chartColors(false).series).toEqual(['#B12530', '#1E1B1A', '#A89C91', '#F2D3D6']);
 });
 
 test('dark series start with soft red', () => {
-  expect(chartColors(true).series).toEqual(['#E8707A', '#F2D3D6', '#A89C91', '#3A3431']);
+  expect(chartColors(true).series).toEqual(['#E8707A', '#F2D3D6', '#B12530', '#6E1219']);
 });
 
 test('text and grid follow the theme', () => {

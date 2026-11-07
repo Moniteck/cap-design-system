@@ -1,4 +1,5 @@
 <script setup>
+import { useTemplateRef } from 'vue';
 import CapAvatar from './CapAvatar.vue';
 import CapSidebarItem from './CapSidebarItem.vue';
 import { useSidebarCollapse } from './composables/useSidebarCollapse.js';
@@ -10,19 +11,19 @@ defineProps({
   user: { type: Object, required: true },
   linkComponent: { type: [String, Object], default: 'a' },
   linkProp: { type: String, default: 'href' },
-  searchable: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['logout']);
 
-const { collapsed, toggle } = useSidebarCollapse();
+const { collapsed, toggle } = useSidebarCollapse(useTemplateRef('sidebar'));
 </script>
 
 <template>
-  <aside class="cap-shell-sidebar cap-glass" :data-collapsed="String(collapsed)">
+  <aside ref="sidebar" class="cap-shell-sidebar cap-glass" :data-collapsed="String(collapsed)">
     <button
       class="cap-shell-sidebar__collapse"
       type="button"
+      data-cap-collapse
       :aria-expanded="String(!collapsed)"
       :aria-label="collapsed ? 'Expandir menú' : 'Contraer menú'"
       @click="toggle"
@@ -37,12 +38,6 @@ const { collapsed, toggle } = useSidebarCollapse();
         <small class="cap-shell-sidebar__brand-owner">Grupo CAP</small>
       </div>
     </div>
-
-    <label v-if="searchable" class="cap-shell-sidebar__search" for="cap-global-search">
-      <i class="mdi mdi-magnify" aria-hidden="true" />
-      <span class="cap-shell-sidebar__label">Buscar</span>
-      <kbd class="cap-shell-sidebar__kbd">⌘K</kbd>
-    </label>
 
     <nav class="cap-shell-sidebar__nav" aria-label="Menú principal">
       <template v-for="group in menu" :key="group.label">
