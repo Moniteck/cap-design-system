@@ -50,7 +50,7 @@
 @endphp
 
 <div class="cap-shell">
-    <x-cap.sidebar :system-name="$systemName" :menu="$resolvedMenu" :user="$user" :searchable="isset($search)" :logout-action="$logoutAction" />
+    <x-cap.sidebar :system-name="$systemName" :menu="$resolvedMenu" :user="$user" :logout-action="$logoutAction" />
 
     <div class="cap-shell__main">
         <x-cap.header :title="$title" :system-name="$systemName" :breadcrumbs="$breadcrumbs" :user="$user" :notifications="$notifications" :notifications-href="$notificationsHref" :mark-read-action="$markReadAction" :back-href="$backHref" :search-href="$searchHref" :topbar-search="$topbarSearch">

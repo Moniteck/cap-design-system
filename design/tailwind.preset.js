@@ -66,6 +66,12 @@ export default {
             fontSize: {
                 // Tablas en densidad compacta: 13/18. Único tamaño fuera de la escala de Tailwind.
                 'cap-dense': ['13px', '18px'],
+                // Ícono de estado vacío.
+                'cap-icon': ['40px', '1'],
+            },
+            inset: {
+                // Debajo del header flotante: 12 de aire + 64 de header + 12.
+                'cap-below-header': '88px',
             },
             zIndex: {
                 'cap-header': '30',

@@ -70,6 +70,7 @@
   --cap-input-line: #8C8985;
   --cap-control-line: #CFC6BE;
   --cap-focus-ring: rgba(30,27,26,.08);
+  --cap-skeleton-sheen: rgba(255,255,255,.72);
   --cap-status-ok: #276B2B;
   --cap-status-error: #B12530;
   --cap-status-warning: #A85300;
@@ -106,6 +107,7 @@
   --cap-duration-base: 180ms;
   --cap-duration-slow: 260ms;
   --cap-duration-toast: 5000ms;
+  --cap-duration-shimmer: 1400ms;
   --cap-ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --cap-ease-enter: cubic-bezier(0, 0, 0.2, 1);
   --cap-ease-exit: cubic-bezier(0.4, 0, 1, 1);
@@ -138,6 +140,7 @@
   --cap-input-line: #808080;
   --cap-control-line: #4A423E;
   --cap-focus-ring: rgba(255,255,255,.14);
+  --cap-skeleton-sheen: rgba(255,255,255,.06);
   --cap-status-ok: #81C784;
   --cap-status-error: #E8707A;
   --cap-status-warning: #FFA726;

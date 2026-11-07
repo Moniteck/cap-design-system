@@ -40,7 +40,7 @@ Qué hace en todos los stacks:
 
 Y, según el stack:
 
-- **Laravel**: copia los componentes Blade a `resources/views/components/cap/` y los logos a `public/cap/logos/`; crea `config/design.php` (`config('design.brand.red')`); importa `shell-auto.js` en `resources/js/app.js`; y pone en `resources/views/app.blade.php` o `resources/views/layouts/app.blade.php` el script del modo oscuro (sin parpadeo) y las fuentes.
+- **Laravel**: copia los componentes Blade a `resources/views/components/cap/` y los logos a `public/cap/logos/`; crea `config/design.php` (`config('design.brand.red')`); importa `shell-auto.js` en `resources/js/app.js`; pone en `resources/views/app.blade.php` o `resources/views/layouts/app.blade.php` el script del modo oscuro (sin parpadeo) y las fuentes; y copia el estándar de base de datos a `database/DATABASE_GUIDE.md` con su línea en `AGENTS.md`.
 - **React**: pone el script del modo oscuro y las fuentes en `index.html` (Vite).
 - **Astro**: pone el script del modo oscuro y las fuentes en el layout de `src/layouts/` y agrega el `<script>` de `shell-auto.js`.
 
@@ -68,7 +68,8 @@ Pendiente a mano, que el instalador lista cuando aplica:
 | Plantilla de `config/design.php` para Laravel | `design/design.php` |
 | Logos oficiales de terceros a color (Microsoft, Google) para el acceso | `design/logos/` |
 | Instrucciones para agentes (Codex, Cursor, Copilot, Gemini, Claude) | `design/AGENTS.md` |
-| Skill de Claude Code | `skills/cap-design/SKILL.md` |
+| Estándar de base de datos (nombres, tipos, auditoría, borrado lógico, índices, migraciones, checklist) para MySQL y PostgreSQL | `database/DATABASE_GUIDE.md` |
+| Skills de Claude Code: interfaz y base de datos | `skills/cap-design/SKILL.md`, `skills/cap-database/SKILL.md` |
 | Instalador | `install.sh` |
 
 `package.json`, `tests/` y `vitest.config.mjs` son solo para probar este repo; el instalador no los
@@ -107,10 +108,20 @@ clases de Tailwind `cap-*` del recetario de la guía. Badges con
 `import { chartColors } from '@/../design/chart-colors.js'` (ajusta la ruta: `@/design/…` en React
 y Astro).
 
-## Skill de Claude Code (opcional, una vez por máquina)
+## Base de datos
 
-Con esto la guía se activa sola cada vez que se pida crear o revisar interfaz, en cualquier
-proyecto, sin copiar archivos:
+`database/DATABASE_GUIDE.md` es el estándar de esquema de todo sistema nuevo: identificadores en
+inglés y `snake_case`, tablas en plural, `id` `BIGINT` y `{tabla}_id`, columnas de auditoría con los
+nombres de Eloquent, borrado lógico con `deleted_at`, tipos de dato por dominio, índices,
+catálogos, migraciones y un checklist de revisión para cada PR, con un ejemplo completo en MySQL,
+PostgreSQL y migración de Laravel. En Laravel el instalador lo copia a `database/DATABASE_GUIDE.md`
+(se sobrescribe al actualizar: los cambios se proponen en este repositorio). En proyectos sin
+Laravel, cópialo a mano y remite a él desde `AGENTS.md`.
+
+## Skills de Claude Code (opcional, una vez por máquina)
+
+Con esto las guías se activan solas cada vez que se pida crear o revisar interfaz (`cap-design`)
+o tocar el esquema de base de datos (`cap-database`), en cualquier proyecto, sin copiar archivos:
 
 ```text
 /plugin marketplace add moniteck/cap-design-system
@@ -164,4 +175,4 @@ lugar de `resources/design/`):
 
 ### Instrucciones para agentes
 
-- `AGENTS.md` o `CLAUDE.md`: «Sigue `resources/design/AGENTS.md` y `resources/design/DESIGN_GUIDE.md` en toda interfaz.»
+- `AGENTS.md` o `CLAUDE.md`: «Sigue `resources/design/AGENTS.md` y `resources/design/DESIGN_GUIDE.md` en toda interfaz.» y, en Laravel, «Sigue `database/DATABASE_GUIDE.md` en toda migración, seeder, modelo, vista, procedimiento o consulta SQL.»

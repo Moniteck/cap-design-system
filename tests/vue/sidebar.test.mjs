@@ -69,3 +69,18 @@ test('emits logout from the account button', async () => {
   await wrapper.find('.cap-shell-sidebar__user-menu').trigger('click');
   expect(wrapper.emitted('logout')).toHaveLength(1);
 });
+
+test('peeks on hover without changing the collapsed state', async () => {
+  vi.useFakeTimers();
+  window.innerWidth = 1100;
+  const wrapper = mount(CapSidebar, { props });
+  const sidebar = wrapper.find('.cap-shell-sidebar');
+  const enter = new Event('pointerenter');
+  enter.pointerType = 'mouse';
+  sidebar.element.dispatchEvent(enter);
+  vi.advanceTimersByTime(120);
+  expect(sidebar.attributes('data-peek')).toBe('open');
+  expect(sidebar.attributes('data-collapsed')).toBe('true');
+  wrapper.unmount();
+  vi.useRealTimers();
+});

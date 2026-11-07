@@ -82,6 +82,7 @@
 }
 
 .cap-login__card {
+  animation: cap-rise-in var(--cap-duration-slow) var(--cap-ease-enter) backwards;
   position: relative;
   display: flex;
   flex: 1;

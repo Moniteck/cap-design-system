@@ -21,7 +21,12 @@ const props = defineProps({
 
 const emit = defineEmits(['mark-all-read', 'notification', 'search', 'view-all']);
 
-const { isOpen: notificationsOpen, toggle: toggleNotifications } = usePopover('cap-notifications');
+const { isOpen: notificationsOpen, toggle: toggleNotifications, close: closeNotifications } = usePopover('cap-notifications');
+
+const closeAndEmit = (eventName, ...payload) => {
+  closeNotifications();
+  emit(eventName, ...payload);
+};
 
 const searchLabel = ref(null);
 let releaseCommandK = () => {};
@@ -51,6 +56,7 @@ onBeforeUnmount(() => releaseCommandK());
     <label v-if="$slots.search" ref="searchLabel" class="cap-shell-header__search">
       <i class="mdi mdi-magnify" aria-hidden="true" />
       <slot name="search" />
+      <kbd class="cap-shell-header__kbd">⌘K</kbd>
     </label>
     <div class="cap-shell-header__actions">
       <slot name="header-actions" />
@@ -93,7 +99,7 @@ onBeforeUnmount(() => releaseCommandK());
     :link-component="linkComponent"
     :link-prop="linkProp"
     @mark-all-read="emit('mark-all-read')"
-    @notification="emit('notification', $event)"
-    @view-all="emit('view-all')"
+    @notification="closeAndEmit('notification', $event)"
+    @view-all="closeAndEmit('view-all')"
   />
 </template>

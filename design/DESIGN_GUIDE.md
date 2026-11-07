@@ -89,21 +89,21 @@ con texto blanco; en oscuro, el texto sobre un sólido de estado es `text-gray-9
 
 ### Reglas de color
 
-- **Botones del sistema en píldora** (`rounded-full`, 44 px de alto), igual que `.cap-button` del
-  marco y del acceso. Los controles de formulario no: son `rounded-cap-control`.
-- **Primario** negro: `bg-cap-chrome text-white hover:bg-cap-rail`, invertido en oscuro
-  `dark:bg-cap-on-chrome dark:text-cap-chrome dark:hover:bg-white`. Uno por pantalla o formulario.
-- **Secundario** con contorno: `border border-gray-300 bg-cap-card text-gray-800 hover:bg-cap-card-2
-  hover:border-gray-400 dark:border-gray-600 dark:text-gray-100`. El hover oscurece el fondo,
-  nunca pasa a rojo: el rojo en un botón significa destructivo. Exportar PDF/Excel, filtros,
-  «Cancelar» y acciones de menú son secundarias.
+- **Botones del sistema en píldora**, de 44 px de alto: son la clase `.cap-button` del marco. Los
+  controles de formulario no: son `rounded-cap-control`.
+- **Primario** negro, invertido en oscuro: `cap-button--primary`. Uno visible por pantalla o
+  formulario: si la lista está vacía, el del estado vacío reemplaza al de la barra de acciones.
+- **Secundario** con contorno: `cap-button--secondary`. El hover oscurece el fondo, nunca pasa a
+  rojo: el rojo en un botón significa destructivo. Exportar PDF/Excel, filtros, «Cancelar» y acciones
+  de menú son secundarias.
 - **Terciario / solo ícono**: sin borde, `text-gray-600 hover:bg-cap-card-2 dark:text-gray-400`,
   36 × 36 px con `aria-label`.
-- **Destructivo**: `bg-cap-brand text-white hover:bg-cap-brand-hover`, igual en los dos temas.
+- **Destructivo**: `cap-button--danger`, igual en los dos temas.
 - **Enlaces**: en tablas, rojo de marca sin subrayado (`text-cap-brand dark:text-cap-brand-soft
   hover:underline`). En texto corrido, avisos y pies: color del texto con subrayado
   (`underline underline-offset-2 decoration-gray-400 hover:decoration-current`). Enlaces externos
-  con `mdi-open-in-new` 16 px. El rojo no es color de enlace genérico.
+  con `mdi-open-in-new` 16 px. El rojo no es color de enlace genérico; la única excepción son los
+  enlaces de la pantalla de acceso, que ya trae el componente.
 - **Foco visible** en todo elemento interactivo, con `focus-visible` (el clic con ratón no muestra
   anillo): `focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
   focus-visible:ring-cap-chrome focus-visible:ring-offset-cap-card dark:focus-visible:ring-gray-100`.
@@ -131,7 +131,7 @@ Escala cerrada; no se usan tamaños intermedios ni `text-[…px]`:
 
 | Nivel | Clases | Uso |
 |---|---|---|
-| Título de página | `font-display text-2xl font-semibold` (24/32) | uno por pantalla, en el header |
+| Título de página | lo pone el header del marco (Poppins 600, 17 px) | uno por pantalla |
 | Título de sección o modal | `font-display text-lg font-semibold` (18/28) | tarjetas, modales |
 | Subtítulo | `font-display text-base font-semibold` (16/24) | grupos dentro de una tarjeta |
 | Texto | `text-sm` (14/20) | cuerpo, celdas, inputs, botones |
@@ -172,20 +172,26 @@ sección solo resume las medidas; si algo difiere, manda la especificación.
   Ítem de 38 px; el activo es una píldora de vidrio con filo rojo de 3 px a la izquierda, no un
   bloque rojo. Etiquetas de grupo en minúscula normal.
 - **Header** de 64 px: migas de pan sobre el título de la página, buscador, notificaciones y avatar.
-  Las acciones de la página (primario, secundario) van en la barra de título del contenido, no en el
-  header.
+  Las acciones de la página (primario, secundario) van en la primera fila del contenido (receta
+  «Barra de acciones de la página»), no en el header.
+- **Búsqueda**: un solo buscador por pantalla. Lo normal es el de la lista, junto a los chips. El
+  slot `search` del header es solo para sistemas que buscan en varios módulos; entonces las listas
+  no llevan buscador de texto propio. Sin slot `search`, apaga también la lupa móvil con
+  `topbarSearch` / `topbar-search` en `false`.
 - **Móvil (por debajo de `lg`, 1024 px)**: no es un escritorio encogido. Barra superior de vidrio de
   52 px, tabbar de vidrio abajo de 64 px con hasta 4 destinos más «Más» (hoja con el menú completo),
   listados como tarjetas (receta «Tarjeta de lista móvil») y botón flotante rojo de 52 px opcional
   para crear. El contenido lleva relleno para no quedar tapado por las barras.
 - **Pantallas**: escritorio primero (uso principal 1366–1920 px), mínimo 360 px. Puntos de quiebre
   de Tailwind: `sm` 640, `md` 768, `lg` 1024, `xl` 1280.
-- **Contenido**: margen de 24–36 px en escritorio y 16 px en celular; `max-w-7xl` para formularios y
-  lectura, ancho completo para tablas y tableros.
+- **Contenido**: el margen lo pone el marco (`.cap-shell__content`); no agregues otro alrededor de
+  la página. Envuelve cada página en `flex flex-col gap-6` para los 24 px entre secciones. `max-w-7xl` para formularios y lectura, ancho completo para tablas y tableros.
 - **Espaciado** en múltiplos de 4 px: 4 ícono–texto, 8 chips y celdas compactas, 12 celdas y entre
   campos de una fila, 16 relleno de tarjeta en celular y entre campos, 20 relleno de tarjeta, 24
   relleno de modal y entre tarjetas y secciones, 32 entre bloques de formulario. Nunca 6, 10, 14 ni
-  18 (los 12 px del aire del marco son múltiplo de 4).
+  18 (los 12 px del aire del marco son múltiplo de 4). Esta escala rige para lo que escribes: las
+  medidas internas del marco son las de `shell/SHELL_SPEC.md` y no se copian al contenido, y las
+  recetas se copian tal cual aunque traigan `gap-1.5` o `py-2.5`.
 - **Radios**: `rounded-md` (6) chips y badges; `rounded-cap-control` (14) inputs, selects, menús y
   popovers; `rounded-cap-card` (20) tarjetas; `rounded-cap-shell` (24) marco y modales;
   `rounded-cap-sheet` (28) hoja «Más» y paneles del acceso. Los botones del sistema son
@@ -252,13 +258,15 @@ alineada igual que su columna. Dos densidades: **normal**, filas de 44 px con `p
 documentos, nómina). Alineación por tipo de dato: texto e identificadores a la izquierda; cifras,
 montos y porcentajes a la derecha con `tabular-nums`; fechas a la izquierda con ancho fijo;
 badges a la izquierda; columna de acciones a la derecha, sin título, 48 px, con un menú `⋮`
-secundario. Enlace de la fila en rojo de marca. Cabecera fija (`sticky top-0`) en tablas de más de
-20 filas. Hover de fila `hover:bg-cap-card-2`; fila seleccionada con filo izquierdo de 3 px rojo y
+secundario. Enlace de la fila en rojo de marca. Cabecera fija en tablas de más de 20 filas: los
+`th` llevan `lg:sticky lg:top-cap-below-header z-cap-header` y el contenedor de la receta `isolate`,
+para que la cabecera quede debajo del header flotante y encima de las filas. Hover de fila `hover:bg-cap-card-2`; fila seleccionada con filo izquierdo de 3 px rojo y
 el mismo fondo. Sin filas alternas. Textos largos en una línea con `truncate` y `title`; nunca
 crece la altura de fila. Paginación: 25 por defecto, opciones 25/50/100, contador «1–25 de 1,240»
 a la izquierda. Orden: `mdi-arrow-up`/`mdi-arrow-down` 16 px solo en la columna activa.
-Por debajo de `md`: desplazamiento horizontal dentro de la tarjeta con la primera columna
-`sticky left-0`; nunca ocultar columnas sin aviso.
+Por debajo de `lg` los listados pasan a tarjetas (receta «Tarjeta de lista móvil»). Solo las tablas
+que no tienen sentido como tarjeta (reportes, nómina) mantienen la tabla, con `overflow-x-auto` y la
+primera columna `sticky left-0`; nunca ocultar columnas sin aviso.
 
 **Formularios**: etiqueta `text-xs font-semibold` encima del campo; input de 40 px, `rounded-cap-control`, fondo
 `bg-cap-card`, borde `border-cap-input-line`, foco en borde y anillo negros. Placeholder
@@ -268,13 +276,14 @@ etiqueta. Ayuda y error debajo en `text-xs`, el error en `status-error` y el inp
 (`grid-cols-2 gap-x-6 gap-y-4`), nunca más de tres. Anchos fijos por tipo: fecha 160 px, monto
 160 px (texto a la derecha, prefijo «L» dentro del campo), código/RTN 200 px, porcentaje 112 px;
 texto libre a columna completa. Obligatorio: asterisco `text-cap-brand` tras la etiqueta y
-`aria-required`; si casi todos lo son, marcar los opcionales con «(opcional)». Solo lectura: sin
+`aria-required`; si casi todos lo son, se quita el asterisco, se deja `aria-required` y solo los
+opcionales llevan «(opcional)». Solo lectura: sin
 borde, fondo `cap-card-2`, texto normal. Contraseñas: botón de ícono dentro del campo para verla
 (`mdi-eye-outline` / `mdi-eye-off-outline`, `aria-label` «Mostrar contraseña» / «Ocultar
 contraseña»). Un ícono `-outline` a la izquierda del campo (`pl-10`) solo en pantallas de pocos
 campos. Al enviar con errores: scroll y foco en el primer campo
 con error; resumen arriba solo si hay más de tres. El primario se deshabilita y muestra
-`mdi-loading animate-spin` mientras envía; nunca doble envío. Botones al pie, a la derecha:
+su spinner mientras envía (`aria-busy="true"`); nunca doble envío. Botones al pie, a la derecha:
 «Cancelar» secundario y el primario con el verbo («Guardar cambios», no «Enviar»).
 
 **Modales**: superficie sólida (no vidrio), `rounded-cap-shell`, cabecera con título `text-lg` y
@@ -309,8 +318,8 @@ a los 5 s (pausa al pasar el cursor); aviso y error persisten. Máximo 3 apilado
 abajo. `role="status" aria-live="polite"` para éxito/info, `role="alert"` para error. Un toast
 confirma el resultado de una acción; **no** sustituye la validación en línea ni el estado de error
 de una pantalla. Para lo que condiciona la pantalla («Este período ya está cerrado») va un **aviso
-en línea**, sólido con el tinte del estado, sin cierre automático (`<x-cap.alert>` o receta
-«Aviso en línea de error»). Nunca un toast con fondo de color sólido.
+en línea**, sólido con el tinte del estado, sin cierre automático (`<x-cap.alert>`, `CapAlert` o,
+en React y Astro, receta «Aviso en línea»). Nunca un toast con fondo de color sólido.
 
 **Navegación**: el sidebar, la barra superior, la tabbar y la hoja «Más» **son componentes del
 marco** (`<x-cap.sidebar>`, `CapSidebar`…): se usan, no se arman con clases de Tailwind. El ítem
@@ -333,11 +342,14 @@ tarjeta de color sólido permitida: **una por fila** de tarjetas de cifra y para
 para decorar. Los contadores de estado van en mosaico, los filtros como chips y, en celular, los
 listados como tarjetas (recetas más abajo).
 
-**Gráficas**: colores con `chartColors()` de `chart-colors.js`: la escala de rojos y el topo
-(en claro vino, rojo CAP, rojo medio y topo; en oscuro rojo suave, rosado, topo y divisor), con
-`series[0]` como la principal; `status.*` para series con significado de estado. Recalcular al
-cambiar de tema. Máximo cuatro series; si hay más, agrupar en «Otros» o dividir. Rejilla en `grid`,
-ejes y etiquetas en `text` a 12 px con `tabular-nums`, tooltips con elevación 1. Relleno de área
+**Gráficas**: colores con `chartColors()` de `chart-colors.js` (en claro rojo CAP, negro, topo y
+rosado; en oscuro rojo suave, rosado, rojo CAP y vino). El orden está validado para daltonismo: usa
+`series` desde el primero y sin saltarte colores, y a cada dato le toca siempre el mismo color.
+`status.*` para series con significado de estado. Toda gráfica de dos o más series lleva leyenda; la
+tercera y la cuarta tienen poco contraste con la tarjeta, así que además llevan etiquetas visibles o
+una tabla. Recalcular al cambiar de tema. Máximo cuatro series; si hay más, agrupar en «Otros» o
+dividir. Rejilla en `grid`,
+ejes y etiquetas en `text` a 12 px con `tabular-nums`, tooltips de gráfica sólidos con elevación 1. Relleno de área
 plano al 12 %, sin degradados ni 3D.
 
 **Estados transversales**: deshabilitado `opacity-50 cursor-not-allowed pointer-events-none`
@@ -349,15 +361,13 @@ marca; nunca fondo rojo.
 
 Clases exactas para lo más común. Copiar tal cual; cambiar solo texto, íconos y el estado.
 
-**Botón primario** (uno por pantalla)
+**Botones** (`CapButton` en Vue y `<x-cap.button>` en Blade, con `variant` `primary`, `secondary` o `danger`, `href`, `icon` y `loading`; en React y Astro, estas clases)
 ```html
-<button class="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-cap-chrome px-5 text-sm font-medium text-white transition-colors duration-cap-fast ease-cap hover:bg-cap-rail focus:outline-none focus-visible:ring-2 focus-visible:ring-cap-chrome focus-visible:ring-offset-2 focus-visible:ring-offset-cap-card disabled:pointer-events-none disabled:opacity-50 dark:bg-cap-on-chrome dark:text-cap-chrome dark:hover:bg-white dark:focus-visible:ring-gray-100">Guardar cambios</button>
+<button type="button" class="cap-button cap-button--primary">Guardar cambios</button>
+<button type="button" class="cap-button cap-button--secondary">Cancelar</button>
+<button type="button" class="cap-button cap-button--danger">Anular factura</button>
 ```
-
-**Botón secundario**
-```html
-<button class="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-cap-card px-5 text-sm font-medium text-gray-800 transition-colors duration-cap-fast ease-cap hover:border-gray-400 hover:bg-cap-card-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-cap-chrome focus-visible:ring-offset-2 focus-visible:ring-offset-cap-card dark:border-gray-600 dark:text-gray-100 dark:focus-visible:ring-gray-100">Cancelar</button>
-```
+Mientras envía: `disabled aria-busy="true"`; el spinner lo pone la clase.
 
 **Botón de ícono** (36 × 36 px, con `aria-label` y `title`)
 ```html
@@ -377,15 +387,15 @@ Sobre el marco oscuro: `text-cap-on-chrome-soft hover:text-white focus-visible:r
 
 **Tabla**
 ```html
-<div class="overflow-hidden rounded-cap-card border border-cap-divider bg-cap-card">
-  <table class="w-full text-sm text-gray-900 dark:text-gray-100">
+<div class="isolate rounded-cap-card border border-cap-divider bg-cap-card">
+  <table class="w-full border-separate border-spacing-0 text-sm text-gray-900 dark:text-gray-100">
     <thead>
       <tr>
-        <th class="bg-cap-head px-3 py-2.5 text-left font-display text-xs font-semibold text-white">Factura</th>
-        <th class="bg-cap-head px-3 py-2.5 text-right font-display text-xs font-semibold text-white">Total (L)</th>
+        <th class="rounded-tl-cap-card bg-cap-head px-3 py-2.5 text-left font-display text-xs font-semibold text-white">Factura</th>
+        <th class="rounded-tr-cap-card bg-cap-head px-3 py-2.5 text-right font-display text-xs font-semibold text-white">Total (L)</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="[&>tr:last-child>td:first-child]:rounded-bl-cap-card [&>tr:last-child>td:last-child]:rounded-br-cap-card">
       <tr class="transition-colors duration-cap-fast ease-cap hover:bg-cap-card-2">
         <td class="h-11 border-t border-cap-divider px-3"><a href="#" class="font-medium text-cap-brand hover:underline dark:text-cap-brand-soft">F-000123</a></td>
         <td class="h-11 border-t border-cap-divider px-3 text-right tabular-nums">1,250.00</td>
@@ -407,8 +417,8 @@ Sobre el marco oscuro: `text-cap-on-chrome-soft hover:text-white focus-visible:r
 <p class="mt-1 text-xs text-cap-text-soft">Como aparece en el RTN.</p>
 <p class="mt-1 text-xs text-cap-status-error dark:text-cap-status-dark-error">El nombre es obligatorio.</p>
 ```
-Con error, el input añade `border-cap-status-error focus:border-cap-status-error
-focus:ring-cap-status-error`. Si el proyecto usa `@tailwindcss/forms`, estas clases anulan su
+Con error, el input cambia `border-cap-input-line` y las clases `focus:` de color por
+`border-cap-status-error focus:border-cap-status-error focus:ring-cap-status-error`. Si el proyecto usa `@tailwindcss/forms`, estas clases anulan su
 anillo azul.
 
 **Campo con ícono y ver contraseña** (el input es el del campo de formulario con `pl-10` y, si hay botón, `pr-10`; la pantalla de acceso ya lo trae en su componente)
@@ -437,22 +447,30 @@ Al mostrarla, el input pasa a `type="text"`, el ícono a `mdi-eye-off-outline` y
 **Estado vacío**
 ```html
 <div class="flex flex-col items-center justify-center rounded-cap-card border border-dashed border-cap-divider px-6 py-12 text-center">
-  <i class="mdi mdi-inbox-outline text-[40px] leading-none text-gray-400" aria-hidden="true"></i>
+  <i class="mdi mdi-inbox-outline text-cap-icon text-gray-400" aria-hidden="true"></i>
   <p class="mt-3 font-display text-base font-semibold text-gray-900 dark:text-gray-100">Aún no hay facturas</p>
   <p class="mt-1 text-sm text-cap-text-soft">Crea la primera para empezar a cobrar.</p>
   <div class="mt-4">[botón primario]</div>
 </div>
 ```
 
-**Esqueleto de carga** (repetir con la forma del contenido)
+**Esqueleto de carga** (`CapSkeleton` o `<x-cap.skeleton>`; `variant`: `table`, `stats` o `line`)
 ```html
-<div class="h-4 w-40 animate-cap-pulse rounded-md bg-cap-card-2"></div>
+<x-cap.skeleton variant="stats" />
+<x-cap.skeleton variant="table" :rows="6" />
+<span class="cap-skeleton w-40"></span>
 ```
+Toda carga que pase de 120 ms muestra esqueleto con la forma del contenido, en lugar de una pantalla
+en blanco o un spinner. Por debajo de 120 ms no se muestra, para que no parpadee.
 
-**Aviso en línea de error**
+**Aviso en línea** (`status`: `ok`, `info`, `warning` o `error`; en Blade y Vue es el componente)
 ```html
-<div role="alert" class="flex gap-3 rounded-cap-control border border-cap-status-error/30 bg-cap-status-error/10 px-4 py-3 text-sm text-cap-status-error dark:border-cap-status-dark-error/30 dark:bg-cap-status-dark-error/15 dark:text-cap-status-dark-error"><i class="mdi mdi-alert-circle text-xl" aria-hidden="true"></i>No se pudo guardar: el RTN ya existe. Corrígelo e intenta de nuevo.</div>
+<div role="alert" class="cap-alert cap-alert--error">
+  <i class="cap-alert__icon mdi mdi-alert-circle-outline" aria-hidden="true"></i>
+  <div><strong class="cap-alert__title">Este período ya está cerrado</strong><span class="cap-alert__detail">Abre uno nuevo para registrar facturas.</span></div>
+</div>
 ```
+Para `ok`, `info` y `warning`, `role="status"` y los íconos `check-circle-outline`, `information-outline` y `alert-outline`.
 
 **Tarjeta de cifra** normal, destacada y de alerta (una destacada por fila; la flecha ↗ solo si la tarjeta lleva a un detalle)
 ```html
@@ -461,11 +479,85 @@ Al mostrarla, el input pasa a `type="text"`, el ícono a `mdi-eye-off-outline` y
     <p class="text-xs font-medium text-cap-text-soft">Cobrado este mes</p>
     <span class="flex h-8 w-8 items-center justify-center rounded-full bg-cap-card-2 text-cap-text-soft" aria-hidden="true"><i class="mdi mdi-arrow-top-right text-base leading-none"></i></span>
   </div>
-  <p class="mt-3 font-display text-3xl font-semibold tabular-nums text-gray-900 dark:text-gray-100">L 48,300</p>
+  <p class="mt-3 font-display text-3xl font-semibold tabular-nums text-gray-900 dark:text-gray-100">L 48,300.00</p>
 </a>
 ```
 Destacada (vino sólido): cambiar el contenedor por `rounded-cap-card bg-cap-red-800 p-5 text-white`, la etiqueta por `text-cap-red-200` y el círculo de la flecha por `bg-white/15 text-white`.
 Alerta (tinte rojo): `rounded-cap-card border border-cap-red-100 bg-cap-red-50 p-5 dark:border-cap-brand-soft/30 dark:bg-cap-red-600/15`, la cifra en `text-cap-brand dark:text-cap-brand-soft` y la etiqueta con su ícono `mdi-alert-circle-outline` en el mismo color.
+
+**Barra de acciones de la página** (primera fila del contenido; el título ya está en el header)
+```html
+<div class="flex flex-wrap items-center justify-between gap-3">
+  <p class="text-sm text-cap-text-soft">Facturas emitidas este período</p>
+  <div class="flex items-center gap-2">[secundario] [primario]</div>
+</div>
+```
+
+**Selector y área de texto** (mismas clases del input del campo de formulario, con la flecha nativa)
+```html
+<select id="status" class="[input del campo de formulario] dark:[color-scheme:dark]">…</select>
+<textarea id="notes" rows="4" class="[input del campo de formulario, cambiando h-10 por py-2]"></textarea>
+```
+Los campos de fecha también llevan `dark:[color-scheme:dark]`, para que su ícono se vea en oscuro.
+
+**Paginación** (debajo de la tabla)
+```html
+<nav aria-label="Paginación" class="mt-3 flex flex-wrap items-center justify-between gap-3 text-sm text-cap-text-soft">
+  <p class="tabular-nums">1–25 de 1,240</p>
+  <div class="flex items-center gap-2">
+    <label class="flex items-center gap-2">Por página <select class="[selector, cambiando w-full por w-20]">…</select></label>
+    <button type="button" aria-label="Página anterior" title="Página anterior" class="[botón de ícono]"><i class="mdi mdi-chevron-left text-xl leading-none" aria-hidden="true"></i></button>
+    <button type="button" aria-label="Página siguiente" title="Página siguiente" class="[botón de ícono]"><i class="mdi mdi-chevron-right text-xl leading-none" aria-hidden="true"></i></button>
+  </div>
+</nav>
+```
+
+**Menú `⋮` de fila** (en Vue, `usePopover(id)` de `design/vue/composables/` cierra con `Esc` y clic fuera)
+```html
+<div class="relative">
+  <button type="button" aria-label="Acciones de F-000123" title="Acciones" aria-haspopup="menu" aria-expanded="false" class="[botón de ícono]"><i class="mdi mdi-dots-vertical text-xl leading-none" aria-hidden="true"></i></button>
+  <div role="menu" class="absolute right-0 top-full z-cap-dropdown mt-1 w-48 rounded-cap-control border border-cap-divider bg-cap-card py-1 shadow-md dark:bg-cap-card-2">
+    <a role="menuitem" href="#" class="flex h-10 items-center gap-2 px-3 text-sm text-gray-800 transition-colors duration-cap-fast ease-cap hover:bg-cap-card-2 dark:text-gray-100 dark:hover:bg-cap-card"><i class="mdi mdi-eye-outline text-xl leading-none" aria-hidden="true"></i>Ver detalle</a>
+    <button role="menuitem" type="button" class="flex h-10 w-full items-center gap-2 px-3 text-sm text-cap-brand transition-colors duration-cap-fast ease-cap hover:bg-cap-card-2 dark:text-cap-brand-soft dark:hover:bg-cap-card"><i class="mdi mdi-cancel text-xl leading-none" aria-hidden="true"></i>Anular factura</button>
+  </div>
+</div>
+```
+
+**Datos de un registro** (detalle: etiqueta encima del valor, dos columnas desde `md`)
+```html
+<dl class="grid gap-x-6 gap-y-4 md:grid-cols-2">
+  <div>
+    <dt class="text-xs font-medium text-cap-text-soft">Cliente</dt>
+    <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">Cliente de ejemplo</dd>
+  </div>
+</dl>
+```
+
+**Historial** (lo más reciente arriba, dentro de una tarjeta)
+```html
+<ol class="space-y-4">
+  <li class="flex gap-3">
+    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cap-card-2 text-cap-text-soft" aria-hidden="true"><i class="mdi mdi-file-document-outline text-base leading-none"></i></span>
+    <div class="min-w-0">
+      <p class="text-sm font-medium text-gray-900 dark:text-gray-100">Factura creada</p>
+      <p class="text-xs text-cap-text-soft">Ana Muñoz, 5 mar 2026, 8:15 a. m.</p>
+    </div>
+  </li>
+</ol>
+```
+
+**Página de error** (dentro del marco si hay sesión; sin marco, sobre `bg-cap-page`, si no la hay)
+```html
+<main class="flex min-h-screen items-center justify-center bg-cap-page p-6">
+  <div class="max-w-md text-center">
+    <i class="mdi mdi-compass-off-outline text-cap-icon text-gray-400" aria-hidden="true"></i>
+    <h1 class="mt-3 font-display text-2xl font-semibold text-gray-900 dark:text-gray-100">No encontramos esta página</h1>
+    <p class="mt-1 text-sm text-cap-text-soft">Puede que el enlace esté mal escrito o que el registro ya no exista.</p>
+    <div class="mt-4">[botón primario «Volver al inicio»]</div>
+  </div>
+</main>
+```
+El título dice qué pasó y el texto cómo seguir; el código (403, 404, 409, 500) va en el texto solo si ayuda a soporte.
 
 **Tarjeta de lista móvil** (ícono, título, monto y badge; reemplaza a la fila de tabla por debajo de `lg`)
 ```html
@@ -502,10 +594,9 @@ Alerta (tinte rojo): `rounded-cap-card border border-cap-red-100 bg-cap-red-50 p
 
 ## Movimiento
 
-El movimiento muestra qué cambió; nunca decora. Una pantalla sin animación es correcta; una con
-animaciones gratuitas no lo es. Tokens en `tokens.json` (`motion`): clases
+El movimiento muestra qué cambió y da continuidad entre pantallas; nunca decora. Tokens en `tokens.json` (`motion`): clases
 `duration-cap-fast|base|slow` y `ease-cap|cap-enter|cap-exit`, animaciones `animate-cap-fade-in`,
-`animate-cap-rise-in` y `animate-cap-pulse`; variables `--cap-duration-*` y `--cap-ease-*` en CSS.
+`animate-cap-rise-in` y `animate-cap-pulse` (atenuar algo que espera; para cargar, `.cap-skeleton`); variables `--cap-duration-*` y `--cap-ease-*` en CSS.
 
 | Token | Valor | Para qué |
 |---|---|---|
@@ -522,14 +613,17 @@ Reglas:
   `animate-pulse`, `animate-bounce` ni otra animación de Tailwind.
 - Solo se animan `opacity`, `transform`, `color`, `background-color`, `border-color`,
   `grid-template-rows` (acordeones) y, en barras de progreso, `width`. Nunca `height`,
-  `max-height`, `margin`, `box-shadow` ni `filter`.
+  `max-height`, `margin`, `box-shadow` ni `filter`. Única excepción: el ancho del sidebar, que ya
+  resuelve el marco.
 - La salida es un escalón más corta que la entrada: entra `base`, sale `fast`; entra `slow`, sale
   `base`.
 - Desplazamientos pequeños: 8 px al aparecer, 2 px al levantar una baldosa. Sin rebotes ni escalas
   mayores a 2 %.
-- Como máximo un `animate-cap-rise-in` orquestado por pantalla: al cargar un tablero, hasta 6
-  tarjetas con retraso de 30 ms entre cada una (`[animation-delay:30ms]`, `60ms`…), total ≤ 300 ms.
-  Nada más se escalona; nada se anima al hacer scroll.
+- Cada vista que entra a `.cap-shell__content` sube sola con `shell.css`; no hay que agregar clases.
+- Para escalonar un tablero, pon `cap-stagger` en su contenedor: cada bloque hijo entra 30 ms después
+  del anterior. Va solo en tableros, nunca en listas o tablas largas, y nada se anima al hacer scroll.
+- Si esqueleto y contenido comparten elemento raíz, dales `key` distinta para que el contenido se
+  monte de nuevo y haga su entrada.
 - `tokens.css` anula transiciones y animaciones para quien pide `prefers-reduced-motion`. Nunca
   comunicar algo solo con movimiento: todo cambio tiene también un estado visible estático.
 
@@ -541,15 +635,16 @@ Patrones por componente:
 | Baldosas y tarjetas clicables | — | — | `transition-transform duration-cap-fast ease-cap hover:-translate-y-0.5` |
 | Modal | overlay `animate-cap-fade-in`, panel `animate-cap-rise-in` | `opacity-0`, `fast`, `ease-cap-exit` | — |
 | Dropdown, menú `⋮`, combobox | `opacity-0 scale-[0.98] origin-top` → normal, `fast`, `ease-cap-enter` | `opacity-0`, `fast` | — |
+| Sidebar en riel | hover o foco con teclado: flota a 236 px sobre el contenido, `slow`, `ease-cap` | `base`, tras 240 ms de gracia | el clic en la flecha lo deja fijo |
 | Cajón lateral, panel colapsable | `translate-x`, `slow`, `ease-cap-enter` | `translate-x`, `base`, `ease-cap-exit` | — |
 | Acordeón, sección colapsable vertical | `grid-rows-[0fr]` → `grid-rows-[1fr]`, `transition-[grid-template-rows] duration-cap-base ease-cap` | igual, `fast`, `ease-cap-exit` | — |
 | Toast | `opacity-0 translate-x-2` → normal, `base`, `ease-cap-enter` | `opacity-0`, `fast` | — |
 | Listas y tableros (insertar, mover) | `animate-cap-rise-in` en el ítem nuevo | `opacity-0 -translate-y-2`, `fast` | `TransitionGroup` con `move-class="transition-transform duration-cap-base ease-cap"`; el que sale va `absolute` |
 | Tabla al ordenar, filtrar o paginar | ninguna; las filas se reemplazan al instante, atenuadas con `opacity-50` mientras carga | — | — |
 | Barra de progreso, medidor | — | — | `transition-[width] duration-cap-slow ease-cap` |
-| Esqueleto de carga | `animate-cap-pulse` | — | — |
+| Esqueleto de carga | `.cap-skeleton`, barrido de 1.4 s | el contenido lo reemplaza con su entrada | — |
 | Cambio de tema claro/oscuro | ninguno (instantáneo) | — | — |
-| Navegación entre páginas | ninguna; el contenido aparece al instante | — | — |
+| Navegación entre páginas | entrada automática en `.cap-shell__content`, `slow`, `ease-cap-enter` | — | — |
 
 Vue: usar `<Transition>` y `<TransitionGroup>` con clases de Tailwind:
 
@@ -570,8 +665,8 @@ Vue: usar `<Transition>` y `<TransitionGroup>` con clases de Tailwind:
   una línea de explicación y el botón primario que crea el primer registro.
 - **Sin resultados (hay filtro o búsqueda)**: mismo bloque sin borde punteado, texto «Ningún
   registro coincide con los filtros» y acción secundaria «Limpiar filtros». Nunca el botón de crear.
-- **Cargando**: esqueleto `animate-cap-pulse` con la forma del contenido, mostrado solo si la carga
-  supera 200 ms para evitar parpadeo; nunca un spinner a pantalla completa. Al recargar una tabla ya
+- **Cargando**: `CapSkeleton` o `<x-cap.skeleton>` con la forma del contenido, mostrado solo si la
+  carga supera 120 ms para evitar parpadeo; nunca un spinner a pantalla completa. Al recargar una tabla ya
   cargada, atenuar el contenido (`opacity-50`) en vez de reemplazarlo por esqueleto.
 - **Error**: qué pasó y cómo seguir, en `status-error`, con botón secundario «Reintentar» y, si
   aplica, el código o id para soporte. «Ocurrió un error» no basta; sin disculpas.
@@ -609,6 +704,21 @@ cambian solos. Verificar las dos variantes antes de dar por terminada una pantal
   cifras a la derecha, fechas `dd/mm/yyyy`.
 - Correos: fondo `config('design.chrome.paper')`, tarjeta blanca de 600 px, un solo botón primario
   negro; estilos inline (los clientes de correo no cargan Tailwind).
+
+## Antes de terminar una pantalla
+
+Esta es la lista final; `AGENTS.md` remite aquí.
+
+1. Sin hex, `rgb(`, `rgba(`, `backdrop-filter` propio, `text-[…px]`, `duration-[`, `duration-300` ni
+   `animate-pulse` en lo que escribiste.
+2. Toda clase de color física lleva su `dark:`, salvo alias de rol, pares de `statuses.js` y las
+   clases de las recetas, que se copian tal cual.
+3. El marco, el acceso, la confirmación y los toasts son el componente del stack; los botones,
+   `CapButton` o `<x-cap.button>`.
+4. Están los cinco estados y hay un solo botón primario visible.
+5. Las tablas llevan cabecera `bg-cap-head`, y cifras a la derecha con `tabular-nums`.
+6. Foco visible en todo lo interactivo; modales con `role="dialog"`.
+7. Revisada en claro, en oscuro y a <1024px (vista móvil).
 
 ## Lo que no se hace
 

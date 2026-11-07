@@ -196,6 +196,20 @@ describe('alert', () => {
   });
 });
 
+describe('skeleton', () => {
+  test('table announces loading and repeats its rows', () => {
+    const html = renderBladeHtml('skeleton', { variant: 'table', rows: 3 });
+    expect(html).toContain('role="status"');
+    expect(html.match(/cap-skeleton-table__row/g)).toHaveLength(3);
+  });
+
+  test('line is decorative', () => {
+    const html = renderBladeHtml('skeleton', {});
+    expect(html).toContain('class="cap-skeleton"');
+    expect(html).toContain('aria-hidden="true"');
+  });
+});
+
 describe('app-layout', () => {
   const slots = {
     slot: '<p class="page-body">Contenido</p>',
@@ -217,10 +231,19 @@ describe('app-layout', () => {
     expect(container.querySelector('[data-cap-sidebar] > script')).not.toBeNull();
   });
 
+  test('button renders a link with href and is busy while loading', () => {
+    const link = renderComponent('button', { href: '/facturas', slot: 'Ver' }).container.querySelector('a');
+    expect(link.getAttribute('href')).toBe('/facturas');
+
+    const button = renderComponent('button', { variant: 'secondary', loading: true, slot: 'Guardar' }).container.querySelector('button');
+    expect(button.hasAttribute('disabled')).toBe(true);
+    expect(button.getAttribute('aria-busy')).toBe('true');
+    expect(button.className).toBe('cap-button cap-button--secondary');
+  });
+
   test('omits the search label and the fab when not provided', () => {
     const { container } = renderComponent('app-layout', { ...sample, slot: '' });
     expect(container.querySelector('.cap-shell-header__search')).toBeNull();
-    expect(container.querySelector('.cap-shell-sidebar__search')).toBeNull();
     expect(container.querySelector('.cap-shell-fab')).toBeNull();
   });
 

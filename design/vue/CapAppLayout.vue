@@ -38,7 +38,6 @@ const visibleTabs = computed(() => props.tabs.slice(0, MAX_TABS));
       :user="user"
       :link-component="linkComponent"
       :link-prop="linkProp"
-      :searchable="Boolean($slots.search)"
       @logout="emit('logout')"
     />
 

@@ -12,10 +12,17 @@
   border-radius: var(--cap-radius-shell);
   overflow-y: auto;
   animation: cap-rise-in var(--cap-duration-base) var(--cap-ease-enter) both;
+  /* Salida: sin soporte de allow-discrete el panel simplemente se oculta al instante. */
+  transition:
+    opacity var(--cap-duration-fast) var(--cap-ease-exit),
+    transform var(--cap-duration-fast) var(--cap-ease-exit),
+    display var(--cap-duration-fast) allow-discrete;
 }
 
 .cap-notifications[hidden] {
   display: none;
+  opacity: 0;
+  transform: translateY(-4px);
 }
 
 .cap-notifications__header {

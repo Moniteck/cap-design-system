@@ -28,8 +28,9 @@ de la marca con el rojo CAP como acento.
 
 ## Resumen operativo
 
-- Botones en píldora: primario negro (invertido en oscuro), secundario con contorno neutro,
-  destructivo rojo. Uno primario por pantalla.
+- Botones en píldora con `CapButton` o `<x-cap.button>`: primario negro (invertido en oscuro),
+  secundario con contorno neutro, destructivo rojo. Uno primario por pantalla.
+- Un solo buscador por pantalla: el de la lista, o el slot `search` si el sistema busca en varios módulos.
 - **El marco, el acceso, la confirmación y los toasts se hacen siempre con el componente del stack**
   (`<x-cap.*>` en Blade, `design/vue/Cap*.vue` en Vue) o, si no hay (React, Astro), siguiendo
   `${CLAUDE_PLUGIN_ROOT}/design/shell/SHELL_SPEC.md`; nunca armarlos a mano con Tailwind. Vidrio
@@ -40,10 +41,10 @@ de la marca con el rojo CAP como acento.
 - El rojo CAP nunca es fondo de cabeceras ni barras; la única superficie grande en color es la
   tarjeta destacada en vino, una por fila de cifras; el rojo suave nunca lleva texto blanco
   encima; el azul solo como estado `info`.
-- Tablas con cabecera `bg-cap-head` en Poppins `text-xs`, enlace en rojo, cifras a la derecha con
+- Tablas según la receta, con cabecera `bg-cap-head` en Poppins `text-xs`, enlace en rojo, cifras a la derecha con
   `tabular-nums`, exportar con contorno neutro.
 - Badges con `statusBadgeClass()`; gráficas con `chartColors()`.
-- Cinco estados: vacío, sin resultados, cargando (esqueleto `animate-cap-pulse`), error, parcial.
+- Cinco estados: vacío, sin resultados, cargando (`CapSkeleton` o `<x-cap.skeleton>`, si tarda más de 120 ms), error, parcial.
 - Movimiento solo con `duration-cap-*`, `ease-cap*` y `animate-cap-*`; la salida un escalón más
   corta que la entrada; sin animaciones por sección ni al hacer scroll.
 - Confirmaciones destructivas con verbo y objeto, «Cancelar» a la izquierda y foco inicial en él.
@@ -55,15 +56,8 @@ de la marca con el rojo CAP como acento.
 
 ## Antes de dar por terminada una pantalla
 
-1. Ninguna clase `bg-/text-/border-` física sin `dark:`, salvo los alias de rol y los pares de
-   `statuses.js`.
-2. Ningún `#`, `rgb(`, `text-[…px]`, `duration-[`, `duration-300` ni `animate-pulse` en el diff.
-3. Existen los cinco estados; hay un solo botón primario; las cabeceras de tabla van en
-   `bg-cap-head`.
-4. Foco visible con `focus-visible:ring-*` en todo lo interactivo; modales con `role="dialog"`.
-5. Revisada en claro y en oscuro, y a <1024px (vista móvil).
-6. Pantalla limpia: sin `rgba(` a mano ni `backdrop-filter` propio; el marco, el acceso, la confirmación y los
-   toasts son el componente del stack, no clases sueltas.
+Corre la lista «Antes de terminar una pantalla» de `DESIGN_GUIDE.md`: pantalla limpia,
+sin `rgba(` a mano ni hex, con los cinco estados, y revisada en claro, en oscuro y a <1024px (vista móvil).
 
 ## Al revisar una pantalla existente
 

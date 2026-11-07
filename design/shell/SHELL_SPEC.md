@@ -31,7 +31,7 @@ El valor por defecto lo calcula `defaultCollapsed(viewportWidth)` en `collapse.j
 | Botón de colapso | `.cap-shell-sidebar__collapse` (`data-cap-collapse`) | Círculo de 26px sobre el borde. `aria-expanded` y `aria-label` cambian entre «Contraer menú» y «Expandir menú» |
 | Ítem | `.cap-shell-sidebar__item` | 38px de alto, ícono MDI. Activo: `aria-current="page"` (píldora y filo rojo de 3px). Contador en píldora; `--urgent` en rojo sólido |
 | Rama con hijos | `details.cap-shell-sidebar__branch` | `summary` + `.cap-shell-sidebar__children`; hijos con `.cap-shell-sidebar__child` y cuadradito de color |
-| Riel | mismo sidebar con `data-collapsed="true"` | Solo íconos. El contador pasa a punto. Tooltip de vidrio a la derecha con hover **y** `:focus-visible`. Las ramas abren sus hijos al derecho con hover o `:focus-within`. La lista **no** hace scroll en el riel: recortaría tooltips y submenús, que salen hacia la derecha. En pantallas muy bajas, expandir el panel, cuya lista sí hace scroll |
+| Riel | mismo sidebar con `data-collapsed="true"` | Solo íconos. El contador pasa a punto. Con cursor o teclado se asoma: `bindSidebarPeek` pone `data-peek="open"` y el panel flota a 236 px sin mover el contenido ni cambiar la preferencia. Clic en la flecha lo deja fijo, Esc lo cierra. Con pantalla táctil (`any-pointer: coarse`) sigue el tooltip de vidrio a la derecha, y las ramas abren sus hijos al derecho. Allí la lista **no** hace scroll, porque recortaría tooltips y submenús: en pantallas muy bajas, expandir el panel |
 | Header | `.cap-shell-header.cap-glass` | 64px, `position: sticky; top: 12px`. Migas, título (`h1`), buscador (máx. 320px), acciones, campana, avatar |
 | Topbar móvil | `.cap-shell-topbar` | `position: fixed`, 52px. Sin `backHref`: logo y nombre del sistema. Con `backHref`: flecha «Volver» y título. Después, lupa (ocultable), acciones propias y campana. Siempre hay un `h1` con el título: `.cap-shell-topbar__title` si se ve, `.cap-shell-topbar__hidden-title` (oculto visualmente) si no. El `h1` del header y el de la topbar nunca se muestran al mismo ancho |
 | Tabbar | `.cap-shell-tabbar` | `position: fixed`, 64px, abajo. **Máximo 4 destinos + «Más»**; los extra se ocultan por CSS y viven en la hoja |
@@ -141,7 +141,7 @@ Contraste AA: texto 4.5:1 y controles 3:1, en claro y oscuro, incluido el vidrio
 |---|---|
 | Sin `backdrop-filter` (`@supports not`) | Superficies sólidas: `--cap-chrome` en el marco, `--cap-card` en el acceso |
 | `prefers-reduced-transparency: reduce` | Igual que arriba |
-| `prefers-reduced-motion: reduce` | Sin transición de ancho del sidebar, sin transición de la hoja «Más» y sin la barra de progreso animada de los toasts |
+| `prefers-reduced-motion: reduce` | Sin transición de ancho del sidebar, sin transición de la hoja «Más», sin la barra de progreso animada de los toasts, sin barrido de esqueletos ni entrada de vistas. El riel se sigue asomando, al instante |
 | `localStorage` bloqueado | Preferencias no persisten; el marco sigue funcionando |
 
 ## Atributos `data-cap-*` y módulos
@@ -172,13 +172,13 @@ Contraste AA: texto 4.5:1 y controles 3:1, en claro y oscuro, incluido el vidrio
 | `data-cap-notification-empty` | `notification-filter.js` | Mensaje oculto para «No leídas» sin resultados |
 | `data-cap-login-form` | `login-form.js` | Formulario de acceso; su valor es el texto del botón mientras envía |
 
-Módulos sin atributo: `storage.js` (`readItem`/`writeItem` y la clave del riel), `on-escape.js` (`onEscape(document, handler)` devuelve el liberador), `popover.js` exporta también `belongsToPanel`, `sheet.js` exporta `createDragToClose`, `focus-trap.js` (`trapFocus(container, initialFocus)` devuelve el liberador), `toast-queue.js` (`createToastQueue`, sin DOM).
+Módulos sin atributo: `collapse.js` exporta también `bindSidebarPeek(sidebar)`, que devuelve el liberador y que cada port debe llamar al montar el sidebar. `storage.js` (`readItem`/`writeItem` y la clave del riel), `on-escape.js` (`onEscape(document, handler)` devuelve el liberador), `popover.js` exporta también `belongsToPanel`, `sheet.js` exporta `createDragToClose`, `focus-trap.js` (`trapFocus(container, initialFocus)` devuelve el liberador), `toast-queue.js` (`createToastQueue`, sin DOM).
 
 ### Lo que la app debe cablear
 
 El marco no adivina estas piezas:
 
-- **`data-cap-search`** va en el input de búsqueda **de la app**, entregado por el slot `search`. Ese input debe tener `id="cap-global-search"`: el `<label for>` del sidebar apunta a él.
+- **`data-cap-search`** va en el input de búsqueda **de la app**, entregado por el slot `search`, en Blade y HTML. En Vue no hace falta: `CapHeader` enlaza ⌘K al input del slot. El slot es solo para búsqueda global (ver «Búsqueda» en `DESIGN_GUIDE.md`).
 - **«Marcar todo como leído»**: Vue emite `mark-all-read`; Blade envía un formulario POST a `mark-read-action` y sin esa prop no muestra el botón; en HTML, React y Astro la app define el `action` del formulario. Los **filtros** ya funcionan solos (`data-cap-notifications`).
 - **«Cerrar sesión»** (botón del usuario en sidebar y hoja): Vue emite `logout`; Blade envía un formulario POST con `@csrf` a `logout-action`, o a `route('logout')` si existe, o a `/logout`; en HTML, React y Astro la app define el `action` del formulario.
 - **Lupa de la topbar**: Vue emite `search`; Blade y HTML enlazan a `search-href` (defecto `#`, sin destino real hasta que la app lo defina). Si el sistema no tiene búsqueda móvil, se oculta con `topbarSearch` / `topbar-search` en `false`.
@@ -221,13 +221,15 @@ Otros componentes:
 |---|---|---|
 | Confirmación | `CapConfirmDialog`: `open`, `title`, `message`, `confirmLabel`, `icon`, `acknowledgeLabel`, `loading`; eventos `confirm`, `cancel` | `x-cap.confirm-dialog`: `id`, `title`, `message`, `confirm-label`, `icon`, `acknowledge-label`, `action`, `method`. Envía un **formulario real** (`@csrf` y `@method`). Se abre con `data-cap-confirm-open="{id}"` |
 | Acceso | `CapLogin`: `systemName`, `tagline`, `owner`, `photoUrl`, `providers`, `helpEmail`, `mode`, `alert`, `loading`; eventos `submit`, `provider`, `recover`, `back`, `forgot` | `x-cap.login`: `system-name`, `tagline`, `owner`, `photo-url`, `providers`, `help-email`, `mode`, `alert`, `logos-path` (defecto `/cap/logos`), `recover-url` (defecto `route('password.request')` si existe, si no `/forgot-password`). Envía formularios reales con rutas Laravel si existen |
-| Aviso | `CapLoginAlert` | `x-cap.alert`: `status`, `title`, `detail`, `icon` |
+| Aviso | `CapAlert`: `status`, `title`, `detail`, `icon` | `x-cap.alert`: `status`, `title`, `detail`, `icon` |
+| Botón | `CapButton`: `variant`, `type`, `href`, `icon`, `disabled`, `loading`, `linkComponent`, `linkProp` | `x-cap.button`: `variant`, `type`, `href`, `icon`, `loading` |
 | Toasts | `useToasts()` y `<CapToaster/>` (ya incluido en el layout) | `<x-cap.toaster/>` + `window.capToast(...)` + flash `session('cap_toast')` |
 
 Notas de implementación:
 
 - **Vue**: el estado de toasts es de **módulo** (una sola cola por aplicación). Con SSR (Nuxt) ese estado se comparte entre peticiones: no encolar toasts durante el render del servidor, solo en el cliente.
-- **Vue y Blade**: el sidebar solo muestra «Buscar» si el layout recibe el slot `search`.
+- **Vue y Blade**: el header solo muestra el buscador y su atajo ⌘K si el layout recibe el slot `search`.
+- **Vue**: el panel de notificaciones se cierra al abrir una notificación o «Ver todas», aunque el layout persista entre páginas. Al portar a React, haz lo mismo.
 - **Blade**: requiere cargar `shell-auto.js` (o `initShell`) para el comportamiento; el HTML se sirve completo desde el servidor. Única excepción a «sin `<script>`»: `sidebar.blade.php` trae un script en línea que aplica el estado del riel antes de pintar, para que no parpadee. Con una CSP sin `unsafe-inline` ese script no corre y `shell-auto.js` aplica el estado después, con el parpadeo.
 - **Vue**: requiere Vue 3.5 o superior (`useId`).
 
